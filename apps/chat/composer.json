@@ -3,6 +3,12 @@
     "description": "Local multi-LLM test chat, do not use in production: an MCP client of the MCP server's /_mcp, driven by OpenAI, Anthropic, Mistral or Qwen.",
     "type": "project",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Emagma",
+            "homepage": "https://www.emagma.fr"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {

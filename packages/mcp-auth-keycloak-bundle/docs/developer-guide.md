@@ -297,7 +297,7 @@ All but `dev-cli` set `fullScopeAllowed: true` explicitly.
 
 #### `mcp-testchat`
 
-- **For**: the local test chat, development only
+- **For**: the test chat, on your own machine only (a test application, never deployed)
 - **Type**: public, authorization code with PKCE S256, no consent screen
 - **Redirect URIs**: `<chat URL>/oauth/callback`, for the local chat and `CHAT_PUBLIC_URL`. Logout returns to `<chat URL>/`.
 - **Privacy**: in the `dev` environment, the MCP server turns off the protection of personal data for this client (`emagma_mcp_core.privacy.clients`)

@@ -277,10 +277,10 @@ safety net (`mcp-scheduler`). The shop sends its events as signed webhooks (`sho
 
 ## Take the tour
 
-> **Test chat - do not use in production.** The chat is a development tool for your own computer:
-> its secret is a public placeholder, its Keycloak client is declared for development only, the
-> server shows it personal data in clear in the dev environment, and it calls the models with your
-> keys. See [apps/chat/README.md](apps/chat/README.md).
+> **The chat is a test application.** It is made to try the MCP server on your own computer, not to
+> develop with, and it must never be deployed: its secret is a public placeholder, its Keycloak
+> client is declared for local tests only, the server shows it personal data in clear in the dev
+> environment, and it calls the models with your keys. See [apps/chat/README.md](apps/chat/README.md).
 
 Eight demos, about five minutes each, made for **the local chat that `castor init` already
 started**: open http://localhost:8090, log in as `admin` / `admin`, and pick **Anthropic** and
@@ -438,7 +438,8 @@ skills/            the skills served to the clients
 
 - [HACKATHON.md](HACKATHON.md): the guided tour, demo by demo, with the Symfony AI concepts each one exercises
 - [The hackathon bundle](packages/symfony-ai-hackathon-2026-bundle/docs/user-guide.md): the tour in the chat, and what to check after each demo ([developer guide](packages/symfony-ai-hackathon-2026-bundle/docs/developer-guide.md))
-- [apps/chat/README.md](apps/chat/README.md): the local test chat: login, tokens, confirmations, screens, skills
+- [The MCP server](apps/mcp-server/docs/user-guide.md): connecting a client, what it offers, its settings and its services ([developer guide](apps/mcp-server/docs/developer-guide.md))
+- [The chat](apps/chat/docs/user-guide.md): the test application of the MCP server, never to deploy: models, conversations, confirmations, screens, skills, tokens ([developer guide](apps/chat/docs/developer-guide.md))
 - [sylius-mcp-plugin](packages/sylius-mcp-plugin/docs/user-guide.md): the shop plugin, from a shop integrator's point of view ([developer guide](packages/sylius-mcp-plugin/docs/developer-guide.md))
 - [mcp-auth-bundle](packages/mcp-auth-bundle/docs/developer-guide.md): what guards `/_mcp`, and what to review before exposing the server
 - [mcp-core-bundle](packages/mcp-core-bundle/docs/user-guide.md): grants, write confirmation, redaction, privacy ([developer guide](packages/mcp-core-bundle/docs/developer-guide.md))

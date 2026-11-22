@@ -253,6 +253,6 @@ The chat can guide you through the same tour: type `Guide me through the demos o
 - **Anything else**: `castor init:verify`, then `castor docker:logs <service>`.
 
 Going further: [README.md](README.md) (how the applications fit together),
-[apps/chat/README.md](apps/chat/README.md) (the chat), the hackathon bundle's
+the guides of [the MCP server](apps/mcp-server/docs/user-guide.md) and of [the chat](apps/chat/docs/user-guide.md), the hackathon bundle's
 [user guide](packages/symfony-ai-hackathon-2026-bundle/docs/user-guide.md) (what to check after
 each demo), and the two guides in each `packages/*/docs/`.

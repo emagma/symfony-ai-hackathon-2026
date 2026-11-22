@@ -1,6 +1,12 @@
 {
     "type": "project",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Emagma",
+            "homepage": "https://www.emagma.fr"
+        }
+    ],
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
