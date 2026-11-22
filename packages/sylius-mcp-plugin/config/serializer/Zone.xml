@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:zone:lean` group - exposed to list_zones via Prefer: respond-for=lean.
+  Strips out the members collection so the lean payload stays tight.
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Addressing\Model\Zone">
+        <attribute name="code">
+            <group>mcp:zone:lean</group>
+        </attribute>
+        <attribute name="name">
+            <group>mcp:zone:lean</group>
+        </attribute>
+        <attribute name="type">
+            <group>mcp:zone:lean</group>
+        </attribute>
+        <attribute name="scope">
+            <group>mcp:zone:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:order:lean` group - minimal projection for list_orders.
+
+  This one is not an optimisation, it is a precondition. The vendor
+  `sylius:admin:order:index` group serialises `items` (with their variants and
+  units), `payments`, `shipments`, `shippingAddress` and `billingAddress`, so a
+  single page of orders runs to hundreds of kilobytes. The lean group keeps the
+  scalars a listing actually needs plus the two IRIs that let the LLM drill
+  down (channel, customer); get_order and the order sub-resource tools resolve
+  the rest on demand.
+
+  Mapping is additive - this coexists with the vendor groups and changes
+  nothing for the admin UI or third-party API consumers.
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Core\Model\Order">
+        <!-- tokenValue, not number nor id: it is the URI identifier of the
+             admin Order resource, so it is what get_order needs. -->
+        <attribute name="tokenValue">
+            <group>mcp:order:lean</group>
+        </attribute>
+        <attribute name="number">
+            <group>mcp:order:lean</group>
+        </attribute>
+        <attribute name="state">
+            <group>mcp:order:lean</group>
+        </attribute>
+        <attribute name="paymentState">
+            <group>mcp:order:lean</group>
+        </attribute>
+        <attribute name="shippingState">
+            <group>mcp:order:lean</group>
+        </attribute>
+        <attribute name="total">
+            <group>mcp:order:lean</group>
+        </attribute>
+        <attribute name="currencyCode">
+            <group>mcp:order:lean</group>
+        </attribute>
+        <attribute name="checkoutCompletedAt">
+            <group>mcp:order:lean</group>
+        </attribute>
+        <attribute name="channel">
+            <group>mcp:order:lean</group>
+        </attribute>
+        <attribute name="customer">
+            <group>mcp:order:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

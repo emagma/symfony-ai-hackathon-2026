@@ -1,0 +1,6 @@
+app:
+    fixtures_reset:
+        done: 'Les données de démo ont été réinitialisées. Reconnectez-vous avec le compte admin de démo (identifiant sylius).'
+        already_running: 'Une réinitialisation est déjà en cours : attendez qu''elle se termine.'
+        failed: 'La réinitialisation a échoué, la boutique est peut-être à moitié chargée. Réessayez, ou attendez la prochaine réinitialisation automatique (00:00 ou 12:00).'
+        invalid_csrf_token: 'Le formulaire a expiré. Rechargez la page et réessayez.'

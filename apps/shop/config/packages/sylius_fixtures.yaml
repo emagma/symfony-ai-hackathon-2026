@@ -1,0 +1,236 @@
+# The default suite (Sylius' fashion demo), made reproducible and completed
+# with the data of the QA test scenarios. See src/Fixture/.
+
+# The passwords of the two admin accounts below. These defaults are the local
+# stack's, public with the repository: a shop reachable by others sets its own
+# (FIXTURES_ADMIN_PASSWORD, FIXTURES_API_ADMIN_PASSWORD). No random draw
+# depends on them: the seeded data stay the same.
+parameters:
+    env(FIXTURES_ADMIN_PASSWORD): 'admin'
+    env(FIXTURES_API_ADMIN_PASSWORD): 'sylius-api'
+
+sylius_fixtures:
+    suites:
+        default:
+            listeners:
+                deterministic_seed:
+                    options:
+                        seed: 20261020
+
+            fixtures:
+                # The admin accounts, the core's own but for the password of
+                # `sylius`: the demo shops are public, `sylius / sylius` is the
+                # first thing anyone tries. Its `custom` list cannot be
+                # overridden (a second one is appended, same email twice):
+                # the core fixture is dropped and declared again, same priority.
+                admin_user: false
+                demo_admin_users:
+                    name: admin_user
+                    options:
+                        custom:
+                            -   email: 'sylius@example.com'
+                                username: 'sylius'
+                                password: '%env(FIXTURES_ADMIN_PASSWORD)%'
+                                enabled: true
+                                locale_code: '%locale%'
+                                first_name: 'John'
+                                last_name: 'Doe'
+                                avatar: '@SyliusCoreBundle/Resources/fixtures/adminAvatars/john.webp'
+
+                            -   email: 'api@example.com'
+                                username: 'api'
+                                password: '%env(FIXTURES_API_ADMIN_PASSWORD)%'
+                                enabled: true
+                                locale_code: '%locale%'
+                                first_name: 'Luke'
+                                last_name: 'Brushwood'
+                                api: true
+                                avatar: '@SyliusCoreBundle/Resources/fixtures/adminAvatars/luke.webp'
+
+                # Scenario 3: 3 of them lose their short description in
+                # qa_scenarios, the 2 others have an uppercase name. No images.
+                qa_products:
+                    name: product
+                    priority: -90
+                    options:
+                        custom:
+                            -   name: 'Aurora Breeze T-Shirt'
+                                code: 'Aurora_Breeze_T_Shirt'
+                                short_description: 'A light cotton tee for warm days.'
+                                description: 'A light, breathable cotton t-shirt with a relaxed fit, made for warm days and easy layering.'
+                                tax_category: 'clothing'
+                                channels: ['FASHION_WEB']
+                                main_taxon: 'womens_t_shirts'
+                                taxons: ['t_shirts', 'womens_t_shirts']
+                                product_attributes:
+                                    t_shirt_brand: 'Modern Wear'
+                                    t_shirt_collection: 'Sylius Summer 2024'
+                                    t_shirt_material: '100% cotton'
+                                product_options: ['t_shirt_size']
+                            -   name: 'Nebula Glow T-Shirt'
+                                code: 'Nebula_Glow_T_Shirt'
+                                short_description: 'A soft tee with a glow-in-the-dark print.'
+                                description: 'A soft jersey t-shirt with a glow-in-the-dark nebula print on the front.'
+                                tax_category: 'clothing'
+                                channels: ['FASHION_WEB']
+                                main_taxon: 'mens_t_shirts'
+                                taxons: ['t_shirts', 'mens_t_shirts']
+                                product_attributes:
+                                    t_shirt_brand: 'You are breathtaking'
+                                    t_shirt_collection: 'Sylius Winter 2024'
+                                    t_shirt_material: '100% cotton'
+                                product_options: ['t_shirt_size']
+                            -   name: 'Orbit Pulse T-Shirt'
+                                code: 'Orbit_Pulse_T_Shirt'
+                                short_description: 'A fitted tee with an orbit pattern.'
+                                description: 'A fitted viscose t-shirt with a tone-on-tone orbit pattern.'
+                                tax_category: 'clothing'
+                                channels: ['FASHION_WEB']
+                                main_taxon: 'womens_t_shirts'
+                                taxons: ['t_shirts', 'womens_t_shirts']
+                                product_attributes:
+                                    t_shirt_brand: 'Celestial'
+                                    t_shirt_collection: 'Sylius Winter 2024'
+                                    t_shirt_material: '100% viscose'
+                                product_options: ['t_shirt_size']
+                            -   name: 'GALAXY RIDE T-SHIRT'
+                                code: 'Galaxy_Ride_T_Shirt'
+                                short_description: 'A heavyweight tee with a galaxy print.'
+                                description: 'A heavyweight cotton t-shirt with a full-front galaxy print.'
+                                tax_category: 'clothing'
+                                channels: ['FASHION_WEB']
+                                main_taxon: 'mens_t_shirts'
+                                taxons: ['t_shirts', 'mens_t_shirts']
+                                product_attributes:
+                                    t_shirt_brand: 'Modern Wear'
+                                    t_shirt_collection: 'Sylius Summer 2024'
+                                    t_shirt_material: '100% cotton'
+                                product_options: ['t_shirt_size']
+                            -   name: 'QUASAR BLOOM T-SHIRT'
+                                code: 'Quasar_Bloom_T_Shirt'
+                                short_description: 'A bright tee with a quasar bloom print.'
+                                description: 'A bright orange cotton t-shirt with a quasar bloom print on the back.'
+                                tax_category: 'clothing'
+                                channels: ['FASHION_WEB']
+                                main_taxon: 'womens_t_shirts'
+                                taxons: ['t_shirts', 'womens_t_shirts']
+                                product_attributes:
+                                    t_shirt_brand: 'Celestial'
+                                    t_shirt_collection: 'Sylius Summer 2024'
+                                    t_shirt_material: '100% cotton'
+                                product_options: ['t_shirt_size']
+
+                qa_scenarios:
+                    priority: -100
+
+                # The homepage's two CMS blocks (templates/homepage/), for the
+                # MCP's CMS tools to edit: a hero banner (one media) and a
+                # heading over a products grid. Reloaded with the rest of the
+                # suite, so every reset puts them back as they are here.
+                homepage_cms_collection:
+                    name: collection
+                    priority: -110
+                    options:
+                        custom:
+                            homepage:
+                                name: 'Homepage'
+                                type: 'block'
+
+                homepage_cms_media:
+                    name: media
+                    priority: -120
+                    options:
+                        custom:
+                            homepage_hero_banner:
+                                type: 'image'
+                                name: 'Homepage hero banner'
+                                path: '%kernel.project_dir%/src/Fixture/data/homepage-hero-banner.webp'
+                                original_name: 'homepage-hero-banner.webp'
+                                channels: ['FASHION_WEB', 'WEB_EUR']
+                                translations:
+                                    en_US:
+                                        alt: 'New collection'
+
+                homepage_cms_blocks:
+                    name: block
+                    priority: -130
+                    options:
+                        custom:
+                            homepage_hero_banner:
+                                name: 'Homepage hero banner'
+                                channels: ['FASHION_WEB', 'WEB_EUR']
+                                collections: ['homepage']
+                                content_elements:
+                                    en_US:
+                                        single_media:
+                                            type: 'single_media'
+                                            data:
+                                                single_media: 'homepage_hero_banner'
+                            homepage_featured_products:
+                                name: 'Homepage featured products'
+                                channels: ['FASHION_WEB', 'WEB_EUR']
+                                collections: ['homepage']
+                                content_elements:
+                                    en_US:
+                                        heading:
+                                            type: 'heading'
+                                            data:
+                                                heading_type: 'h2'
+                                                heading: 'Our selection'
+                                        products_grid:
+                                            type: 'products_grid'
+                                            data:
+                                                products_grid:
+                                                    products:
+                                                        - 'Celestial_Harmony_T_Shirt'
+                                                        - 'Dynamic_Dawn_Cap'
+                                                        - 'Coastal_Bliss_Jeans'
+                                                        - 'Sun_Kissed_Sundress'
+
+                # A locale the catalogue is NOT translated into: created after the
+                # products, so none has an Italian translation. What the MCP
+                # server's product_translate finds to do on a freshly loaded shop.
+                mcp_untranslated_locale:
+                    name: locale
+                    priority: -200
+                    options:
+                        locales: ['it_IT']
+                        load_default_locale: false
+
+                # Accounts the MCP server's fraud agent has something to say about:
+                # a disposable address service, and an address that looks generated
+                # (the one case its rules leave to the model). Last, so that the
+                # customers before them keep their ids. The second is on
+                # example.com, a domain reserved for examples: it has DNS
+                # records, so the agent's mail-server check passes as for a
+                # real mail provider and only the local part looks suspicious.
+                mcp_suspicious_customers:
+                    name: shop_user
+                    priority: -210
+                    options:
+                        custom:
+                            -   email: 'x7k2qz9p4m@mailinator.com'
+                                first_name: 'Jean'
+                                last_name: 'Dupont'
+                                password: 'sylius'
+                            -   email: 'q8w3zr7k2p@example.com'
+                                first_name: 'Alex'
+                                last_name: 'Martin'
+                                password: 'sylius'
+
+                # A default address for every customer who has an address book
+                # or an order: what the MCP server's `address` screen opens for
+                # a customer. Last, so that it sees every customer and order.
+                mcp_customer_default_addresses:
+                    priority: -220
+
+                # Italian offered on the main channel, so that a product the
+                # MCP server's product_translate translated shows in Italian on
+                # the storefront (/it_IT/). Only the channel changes: the locale
+                # was created after the products, and none is translated into
+                # it. Last, and it draws nothing: the seeded data stay the same.
+                mcp_channel_locales:
+                    priority: -230
+                    options:
+                        channel: 'FASHION_WEB'
+                        locales: ['it_IT']

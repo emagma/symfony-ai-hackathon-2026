@@ -1,0 +1,64 @@
+{
+    "name": "emagma/mcp-tasks-messenger-bundle",
+    "type": "symfony-bundle",
+    "description": "The orchestrator of emagma/mcp-tasks-bundle on Symfony Messenger: one message per step on a queue of its own, never retried; a task cut by a stop of the worker during a step is suspended.",
+    "keywords": [
+        "mcp",
+        "messenger",
+        "symfony-bundle"
+    ],
+    "homepage": "https://github.com/emagma/mcp-tasks-messenger-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emagma",
+            "homepage": "https://www.emagma.fr"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/emagma/mcp-tasks-messenger-bundle/issues",
+        "source": "https://github.com/emagma/mcp-tasks-messenger-bundle"
+    },
+    "require": {
+        "php": ">=8.4",
+        "doctrine/dbal": "^4.0",
+        "emagma/mcp-tasks-bundle": "^0.1",
+        "symfony/config": "^7.4 || ^8.1",
+        "symfony/dependency-injection": "^7.4 || ^8.1",
+        "symfony/doctrine-messenger": "^7.4 || ^8.1",
+        "symfony/http-kernel": "^7.4 || ^8.1",
+        "symfony/messenger": "^7.4 || ^8.1"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^10.5.45",
+        "sylius-labs/coding-standard": "^4.5",
+        "symfony/clock": "^7.4 || ^8.1",
+        "symfony/filesystem": "^7.4 || ^8.1",
+        "symfony/framework-bundle": "^7.4 || ^8.1",
+        "symfony/http-client": "^7.4 || ^8.1",
+        "symplify/easy-coding-standard": "^13.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emagma\\McpTasksMessengerBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emagma\\McpTasksMessengerBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": false
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.2.x-dev"
+        }
+    }
+}

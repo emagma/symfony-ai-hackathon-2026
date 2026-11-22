@@ -1,0 +1,16 @@
+# The chat - served by the shared php image, on its own port (compose.chat.yaml).
+#
+# num_threads: a turn holds one thread for its whole SSE stream; the browser's
+# answer to a write confirmation arrives on another request meanwhile.
+# No `encode` directive: compression buffers the event stream.
+{
+	frankenphp {
+		num_threads 8
+	}
+	auto_https off
+}
+
+:8090 {
+	root * /srv/app/apps/chat/public
+	php_server
+}

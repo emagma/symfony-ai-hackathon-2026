@@ -1,0 +1,79 @@
+{
+    "name": "emagma/mcp-agents-bundle",
+    "type": "symfony-bundle",
+    "description": "What the background agents of an MCP server built on emagma/mcp-core-bundle share: how they are triggered and scheduled, the journal of their analyses, the alerts they raise through Symfony Notifier, the tool that reads their reports.",
+    "keywords": [
+        "mcp",
+        "agents",
+        "symfony-bundle"
+    ],
+    "homepage": "https://github.com/emagma/mcp-agents-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emagma",
+            "homepage": "https://www.emagma.fr"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/emagma/mcp-agents-bundle/issues",
+        "source": "https://github.com/emagma/mcp-agents-bundle"
+    },
+    "require": {
+        "php": ">=8.4",
+        "doctrine/dbal": "^4.0",
+        "doctrine/doctrine-bundle": "^3.3",
+        "doctrine/orm": "^3.7",
+        "egulias/email-validator": "^4.0",
+        "emagma/mcp-core-bundle": "^0.1",
+        "mcp/sdk": "^0.9",
+        "psr/clock": "^1.0",
+        "psr/log": "^2.0 || ^3.0",
+        "symfony/cache": "^7.4 || ^8.1",
+        "symfony/cache-contracts": "^3.5",
+        "symfony/config": "^7.4 || ^8.1",
+        "symfony/dependency-injection": "^7.4 || ^8.1",
+        "symfony/http-kernel": "^7.4 || ^8.1",
+        "symfony/lock": "^7.4 || ^8.1",
+        "symfony/mcp-bundle": "^0.15",
+        "symfony/messenger": "^7.4 || ^8.1",
+        "symfony/mime": "^7.4 || ^8.1",
+        "symfony/notifier": "^7.4 || ^8.1",
+        "symfony/scheduler": "^7.4 || ^8.1",
+        "symfony/service-contracts": "^3.5"
+    },
+    "require-dev": {
+        "doctrine/doctrine-migrations-bundle": "^4.0",
+        "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^10.5.45",
+        "sylius-labs/coding-standard": "^4.5",
+        "symfony/clock": "^7.4 || ^8.1",
+        "symfony/framework-bundle": "^7.4 || ^8.1"
+    },
+    "suggest": {
+        "doctrine/doctrine-migrations-bundle": "To create the journal table with the bundle's migration"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emagma\\McpAgentsBundle\\": "src/",
+            "Emagma\\McpAgentsBundle\\Migrations\\": "migrations/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emagma\\McpAgentsBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": false
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.2.x-dev"
+        }
+    }
+}

@@ -1,0 +1,10 @@
+# Alone: `vendor/bin/phpstan analyse`. Inside a shop that installs the plugin:
+# its PHPStan, run from this directory with `-c phpstan.neon`.
+parameters:
+    level: max
+
+    paths:
+        - src
+
+    # The package's floor, not the dev image's version.
+    phpVersion: 80300

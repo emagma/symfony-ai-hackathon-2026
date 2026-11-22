@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:taxon:lean` group - minimal projection for list_taxons /
+  list_taxon_tree. Mirrors Product.xml: kept dormant until something asks for
+  it via Prefer: respond-for=lean (see LeanContextBuilder).
+
+  Fields exposed: code + translations.name + parent (needed for tree walking).
+  Filtering (enabled, rootOnly, subtreeOf, depth…) happens in SQL through
+  TaxonCriteriaFilter, so nothing else travels. Heavy fields (description,
+  slug, images, children IRI list, level) stay stripped - surface them on
+  the detail tools instead, which bypass the lean group.
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Core\Model\Taxon">
+        <attribute name="code">
+            <group>mcp:taxon:lean</group>
+        </attribute>
+        <attribute name="translations">
+            <group>mcp:taxon:lean</group>
+        </attribute>
+        <attribute name="parent">
+            <group>mcp:taxon:lean</group>
+        </attribute>
+    </class>
+
+    <class name="Sylius\Component\Taxonomy\Model\TaxonTranslation">
+        <attribute name="name">
+            <group>mcp:taxon:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

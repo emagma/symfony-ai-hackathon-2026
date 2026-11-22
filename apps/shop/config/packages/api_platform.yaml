@@ -1,0 +1,16 @@
+api_platform:
+    # JSON before JSON-LD: a client sending `Accept: */*` (the MCP server's
+    # admin API client, curl) gets the lighter payload by default; Hydra is
+    # still there for `Accept: application/ld+json`.
+    formats:
+        json: ['application/json']
+        jsonld: ['application/ld+json']
+    mapping:
+        paths:
+            - '%kernel.project_dir%/config/api_platform'
+            - '%kernel.project_dir%/src/Entity'
+            - '%kernel.project_dir%/src/ApiResource'
+    patch_formats:
+        json: ['application/merge-patch+json']
+    swagger:
+        versions: [3]

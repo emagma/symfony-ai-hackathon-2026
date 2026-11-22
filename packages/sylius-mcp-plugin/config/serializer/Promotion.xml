@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:promotion:lean` group - exposed to list_promotions via
+  Prefer: respond-for=lean.
+
+  The vendor `sylius:admin:promotion:index` group inlines rules, actions,
+  coupons AND every translation, so a shop with a handful of coupon-based
+  promotions returns kilobytes per row for a listing that only needs to say
+  what exists and whether it is running. Rules and actions stay out: they are
+  the reason to open one promotion, not to scan the list - get_promotion
+  returns them.
+
+  `used` and `usageLimit` travel together on purpose; either alone cannot
+  answer "is this promotion exhausted". `archivedAt` is what tells an archived
+  entry apart once archive_promotion has been used.
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Core\Model\Promotion">
+        <attribute name="code">
+            <group>mcp:promotion:lean</group>
+        </attribute>
+        <attribute name="name">
+            <group>mcp:promotion:lean</group>
+        </attribute>
+        <attribute name="priority">
+            <group>mcp:promotion:lean</group>
+        </attribute>
+        <attribute name="exclusive">
+            <group>mcp:promotion:lean</group>
+        </attribute>
+        <attribute name="couponBased">
+            <group>mcp:promotion:lean</group>
+        </attribute>
+        <attribute name="usageLimit">
+            <group>mcp:promotion:lean</group>
+        </attribute>
+        <attribute name="used">
+            <group>mcp:promotion:lean</group>
+        </attribute>
+        <attribute name="startsAt">
+            <group>mcp:promotion:lean</group>
+        </attribute>
+        <attribute name="endsAt">
+            <group>mcp:promotion:lean</group>
+        </attribute>
+        <attribute name="archivedAt">
+            <group>mcp:promotion:lean</group>
+        </attribute>
+        <attribute name="channels">
+            <group>mcp:promotion:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

@@ -1,0 +1,60 @@
+{
+    "name": "emagma/mcp-screens-bundle",
+    "type": "symfony-bundle",
+    "description": "Small screens an MCP server shows in the conversation (MCP Apps): one generic app and three tools for any number of screens, each a service that loads, validates and submits through the server's own write path.",
+    "keywords": [
+        "mcp",
+        "mcp-apps",
+        "symfony-bundle"
+    ],
+    "homepage": "https://github.com/emagma/mcp-screens-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emagma",
+            "homepage": "https://www.emagma.fr"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/emagma/mcp-screens-bundle/issues",
+        "source": "https://github.com/emagma/mcp-screens-bundle"
+    },
+    "require": {
+        "php": ">=8.4",
+        "emagma/mcp-core-bundle": "^0.1",
+        "mcp/sdk": "^0.9",
+        "symfony/config": "^7.4 || ^8.1",
+        "symfony/dependency-injection": "^7.4 || ^8.1",
+        "symfony/http-kernel": "^7.4 || ^8.1",
+        "symfony/mcp-bundle": "^0.15",
+        "symfony/twig-bundle": "^7.4 || ^8.1"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^10.5.45",
+        "sylius-labs/coding-standard": "^4.5",
+        "symfony/framework-bundle": "^7.4 || ^8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emagma\\McpScreensBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emagma\\McpScreensBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": false
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.2.x-dev"
+        }
+    }
+}

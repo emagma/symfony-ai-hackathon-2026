@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:taxon_image:lean` group - exposed to list_taxon_images via
+  Prefer: respond-for=lean. Surfaces id + path + type, drops the owner IRI
+  (the parent taxon is known from the request URI).
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Core\Model\TaxonImage">
+        <attribute name="id">
+            <group>mcp:taxon_image:lean</group>
+        </attribute>
+        <attribute name="path">
+            <group>mcp:taxon_image:lean</group>
+        </attribute>
+        <attribute name="type">
+            <group>mcp:taxon_image:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

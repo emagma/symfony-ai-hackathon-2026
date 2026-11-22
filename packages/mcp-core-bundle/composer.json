@@ -1,0 +1,70 @@
+{
+    "name": "emagma/mcp-core-bundle",
+    "type": "symfony-bundle",
+    "description": "What an MCP server built on symfony/mcp-bundle needs before it exposes a write: per-tool authorization (deny-all by default), a tools/call middleware chain, human confirmation of writes, privacy marks on outputs and redaction of sensitive data.",
+    "keywords": [
+        "mcp",
+        "model-context-protocol",
+        "authorization",
+        "symfony-bundle"
+    ],
+    "homepage": "https://github.com/emagma/mcp-core-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emagma",
+            "homepage": "https://www.emagma.fr"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/emagma/mcp-core-bundle/issues",
+        "source": "https://github.com/emagma/mcp-core-bundle"
+    },
+    "require": {
+        "php": ">=8.4",
+        "mcp/sdk": "^0.9",
+        "psr/container": "^1.1 || ^2.0",
+        "psr/log": "^2.0 || ^3.0",
+        "symfony/config": "^7.4 || ^8.1",
+        "symfony/console": "^7.4 || ^8.1",
+        "symfony/dependency-injection": "^7.4 || ^8.1",
+        "symfony/http-kernel": "^7.4 || ^8.1",
+        "symfony/mcp-bundle": "^0.15",
+        "symfony/security-bundle": "^7.4 || ^8.1",
+        "symfony/service-contracts": "^3.5"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^10.5.45",
+        "sylius-labs/coding-standard": "^4.5",
+        "symfony/filesystem": "^7.4 || ^8.1",
+        "symfony/framework-bundle": "^7.4 || ^8.1",
+        "symfony/uid": "^7.4 || ^8.1"
+    },
+    "suggest": {
+        "phpunit/phpunit": "To extend the conformance test cases of src/Testing/Conformance in the suite of a bundle that brings tools, and to use the helpers of src/Testing",
+        "symfony/uid": "For src/Testing/ElicitationTestTrait"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emagma\\McpCoreBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emagma\\McpCoreBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": false
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.2.x-dev"
+        }
+    }
+}

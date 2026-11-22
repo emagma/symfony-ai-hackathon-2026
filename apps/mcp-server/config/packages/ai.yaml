@@ -1,0 +1,6 @@
+# What the server asks a model itself: the background tools and agents of the bundles.
+# The chat that calls the server has its own provider.
+ai:
+    platform:
+        anthropic:
+            api_key: '%env(MCP_AI_ANTHROPIC_API_KEY)%'

@@ -1,0 +1,59 @@
+# Tunnel overlay - opt-in, managed by `castor tunnel:up` / `castor tunnel:down`.
+# Exposes the stack to the public internet through Cloudflare quick tunnels so a
+# remote MCP client (Claude Web/Desktop, ChatGPT) can run the real OAuth 2.1 flow
+# against /_mcp. No account, no host install: one cloudflared container per
+# service that must be publicly reachable.
+#
+# TWO tunnels, not one: the remote client talks to the MCP server (/_mcp + RFC
+# 9728 metadata) AND to Keycloak (OIDC discovery, authorization + token
+# endpoints). The shop stays private: nothing remote needs it.
+#
+# Keycloak is not published whole: its tunnel reaches it through a filter
+# (docker/tunnel/Caddyfile) that lets the `sylius` realm and the resources of
+# its pages through, and answers 404 to the admin console, its REST API and the
+# master realm. The demo users of the realm are public while the tunnel is up.
+#
+# The URLs are random and only known once cloudflared is up, so `tunnel:up`
+# starts the tunnels first, reads the URLs from their logs, writes them to the
+# managed block of docker/.env, then recreates mcp-server + keycloak + shop.
+# The `:-` defaults keep this file valid during that first step.
+services:
+    tunnel-mcp:
+        image: cloudflare/cloudflared:latest
+        command: ["tunnel", "--no-autoupdate", "--url", "http://mcp-server:80"]
+        depends_on:
+            - mcp-server
+
+    tunnel-keycloak:
+        image: cloudflare/cloudflared:latest
+        command: ["tunnel", "--no-autoupdate", "--url", "http://keycloak-public:8085"]
+        depends_on:
+            - keycloak-public
+
+    # What tunnel-keycloak publishes: the sylius realm only.
+    keycloak-public:
+        image: caddy:2-alpine
+        volumes:
+            - ./docker/tunnel/Caddyfile:/etc/caddy/Caddyfile:ro
+        depends_on:
+            - keycloak
+
+    mcp-server:
+        environment:
+            # cloudflared hits :80 from the compose network; trust the private
+            # ranges so Symfony honours X-Forwarded-Proto/Host and builds
+            # https:// public URLs (401 challenge, metadata). NOT the
+            # `REMOTE_ADDR` keyword: Symfony resolves it ONCE, when the
+            # FrankenPHP worker boots, to whichever peer sent the first request
+            # - every other peer (cloudflared included) is then untrusted.
+            TRUSTED_PROXIES: 127.0.0.1,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+            # Issuer advertised to the remote client. The backchannel
+            # (MCP_AUTH_USERINFO_URL) keeps using keycloak:8085.
+            MCP_AUTH_ISSUER_URL: ${TUNNEL_KEYCLOAK_URL:-http://keycloak:8085}/realms/sylius
+
+    keycloak:
+        environment:
+            KC_HOSTNAME: ${TUNNEL_KEYCLOAK_URL:-http://keycloak:8085}
+            # The admin console is not published: it keeps its local URL.
+            KC_HOSTNAME_ADMIN: http://keycloak:8085
+            KC_PROXY_HEADERS: xforwarded

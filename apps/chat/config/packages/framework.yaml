@@ -1,0 +1,19 @@
+framework:
+    secret: '%env(APP_SECRET)%'
+    http_method_override: false
+    handle_all_throwables: true
+    # Only the OAuth tokens live in the session (see src/Auth). The turn
+    # controller saves it before streaming, so a long turn never holds the lock.
+    session:
+        # Not PHPSESSID: a cookie belongs to the host, not to the port, and the shop on localhost:80
+        # sets PHPSESSID too. Visiting its back office replaced the chat's session, and the next turn
+        # was sent to the login page.
+        name: testchat_session
+        handler_id: null
+        cookie_secure: auto
+        cookie_samesite: lax
+        storage_factory_id: session.storage.factory.native
+    php_errors:
+        log: true
+    # One turn at a time per conversation (TurnController).
+    lock: 'flock'

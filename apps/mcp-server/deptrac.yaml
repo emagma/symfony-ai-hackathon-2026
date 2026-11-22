@@ -1,0 +1,112 @@
+# Which bundle may know which, code and tests. No baseline.
+deptrac:
+    paths:
+        - ./src
+        - ./tests
+        - ../../packages/mcp-core-bundle/src
+        - ../../packages/mcp-core-bundle/tests
+        - ../../packages/mcp-sylius-bundle/src
+        - ../../packages/mcp-sylius-bundle/tests
+        - ../../packages/mcp-sylius-v2-bundle/src
+        - ../../packages/mcp-sylius-v2-bundle/tests
+        - ../../packages/mcp-audit-bundle/src
+        - ../../packages/mcp-audit-bundle/migrations
+        - ../../packages/mcp-audit-bundle/tests
+        - ../../packages/mcp-auth-bundle/src
+        - ../../packages/mcp-auth-bundle/tests
+        - ../../packages/mcp-auth-keycloak-bundle/src
+        - ../../packages/mcp-auth-keycloak-bundle/tests
+        - ../../packages/mcp-guidelines-bundle/src
+        - ../../packages/mcp-guidelines-bundle/tests
+        - ../../packages/mcp-tasks-bundle/src
+        - ../../packages/mcp-tasks-bundle/migrations
+        - ../../packages/mcp-tasks-bundle/tests
+        - ../../packages/mcp-tasks-messenger-bundle/src
+        - ../../packages/mcp-tasks-messenger-bundle/tests
+        - ../../packages/mcp-sylius-events-bundle/src
+        - ../../packages/mcp-sylius-events-bundle/migrations
+        - ../../packages/mcp-sylius-events-bundle/tests
+        - ../../packages/mcp-agents-bundle/src
+        - ../../packages/mcp-agents-bundle/migrations
+        - ../../packages/mcp-agents-bundle/tests
+        - ../../packages/mcp-knowledge-bundle/src
+        - ../../packages/mcp-knowledge-bundle/tests
+        - ../../packages/mcp-screens-bundle/src
+        - ../../packages/mcp-screens-bundle/tests
+        - ../../packages/mcp-sylius-screens-bundle/src
+        - ../../packages/mcp-sylius-screens-bundle/tests
+        - ../../packages/mcp-skills-bundle/src
+        - ../../packages/mcp-skills-bundle/tests
+        - ../../packages/symfony-ai-hackathon-2026-bundle/src
+        - ../../packages/symfony-ai-hackathon-2026-bundle/tests
+    layers:
+        - name: Core
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\McpCoreBundle\\#' }
+        - name: Audit
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\McpAuditBundle\\#' }
+        - name: Auth
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\McpAuthBundle\\#' }
+        - name: AuthKeycloak
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\McpAuthKeycloakBundle\\#' }
+        - name: Sylius
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\McpSyliusBundle\\#' }
+        - name: SyliusV2
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\McpSyliusV2Bundle\\#' }
+        - name: Guidelines
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\McpGuidelinesBundle\\#' }
+        - name: Tasks
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\McpTasksBundle\\#' }
+        - name: TasksMessenger
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\McpTasksMessengerBundle\\#' }
+        - name: SyliusEvents
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\McpSyliusEventsBundle\\#' }
+        - name: Agents
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\McpAgentsBundle\\#' }
+        - name: Knowledge
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\McpKnowledgeBundle\\#' }
+        - name: Screens
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\McpScreensBundle\\#' }
+        - name: SyliusScreens
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\McpSyliusScreensBundle\\#' }
+        - name: Skills
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\McpSkillsBundle\\#' }
+        - name: Hackathon
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\SymfonyAiHackathon2026Bundle\\#' }
+        - name: App
+          collectors:
+              - { type: classNameRegex, value: '#^Emagma\\SyliusMcpServer\\(Kernel|ServerSources)$#' }
+              - { type: classNameRegex, value: '#^Emagma\\SyliusMcpServer\\Tests\\(Conformance|Functional|Integration|Qa)\\#' }
+    ruleset:
+        Core: ~
+        Audit: [Core]
+        Auth: [Core]
+        AuthKeycloak: [Core, Auth]
+        Sylius: [Core]
+        SyliusV2: [Core, Sylius]
+        Guidelines: [Core]
+        Tasks: [Core]
+        TasksMessenger: [Core, Tasks]
+        SyliusEvents: ~
+        Agents: [Core]
+        Knowledge: [Core]
+        Screens: [Core]
+        SyliusScreens: [Core, Screens, Sylius]
+        Skills: [Core]
+        Hackathon: [Core, Sylius, SyliusEvents, Agents, Tasks]
+        App: [Core, Audit, Auth, AuthKeycloak, Sylius, SyliusV2, Guidelines, Tasks, TasksMessenger, SyliusEvents, Agents, Knowledge, Screens, SyliusScreens, Skills, Hackathon]

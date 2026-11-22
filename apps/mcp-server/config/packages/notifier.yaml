@@ -1,0 +1,9 @@
+# Where the alerts of the background agents go (mcp_agents). Email for every level by default; add a chat
+# transport (Slack, Teams) and list it per importance to raise them elsewhere, without touching an agent.
+framework:
+    notifier:
+        channel_policy:
+            urgent: ['email']
+            high: ['email']
+            medium: ['email']
+            low: ['email']

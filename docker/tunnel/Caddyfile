@@ -1,0 +1,22 @@
+# Keycloak as the tunnel publishes it (compose.tunnel.yaml): only what a remote
+# MCP client and its user need, the `sylius` realm (discovery, login, consent,
+# tokens, the account page) and the static resources of its pages. The admin
+# console, its REST API and the master realm answer 404: they stay on
+# http://keycloak:8085, local to this machine.
+{
+	admin off
+	auto_https off
+}
+
+:8085 {
+	@published path /realms/sylius /realms/sylius/* /resources/*
+	handle @published {
+		reverse_proxy keycloak:8085 {
+			# cloudflared terminates TLS: the public URL is https.
+			header_up X-Forwarded-Proto https
+		}
+	}
+	handle {
+		respond "Not published through the tunnel." 404
+	}
+}

@@ -1,0 +1,77 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Emagma\SyliusAssistantTestChat\:
+        resource: '../src/'
+        exclude:
+            - '../src/Kernel.php'
+            - '../src/Conversation/Conversation.php'
+            - '../src/Conversation/LlmCall.php'
+            - '../src/Catalog/Provider.php'
+            - '../src/Platform/FallbackModelCatalog.php'
+            - '../src/Auth/{AuthorizationServer,UserToken}.php'
+            - '../src/Elicitation/Decision.php'
+            - '../src/Turn/{MeteredPlatform,TurnToolbox}.php'
+            - '../src/Tracing/Sdk/{TracerProviderFactory,ResilientSpanExporter}.php'
+
+    Emagma\SyliusAssistantTestChat\Mcp\FilteredToolset:
+        arguments:
+            $inner: !service
+                class: Symfony\AI\AiBundle\Mcp\ConnectionToolset
+                arguments: ['@mcp.client.sylius.server.shop']
+            $prefixes: '%chat.tools.allow%'
+            $apps: '@Emagma\SyliusAssistantTestChat\Mcp\AppTools'
+
+    # The server's `instructions` (initialize) appended to the system prompt on
+    # the first turn of a conversation; the single configured server connection.
+    Emagma\SyliusAssistantTestChat\Conversation\ServerInstructions:
+        arguments:
+            $connection: '@mcp.client.sylius.server.shop'
+
+    Emagma\SyliusAssistantTestChat\Mcp\McpHttpClient:
+        arguments:
+            $inner: null
+
+    # Meter every model call of each provider (see MeteredPlatform).
+    chat.metered_platform.openai:
+        class: Emagma\SyliusAssistantTestChat\Turn\MeteredPlatform
+        decorates: ai.platform.openai
+        arguments: ['@.inner', 'openai']
+    chat.metered_platform.anthropic:
+        class: Emagma\SyliusAssistantTestChat\Turn\MeteredPlatform
+        decorates: ai.platform.anthropic
+        arguments: ['@.inner', 'anthropic']
+    chat.metered_platform.mistral:
+        class: Emagma\SyliusAssistantTestChat\Turn\MeteredPlatform
+        decorates: ai.platform.mistral
+        arguments: ['@.inner', 'mistral']
+    chat.metered_platform.qwen:
+        class: Emagma\SyliusAssistantTestChat\Turn\MeteredPlatform
+        decorates: ai.platform.generic.qwen
+        arguments: ['@.inner', 'qwen']
+
+
+    # The chat's own TracerProvider (OTEL_* of the environment): no-op
+    # without an endpoint, never blocks a turn for more than a second.
+    chat.tracer_provider:
+        class: OpenTelemetry\API\Trace\TracerProviderInterface
+        factory: ['Emagma\SyliusAssistantTestChat\Tracing\Sdk\TracerProviderFactory', 'create']
+        arguments: [1.0, 30.0, '@logger']
+
+    Symfony\AI\Platform\Bridge\Generic\FallbackModelCatalog: ~
+
+    # Any chat model the provider's API lists, not only those Symfony AI knows.
+    chat.model_catalog.openai:
+        class: Emagma\SyliusAssistantTestChat\Platform\FallbackModelCatalog
+        decorates: ai.platform.model_catalog.openai
+        arguments: ['@.inner', 'Symfony\AI\Platform\Bridge\OpenAi\Gpt']
+    chat.model_catalog.anthropic:
+        class: Emagma\SyliusAssistantTestChat\Platform\FallbackModelCatalog
+        decorates: ai.platform.model_catalog.anthropic
+        arguments: ['@.inner', 'Symfony\AI\Platform\Bridge\Anthropic\Claude']
+    chat.model_catalog.mistral:
+        class: Emagma\SyliusAssistantTestChat\Platform\FallbackModelCatalog
+        decorates: ai.platform.model_catalog.mistral
+        arguments: ['@.inner', 'Symfony\AI\Platform\Bridge\Mistral\Mistral']

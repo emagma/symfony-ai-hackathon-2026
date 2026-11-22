@@ -1,0 +1,4 @@
+# The standard only enables the API in dev. This shop IS the MCP server's
+# backend: the Admin API has to be up in every environment.
+sylius_api:
+    enabled: true

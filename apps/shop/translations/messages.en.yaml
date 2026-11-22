@@ -1,0 +1,25 @@
+app:
+    ui:
+        fixtures_reset:
+            menu: 'Reset demo data'
+            title: 'Reset the demo data'
+            subheader: 'Put the shop back in the state of its fixtures'
+            what:
+                title: 'What the reset does'
+                intro: 'The shop is reloaded with its demo data set, the same one as after a fresh install.'
+                data: 'Catalog, stock, prices, customers, orders, promotions, CMS blocks and media, channels and configuration: always the same data, so the demo scenarios find what they expect.'
+                lost: 'Everything created or changed since the last reset is deleted: products, orders, customers, uploaded images, CMS content, admin accounts.'
+                schedule: 'The shop is also reset automatically every day at 00:00 and 12:00 (Paris time).'
+            effects:
+                title: 'Good to know'
+                logout: 'Every administrator is logged out, you included: the admin accounts are re-created.'
+                ids: 'The data is identical but its numeric ids change. An AI assistant that kept an id from before the reset has to look the item up again (by its code or name).'
+                mcp: 'The connected AI assistants (ChatGPT, Claude) keep working: the MCP server reconnects to the shop by itself.'
+                duration: 'It takes from 15 seconds to about a minute. Keep the page open until the login page shows up.'
+            action:
+                title: 'Reset now'
+                running: 'A reset is already in progress. Reload this page in a minute.'
+                login: 'Then log in again with the demo admin account (username sylius).'
+                confirm: 'Delete every change made since the last reset and reload the demo data? Every administrator will be logged out.'
+                submit: 'Reset the demo data'
+                pending: 'Resetting…'

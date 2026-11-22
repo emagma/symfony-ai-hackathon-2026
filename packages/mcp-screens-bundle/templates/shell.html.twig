@@ -1,0 +1,81 @@
+{% extends '@Mcp/app/base.html.twig' %}
+
+{# The static shell of every screen: the fragments are rendered by the server (ScreenApp) and land in #root. #}
+{% block title %}Screen{% endblock %}
+
+{% block style %}
+    :root { color-scheme: light dark; --line: #d9dee3; --muted: #667085; --accent: #1f6feb; --danger: #b42318; --ok: #067647; }
+    body { margin: 0; font: 14px/1.45 system-ui, -apple-system, 'Segoe UI', sans-serif; }
+    .screen { padding: 14px 16px; }
+    .screen h1 { font-size: 16px; margin: 0 0 2px; }
+    .screen .sub { color: var(--muted); margin: 0 0 12px; }
+    .screen table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; }
+    .screen th, .screen td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+    .screen th { font-weight: 600; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .03em; }
+    .screen td.num, .screen th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .screen input, .screen select { font: inherit; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: inherit; }
+    .screen input.num { width: 7.5em; text-align: right; }
+    .screen input[aria-invalid="true"] { border-color: var(--danger); }
+    .screen .field { display: grid; grid-template-columns: 11em 1fr; gap: 6px 10px; align-items: center; margin-bottom: 6px; }
+    .screen .field input { width: 100%; box-sizing: border-box; }
+    .screen .error { color: var(--danger); font-size: 12px; }
+    .screen .message { padding: 8px 10px; border-radius: 6px; margin-bottom: 10px; border: 1px solid var(--line); }
+    .screen .message.ok { border-color: var(--ok); color: var(--ok); }
+    .screen .message.ko { border-color: var(--danger); color: var(--danger); }
+    .screen .actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .screen button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line); background: transparent; color: inherit; cursor: pointer; }
+    .screen button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .screen button[disabled] { opacity: .6; cursor: progress; }
+    .screen .muted { color: var(--muted); }
+{% endblock %}
+
+{% block app_script %}
+    // The base reports the height of the document, which never gets smaller than the frame: a screen
+    // that shrinks (a form back to its display) would keep its blank. Report the content's own height.
+    new ResizeObserver(() => {
+        const box = document.body.getBoundingClientRect();
+        sendNotification('ui/notifications/size-changed', { width: Math.ceil(box.width), height: Math.ceil(box.height) });
+        backToTop();
+    }).observe(document.body);
+
+    // The host grows the frame to the screen: the screen is not meant to scroll inside it. A field that takes
+    // the focus while the frame is still smaller than the screen (a form that just opened) scrolls the document
+    // all the same, and its header stayed out of sight once the frame had grown. Back to the top as soon as the
+    // whole screen fits in its frame; a screen taller than its frame (the host caps it) keeps its scroll.
+    function backToTop() {
+        if (window.scrollY > 0 && document.body.getBoundingClientRect().height <= window.innerHeight + 1) {
+            window.scrollTo(0, 0);
+        }
+    }
+    window.addEventListener('resize', backToTop);
+    document.addEventListener('focusin', () => requestAnimationFrame(backToTop));
+
+    // A form of a screen: its fields are the `values`, the screen and its params ride on the form itself.
+    function screenArgs(el) {
+        const holder = el.closest('[data-screen]');
+        return { screen: holder.dataset.screen, params: JSON.parse(holder.dataset.params || '{}') };
+    }
+    document.addEventListener('submit', (event) => {
+        const form = event.target.closest('form[data-screen-form]');
+        if (!form) { return; }
+        event.preventDefault();
+        if (!form.reportValidity()) { return; }
+        for (const button of form.querySelectorAll('button')) { button.disabled = true; }
+        callAndRender('screen_submit', { ...screenArgs(form), values: Object.fromEntries(new FormData(form)) });
+    });
+    // Display <-> form, and anything else that reloads the screen with other params (a channel).
+    document.addEventListener('click', (event) => {
+        const mode = event.target.closest('[data-screen-mode]');
+        if (mode) {
+            event.preventDefault();
+            callAndRender('screen_render', { ...screenArgs(mode), mode: mode.dataset.screenMode });
+        }
+    });
+    document.addEventListener('change', (event) => {
+        const param = event.target.closest('[data-screen-param]');
+        if (!param) { return; }
+        const args = screenArgs(param);
+        args.params[param.dataset.screenParam] = param.value;
+        callAndRender('screen_render', { ...args, mode: 'display' });
+    });
+{% endblock %}

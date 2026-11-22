@@ -1,0 +1,65 @@
+{
+    "name": "emagma/mcp-auth-keycloak-bundle",
+    "type": "symfony-bundle",
+    "description": "Keycloak as the identity provider of emagma/mcp-auth-bundle: bearer validation against the realm's userinfo endpoint, realm roles as MCP grants.",
+    "keywords": [
+        "mcp",
+        "keycloak",
+        "oauth2",
+        "symfony-bundle"
+    ],
+    "homepage": "https://github.com/emagma/mcp-auth-keycloak-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emagma",
+            "homepage": "https://www.emagma.fr"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/emagma/mcp-auth-keycloak-bundle/issues",
+        "source": "https://github.com/emagma/mcp-auth-keycloak-bundle"
+    },
+    "require": {
+        "php": ">=8.4",
+        "emagma/mcp-auth-bundle": "^0.1",
+        "emagma/mcp-core-bundle": "^0.1",
+        "symfony/config": "^7.4 || ^8.1",
+        "symfony/dependency-injection": "^7.4 || ^8.1",
+        "symfony/http-client-contracts": "^3.5",
+        "symfony/http-kernel": "^7.4 || ^8.1",
+        "symfony/security-core": "^7.4 || ^8.1",
+        "symfony/security-http": "^7.4 || ^8.1"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^10.5.45",
+        "sylius-labs/coding-standard": "^4.5",
+        "symfony/http-client": "^7.4 || ^8.1"
+    },
+    "suggest": {
+        "symfony/http-client": "To use Testing\\FakeKeycloakHttpClient in the test suite of a host"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emagma\\McpAuthKeycloakBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emagma\\McpAuthKeycloakBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": false
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.2.x-dev"
+        }
+    }
+}

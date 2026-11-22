@@ -1,0 +1,14 @@
+parameters:
+    level: max
+
+    paths:
+        - src
+
+    # The app's floor (composer: >=8.4), which is also the dev image's.
+    phpVersion: 80400
+
+    tmpDir: var/cache/phpstan
+
+includes:
+    - vendor/phpstan/phpstan-webmozart-assert/extension.neon
+    - phpstan-baseline.neon

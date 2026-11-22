@@ -1,0 +1,71 @@
+{
+    "name": "emagma/mcp-audit-bundle",
+    "type": "symfony-bundle",
+    "description": "The audit of the writes of an MCP server built on emagma/mcp-core-bundle: who changed what through which tool, redacted snapshots, the tools that read it, revert an edit and erase a person's data, and the commands that apply its lifetime.",
+    "keywords": [
+        "mcp",
+        "audit",
+        "symfony-bundle"
+    ],
+    "homepage": "https://github.com/emagma/mcp-audit-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emagma",
+            "homepage": "https://www.emagma.fr"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/emagma/mcp-audit-bundle/issues",
+        "source": "https://github.com/emagma/mcp-audit-bundle"
+    },
+    "require": {
+        "php": ">=8.4",
+        "doctrine/dbal": "^4.0",
+        "doctrine/doctrine-bundle": "^3.3",
+        "doctrine/orm": "^3.7",
+        "doctrine/persistence": "^3.0 || ^4.0",
+        "emagma/mcp-core-bundle": "^0.1",
+        "mcp/sdk": "^0.9",
+        "psr/log": "^2.0 || ^3.0",
+        "symfony/config": "^7.4 || ^8.1",
+        "symfony/console": "^7.4 || ^8.1",
+        "symfony/dependency-injection": "^7.4 || ^8.1",
+        "symfony/http-kernel": "^7.4 || ^8.1",
+        "symfony/mcp-bundle": "^0.15"
+    },
+    "require-dev": {
+        "doctrine/doctrine-migrations-bundle": "^4.0",
+        "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^10.5.45",
+        "sylius-labs/coding-standard": "^4.5",
+        "symfony/framework-bundle": "^7.4 || ^8.1",
+        "symfony/uid": "^7.4 || ^8.1"
+    },
+    "suggest": {
+        "doctrine/doctrine-migrations-bundle": "To create the audit table with the bundle's migration"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emagma\\McpAuditBundle\\": "src/",
+            "Emagma\\McpAuditBundle\\Migrations\\": "migrations/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emagma\\McpAuditBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": false
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.2.x-dev"
+        }
+    }
+}

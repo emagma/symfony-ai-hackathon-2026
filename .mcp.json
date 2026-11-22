@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "sylius-mcp": {
+            "type": "http",
+            "url": "http://localhost:8081/_mcp",
+            "oauth": {
+                "clientId": "mcp-cli"
+            }
+        }
+    }
+}

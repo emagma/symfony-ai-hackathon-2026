@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Not part of phpunit.xml.dist: the QA scenarios need the stack and write to the shop (`castor mcp:qa`). -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         cacheDirectory="var/cache/.phpunit.cache"
+         colors="true"
+         failOnWarning="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+>
+    <php>
+        <ini name="error_reporting" value="-1" />
+        <!-- Both `server` AND `env`: see phpunit.xml.dist. -->
+        <server name="APP_ENV" value="test" force="true" />
+        <env name="APP_ENV" value="test" force="true" />
+        <server name="APP_DEBUG" value="0" force="true" />
+        <env name="APP_DEBUG" value="0" force="true" />
+        <server name="KERNEL_CLASS" value="Emagma\SyliusMcpServer\Kernel" force="true" />
+    </php>
+    <testsuites>
+        <testsuite name="Qa">
+            <directory>tests/Qa</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

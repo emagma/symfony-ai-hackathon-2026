@@ -1,0 +1,268 @@
+# Base compose file - completed by an overlay: compose.dev.yaml for local
+# development (build, bind mounts, published ports). Optional services in
+# compose.chat.yaml, compose.tunnel.yaml.
+#
+# The three PHP apps run the same image and differ by working_dir and Caddyfile.
+
+services:
+    # --- the Sylius shop (apps/shop), with the MCP plugin ----------
+    shop:
+        image: ${DOCKER_REGISTRY}/php:${PROJECT_ENV:-dev}
+        hostname: shop
+        working_dir: /srv/app/apps/shop
+        command: ["--config", "/srv/app/apps/shop/docker/Caddyfile", "--adapter", "caddyfile"]
+        depends_on:
+            database:
+                condition: service_healthy
+        environment:
+            APP_ENV: ${SHOP_APP_ENV:-prod}
+            APP_DEBUG: ${SHOP_APP_DEBUG:-0}
+            APP_SECRET: ${SHOP_APP_SECRET}
+            # The admin page "Reset demo data" (apps/shop/src/FixturesReset/).
+            FIXTURES_RESET_ENABLED: ${SHOP_FIXTURES_RESET_ENABLED:-0}
+            DEFAULT_URI: http://localhost
+            LOCALE: ${SHOP_DEFAULT_LOCALE}
+            DATABASE_URL: "mysql://${SHOP_DATABASE_USER}:${SHOP_DATABASE_PASSWORD}@database:3306/${SHOP_DATABASE_NAME}?serverVersion=8.4&charset=utf8mb4"
+            MAILER_DSN: ${SHOP_MAILER_DSN}
+            # What the event plugin tells the MCP server (signed webhooks, sent by
+            # shop-worker): where, and the secret both sides share.
+            MCP_EVENT_WEBHOOK_URL: http://mcp-server/webhook/sylius
+            MCP_EVENT_WEBHOOK_SECRET: ${MCP_EVENT_WEBHOOK_SECRET:-${MCP_APP_SECRET}}
+            MESSENGER_TRANSPORT_DSN: doctrine://default
+            SYLIUS_MESSENGER_TRANSPORT_MAIN_DSN: doctrine://default
+            SYLIUS_MESSENGER_TRANSPORT_MAIN_FAILED_DSN: doctrine://default?queue_name=main_failed
+            SYLIUS_MESSENGER_TRANSPORT_CATALOG_PROMOTION_REMOVAL_DSN: doctrine://default?queue_name=catalog_promotion_removal
+            SYLIUS_MESSENGER_TRANSPORT_CATALOG_PROMOTION_REMOVAL_FAILED_DSN: doctrine://default?queue_name=catalog_promotion_removal_failed
+            SYLIUS_MESSENGER_TRANSPORT_PAYMENT_REQUEST_DSN: sync://
+            SYLIUS_MESSENGER_TRANSPORT_PAYMENT_REQUEST_FAILED_DSN: sync://
+            # The one Sylius admin the MCP server calls the Admin API with;
+            # `castor shop:db` creates it.
+            MCP_SERVICE_ACCOUNT_EMAIL: ${MCP_SERVICE_ACCOUNT_EMAIL}
+            MCP_SERVICE_ACCOUNT_PASSWORD: ${MCP_SERVICE_ACCOUNT_PASSWORD}
+
+    # Symfony Messenger consumer for the Doctrine transports Sylius routes its
+    # async messages to (`main`, `catalog_promotion_removal`). Same image, same
+    # environment as `shop` (extends), only the process differs - without it
+    # those queues just pile up in the database.
+    shop-worker:
+        extends:
+            service: shop
+        hostname: shop-worker
+        command:
+            - php
+            - bin/console
+            - messenger:consume
+            - main
+            - catalog_promotion_removal
+            - --time-limit=3600
+            - --memory-limit=256M
+            - --no-interaction
+        # The image healthcheck probes Caddy, which this process does not run.
+        # `compose up --wait` refuses a service with NO healthcheck, so probe the
+        # consumer itself: the entrypoint execs the console, so it is PID 1.
+        healthcheck:
+            test: ["CMD-SHELL", "grep -qa messenger:consume /proc/1/cmdline || exit 1"]
+            interval: 30s
+            timeout: 5s
+            retries: 3
+            start_period: 20s
+        # `--time-limit` makes the consumer exit on purpose (fresh process,
+        # picks up new code); the restart policy brings it straight back.
+        restart: unless-stopped
+
+    # --- one database server, two databases: the shop's and the MCP server's --
+    # The MCP server: a standalone Symfony app on the same image, serving
+    # /_mcp. It talks to the shop's Admin API with the service account and
+    # keeps its audit trail in its own database on the shared server.
+    mcp-server:
+        image: ${DOCKER_REGISTRY}/php:${PROJECT_ENV:-dev}
+        hostname: mcp-server
+        working_dir: /srv/app/apps/mcp-server
+        command: ["--config", "/srv/app/apps/mcp-server/docker/Caddyfile", "--adapter", "caddyfile"]
+        depends_on:
+            database:
+                condition: service_healthy
+            shop:
+                condition: service_started
+            keycloak:
+                condition: service_started
+        environment:
+            APP_ENV: ${PROJECT_ENV:-dev}
+            APP_SECRET: ${MCP_APP_SECRET}
+            DEFAULT_URI: http://localhost:${MCP_SERVER_PORT}
+            DATABASE_URL: "mysql://${MCP_DATABASE_USER}:${MCP_DATABASE_PASSWORD}@database:3306/${MCP_DATABASE_NAME}?serverVersion=8.4&charset=utf8mb4"
+            # The shop over compose DNS; the plugin's lean payloads need no
+            # public URL.
+            SYLIUS_API_URL: http://shop/api/v2/admin/
+            MCP_SERVICE_ACCOUNT_EMAIL: ${MCP_SERVICE_ACCOUNT_EMAIL}
+            MCP_SERVICE_ACCOUNT_PASSWORD: ${MCP_SERVICE_ACCOUNT_PASSWORD}
+            MCP_DEFAULT_LOCALE: ${SHOP_DEFAULT_LOCALE}
+            # Shop extensions whose tools are offered (.project.ini
+            # shop_extensions); empty on a docker/.env older than the key.
+            MCP_SHOP_EXTENSIONS: ${MCP_SHOP_EXTENSIONS:-}
+            # The shop's Sylius version (.project.ini sylius_version); 2.3 on a
+            # docker/.env older than the key.
+            MCP_SYLIUS_VERSION: ${MCP_SYLIUS_VERSION:-2.3}
+            # The shop's event plugin signs its webhooks with this secret (/webhook/sylius).
+            MCP_EVENT_WEBHOOK_SECRET: ${MCP_EVENT_WEBHOOK_SECRET:-${MCP_APP_SECRET}}
+            # The alerts of the background agents: by email, to Mailpit unless told otherwise.
+            MAILER_DSN: ${MCP_MAILER_DSN:-smtp://mailpit:1025}
+            MCP_AGENT_ALERT_EMAIL: ${MCP_AGENT_ALERT_EMAIL:-shop-alerts@example.com}
+            # The server's own model provider; the chat's key unless the server is given one.
+            MCP_AI_ANTHROPIC_API_KEY: ${MCP_AI_ANTHROPIC_API_KEY:-${TESTCHAT_ANTHROPIC_API_KEY:-}}
+            # Backchannel, through compose DNS.
+            MCP_AUTH_USERINFO_URL: http://keycloak:8085/realms/sylius/protocol/openid-connect/userinfo
+            # The issuer advertised to the clients (RFC 9728 metadata, token
+            # validation). Dev: http://keycloak:8085; tunnel: the quick-tunnel
+            # URL; deployed: https://keycloak.<domain>.
+            MCP_AUTH_ISSUER_URL: ${KEYCLOAK_PUBLIC_URL:-${TUNNEL_KEYCLOAK_URL:-http://keycloak:8085}}/realms/sylius
+            # Background tasks: the realm's `mcp-tasks` client lets the worker act for the user who
+            # launched a task. The authorization endpoint as the browser reaches it, the token
+            # endpoint through compose DNS, the callback on this server's public URL.
+            MCP_TASKS_AUTHORIZE_URL: ${KEYCLOAK_PUBLIC_URL:-${TUNNEL_KEYCLOAK_URL:-http://keycloak:8085}}/realms/sylius/protocol/openid-connect/auth
+            MCP_TASKS_TOKEN_URL: http://keycloak:8085/realms/sylius/protocol/openid-connect/token
+            MCP_TASKS_CLIENT_ID: mcp-tasks
+            MCP_TASKS_CLIENT_SECRET: ${MCP_TASKS_CLIENT_SECRET:-mcp-tasks-dev-secret}
+            MCP_TASKS_REDIRECT_URI: ${MCP_PUBLIC_URL:-${TUNNEL_MCP_URL:-http://localhost:8081}}/tasks/authorize/callback
+            # The transports of the agents' passes and of the outgoing messages
+            # (.project.ini): empty, a queue of the server's database.
+            MCP_AGENTS_TRANSPORT_DSN: ${MCP_AGENTS_TRANSPORT_DSN:-}
+            MCP_ASYNC_TRANSPORT_DSN: ${MCP_ASYNC_TRANSPORT_DSN:-}
+
+    # The consumers of the MCP server's own queues: one transport per kind of
+    # job, one consumer per transport, so a kind of job never waits behind
+    # another. Same application and environment as
+    # mcp-server (extends); PID 1 is the consumer, not Caddy: see shop-worker.
+    #
+    # The steps of the background tasks its users launch (packages/mcp-tasks-bundle,
+    # one message per step through packages/mcp-tasks-messenger-bundle): minutes to
+    # hours, never retried. N replicas = N tasks at once, but keep one for now: a
+    # consumer that starts suspends the steps the others are playing
+    # (packages/mcp-tasks-messenger-bundle, its traps). Messenger finishes the
+    # message in flight on SIGTERM: a step shorter than the grace period survives
+    # a deployment; a longer one is suspended `interrupted`.
+    mcp-tasks-worker:
+        extends:
+            service: mcp-server
+        hostname: mcp-tasks-worker
+        command:
+            - php
+            - bin/console
+            - messenger:consume
+            - mcp_tasks
+            - --time-limit=3600
+            - --memory-limit=256M
+            - --no-interaction
+        stop_grace_period: 10m
+        healthcheck: &mcp-consumer-healthcheck
+            test: ["CMD-SHELL", "grep -qa messenger:consume /proc/1/cmdline || exit 1"]
+            interval: 30s
+            timeout: 5s
+            retries: 3
+            start_period: 20s
+        restart: unless-stopped
+
+    # The passes of the background agents (packages/mcp-agents-bundle): seconds,
+    # safe to replay, retried; and what leaves the server (async: emails,
+    # notifications). 1 to N replicas.
+    mcp-agents-worker:
+        extends:
+            service: mcp-server
+        hostname: mcp-agents-worker
+        command:
+            - php
+            - bin/console
+            - messenger:consume
+            - mcp_agents
+            - async
+            - --time-limit=3600
+            - --memory-limit=256M
+            - --no-interaction
+        healthcheck: *mcp-consumer-healthcheck
+        restart: unless-stopped
+
+    # The clock of the agents, nothing else: the schedule mcp_agents only
+    # redispatches RunAgent to mcp_agents. One replica (a second one would wait
+    # on the schedule's lock).
+    mcp-scheduler:
+        extends:
+            service: mcp-server
+        hostname: mcp-scheduler
+        command:
+            - php
+            - bin/console
+            - messenger:consume
+            - scheduler_mcp_agents
+            - --time-limit=3600
+            - --no-interaction
+        healthcheck: *mcp-consumer-healthcheck
+        restart: unless-stopped
+
+    database:
+        image: ${SHOP_DATABASE_IMAGE}
+        hostname: database
+        environment:
+            MYSQL_DATABASE: ${SHOP_DATABASE_NAME}
+            MYSQL_USER: ${SHOP_DATABASE_USER}
+            MYSQL_PASSWORD: ${SHOP_DATABASE_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${SHOP_DATABASE_ROOT_PASSWORD}
+            # Read by docker/database/init-mcp.sh on a FRESH volume only.
+            MCP_DATABASE_NAME: ${MCP_DATABASE_NAME}
+            MCP_DATABASE_USER: ${MCP_DATABASE_USER}
+            MCP_DATABASE_PASSWORD: ${MCP_DATABASE_PASSWORD}
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${SHOP_DATABASE_ROOT_PASSWORD}"]
+            interval: 5s
+            timeout: 3s
+            retries: 10
+            start_period: 30s
+        volumes:
+            - database_data:/var/lib/mysql
+            - ./docker/database/init-mcp.sh:/docker-entrypoint-initdb.d/init-mcp.sh:ro
+
+    # Keycloak - the OIDC provider: bearer tokens on the MCP server, login of
+    # the chat and of the remote connectors. Listens on :8085 inside the stack.
+    # The realm is imported into a FRESH container only (no volume, H2 state):
+    # `castor keycloak:init --recreate` after `castor keycloak:realm`; any
+    # environment recreates it when the realm file changes (compose does when
+    # the variables below change). `start-dev` on
+    # purpose: `start` refuses the embedded H2 database, and losing the
+    # runtime state on recreate is the design (the realm file is the truth).
+    keycloak:
+        image: quay.io/keycloak/keycloak:26.1
+        hostname: keycloak
+        command: ["start-dev", "--import-realm", "--http-port=8085"]
+        environment:
+            KC_BOOTSTRAP_ADMIN_USERNAME: admin
+            KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+            KC_HTTP_ENABLED: "true"
+            # The issuer: identical for the browser and for the containers.
+            # Dev: http://keycloak:8085 (/etc/hosts). Deployed: the public URL.
+            KC_HOSTNAME: ${KEYCLOAK_PUBLIC_URL:-http://keycloak:8085}
+            KC_HOSTNAME_STRICT: "false"
+            KC_HEALTH_ENABLED: "true"
+            # Read by the realm import, `${NAME:default}` in realm-sylius.json
+            # (.castor/keycloak-realm.php): the secret of the mcp-tasks client,
+            # the same as mcp-server's, and the MCP server's public URL (the
+            # tunnel's when one is up) for its tasks callback. Never an empty
+            # value: Keycloak would import it as is.
+            MCP_TASKS_CLIENT_SECRET: ${MCP_TASKS_CLIENT_SECRET:-mcp-tasks-dev-secret}
+            MCP_PUBLIC_URL: ${MCP_PUBLIC_URL:-${TUNNEL_MCP_URL:-http://localhost:8081}}
+        volumes:
+            - ./docker/keycloak/realm-sylius.json:/opt/keycloak/data/import/realm-sylius.json:ro
+
+    # Mail catcher: every mail the shop sends ends up here (SMTP :1025, UI :8025).
+    mailpit:
+        image: axllent/mailpit
+        hostname: mailpit
+        environment:
+            TZ: Europe/Paris
+            MP_SMTP_AUTH_ACCEPT_ANY: "1"
+            MP_SMTP_AUTH_ALLOW_INSECURE: "1"
+            MP_DATABASE: /data/mailpit.db
+        volumes:
+            - mailpit_data:/data
+
+volumes:
+    database_data:
+    mailpit_data:

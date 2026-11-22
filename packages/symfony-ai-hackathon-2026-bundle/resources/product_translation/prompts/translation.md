@@ -1,0 +1,5 @@
+- Translate the meaning, not word for word; write what a native shop of the target language would write.
+- Never translate brand names, product line names and proper nouns: keep them exactly as in the source.
+- Keep units, sizes and numbers as they are; adapt only the decimal separator to the target language.
+- Keep HTML tags, their order and their attributes untouched; translate only the text between them.
+- Leave empty what is empty in the source: never invent a description, a keyword or a claim.

@@ -1,0 +1,21 @@
+# The MCP server - served by the shared php image (compose.yaml), on :80
+# inside the stack (published as MCP_SERVER_PORT by compose.dev.yaml).
+{
+	frankenphp
+	auto_https off
+}
+
+:80 {
+	log {
+		# Redact the authorization query parameter
+		format filter {
+			request>uri query {
+				replace authorization REDACTED
+			}
+		}
+	}
+
+	root * /srv/app/apps/mcp-server/public
+	encode zstd br gzip
+	php_server
+}

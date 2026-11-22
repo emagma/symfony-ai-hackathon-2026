@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:payment:lean` group - projection for list_payments and
+  list_order_payments.
+
+  The point here is `details`, which the vendor index group carries: Sylius
+  stores the gateway's raw response in it - payment intent identifiers, card
+  metadata, whatever the gateway returned. PaymentShaper already refuses to
+  hand it to the model, but leaving it out of the lean group keeps it off the
+  wire in the first place.
+
+  Mapping is additive - the admin UI and third-party API consumers still get
+  the full payload.
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Core\Model\Payment">
+        <attribute name="id">
+            <group>mcp:payment:lean</group>
+        </attribute>
+        <attribute name="state">
+            <group>mcp:payment:lean</group>
+        </attribute>
+        <attribute name="amount">
+            <group>mcp:payment:lean</group>
+        </attribute>
+        <attribute name="currencyCode">
+            <group>mcp:payment:lean</group>
+        </attribute>
+        <attribute name="method">
+            <group>mcp:payment:lean</group>
+        </attribute>
+        <attribute name="order">
+            <group>mcp:payment:lean</group>
+        </attribute>
+        <attribute name="createdAt">
+            <group>mcp:payment:lean</group>
+        </attribute>
+        <attribute name="updatedAt">
+            <group>mcp:payment:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:tax_rate:lean` group - exposed to list_tax_rates via Prefer: respond-for=lean.
+  Includes zone + category IRIs so the client-side filters can match on
+  their codes.
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Taxation\Model\TaxRate">
+        <attribute name="code">
+            <group>mcp:tax_rate:lean</group>
+        </attribute>
+        <attribute name="name">
+            <group>mcp:tax_rate:lean</group>
+        </attribute>
+        <attribute name="amount">
+            <group>mcp:tax_rate:lean</group>
+        </attribute>
+        <attribute name="zone">
+            <group>mcp:tax_rate:lean</group>
+        </attribute>
+        <attribute name="category">
+            <group>mcp:tax_rate:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

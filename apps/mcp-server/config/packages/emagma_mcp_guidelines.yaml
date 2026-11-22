@@ -1,0 +1,35 @@
+# The guidelines of the business: who it is and how it writes each kind of content.
+# At the start of every conversation the server lists the intents below; before writing, the model calls
+# get_guidelines(intents: [...]) and follows what it returns.
+#
+# Without this file: the six guidelines the bundle ships, and no intent.
+emagma_mcp_guidelines:
+    # One guideline per resource, named after its file (company.md is `company`). A .md file is read by the
+    # bundle's Markdown loader. To use your own text, point the line to your file, e.g.
+    # '%kernel.project_dir%/config/guidelines/company.md'.
+    resources:
+        - '@EmagmaMcpGuidelinesBundle/resources/guidelines/company.md'
+        - '@EmagmaMcpGuidelinesBundle/resources/guidelines/catalog_content.md'
+        - '@EmagmaMcpGuidelinesBundle/resources/guidelines/website_information.md'
+        - '@EmagmaMcpGuidelinesBundle/resources/guidelines/website_post.md'
+        - '@EmagmaMcpGuidelinesBundle/resources/guidelines/promotional_content.md'
+        - '@EmagmaMcpGuidelinesBundle/resources/guidelines/customer_message.md'
+
+    # What the model may be about to write. The description is what it matches its task against; the
+    # guidelines are given in this order.
+    intents:
+        product_description:
+            description: 'Product written content'
+            guidelines: [company, catalog_content]
+        website_page:
+            description: 'Information page of the website, corporate content'
+            guidelines: [company, website_information]
+        blog_post:
+            description: 'Blog post, buying guide, marketing article'
+            guidelines: [company, website_post]
+        promotion:
+            description: 'Marketing content, offer description'
+            guidelines: [company, promotional_content]
+        customer_reply:
+            description: 'Writing to a customer'
+            guidelines: [company, customer_message]

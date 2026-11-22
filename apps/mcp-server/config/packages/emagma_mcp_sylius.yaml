@@ -1,0 +1,8 @@
+emagma_mcp_sylius:
+    file_params:
+        # ChatGPT's file stores change with its datacenters: every https host.
+        allowed_hosts: ['*']
+
+when@dev:
+    emagma_mcp_sylius:
+        bench: true

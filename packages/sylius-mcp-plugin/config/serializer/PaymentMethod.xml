@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:payment_method:lean` group - exposed to list_payment_methods via
+  Prefer: respond-for=lean. Includes the channels IRI collection so the
+  client-side channel filter has something to match on.
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Core\Model\PaymentMethod">
+        <attribute name="code">
+            <group>mcp:payment_method:lean</group>
+        </attribute>
+        <attribute name="translations">
+            <group>mcp:payment_method:lean</group>
+        </attribute>
+        <attribute name="enabled">
+            <group>mcp:payment_method:lean</group>
+        </attribute>
+        <attribute name="channels">
+            <group>mcp:payment_method:lean</group>
+        </attribute>
+    </class>
+
+    <class name="Sylius\Component\Payment\Model\PaymentMethodTranslation">
+        <attribute name="name">
+            <group>mcp:payment_method:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

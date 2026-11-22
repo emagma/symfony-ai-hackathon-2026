@@ -1,0 +1,16 @@
+# Background tasks written on demand (packages/mcp-tasks-bundle). The worker's tokens go through the
+# handler of the firewall that guards /_mcp: same check, same grants, same actor as a request.
+# Their steps are played by the Messenger orchestrator (packages/mcp-tasks-messenger-bundle, registered in
+# bundles.php: it sets emagma_mcp_tasks.orchestrator and the mcp_tasks queue that mcp-tasks-worker consumes).
+emagma_mcp_tasks:
+    delegation:
+        token_handler: Emagma\McpAuthKeycloakBundle\KeycloakAccessTokenHandler
+
+# The linter fixes the files of a task in place (the functions and classes of PHP fully qualified) before they are
+# inspected and read; elsewhere a script that forgets is refused. ECS is a dev dependency of this server, absent from
+# its production image: enabled where it is installed. To lint in production, install the binary there and enable it.
+when@dev:
+    emagma_mcp_tasks:
+        linter:
+            enabled: true
+            path: '%kernel.project_dir%/vendor/bin/ecs'

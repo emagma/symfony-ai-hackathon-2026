@@ -1,0 +1,64 @@
+{
+    "name": "emagma/mcp-sylius-screens-bundle",
+    "type": "symfony-bundle",
+    "description": "The screens of a Sylius shop for the MCP screens bundle: the prices and stocks of a product's variants, one address of an order or of a customer.",
+    "keywords": [
+        "mcp",
+        "mcp-apps",
+        "sylius",
+        "symfony-bundle"
+    ],
+    "homepage": "https://github.com/emagma/mcp-sylius-screens-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emagma",
+            "homepage": "https://www.emagma.fr"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/emagma/mcp-sylius-screens-bundle/issues",
+        "source": "https://github.com/emagma/mcp-sylius-screens-bundle"
+    },
+    "require": {
+        "php": ">=8.4",
+        "emagma/mcp-core-bundle": "^0.1",
+        "emagma/mcp-screens-bundle": "^0.1",
+        "emagma/mcp-sylius-bundle": "^0.1",
+        "mcp/sdk": "^0.9",
+        "symfony/config": "^7.4 || ^8.1",
+        "symfony/dependency-injection": "^7.4 || ^8.1",
+        "symfony/http-client": "^7.4 || ^8.1",
+        "symfony/http-kernel": "^7.4 || ^8.1"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^10.5.45",
+        "sylius-labs/coding-standard": "^4.5",
+        "symfony/framework-bundle": "^7.4 || ^8.1",
+        "symfony/mcp-bundle": "^0.15",
+        "symfony/twig-bundle": "^7.4 || ^8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emagma\\McpSyliusScreensBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emagma\\McpSyliusScreensBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": false
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.2.x-dev"
+        }
+    }
+}

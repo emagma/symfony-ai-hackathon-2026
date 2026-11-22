@@ -1,0 +1,26 @@
+mcp:
+    clients:
+        sylius:
+            client_info:
+                name: sylius-assistant-testchat
+                version: 0.1.0
+            elicitation: Emagma\SyliusAssistantTestChat\Elicitation\UiElicitationCallback
+            # See McpHttpClient for the whole timeout chain.
+            request_timeout: 50
+            max_retries: 0
+            servers:
+                shop:
+                    transport: http
+                    url: '%env(TESTCHAT_MCP_URL)%'
+                    http_client: Emagma\SyliusAssistantTestChat\Mcp\McpHttpClient
+
+parameters:
+    # Tool-name prefixes handed to the model; empty = every tool the user is granted.
+    chat.tools.allow: []
+
+framework:
+    cache:
+        pools:
+            # Shared by the turn waiting for a confirmation and the request answering it.
+            chat.elicitations:
+                adapter: cache.adapter.filesystem

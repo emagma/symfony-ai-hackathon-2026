@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:customer:lean` group - projection for list_customers.
+
+  The vendor index group also carries gender, birthday, phone number, the
+  default address and the shop user IRI. None of that helps identify a customer
+  in a list, and all of it is personal data, so the lean group keeps it off the
+  wire; get_customer opts out of lean mode when the detail is actually asked
+  for.
+
+  Mapping is additive - the admin UI and third-party API consumers still get
+  the full payload.
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Core\Model\Customer">
+        <attribute name="id">
+            <group>mcp:customer:lean</group>
+        </attribute>
+        <attribute name="email">
+            <group>mcp:customer:lean</group>
+        </attribute>
+        <attribute name="fullName">
+            <group>mcp:customer:lean</group>
+        </attribute>
+        <attribute name="createdAt">
+            <group>mcp:customer:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

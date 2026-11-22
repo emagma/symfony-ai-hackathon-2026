@@ -1,0 +1,20 @@
+# Alone: `vendor/bin/phpstan analyse`. Inside an application that installs the bundle:
+# its PHPStan, run from this directory with `-c phpstan.neon`.
+parameters:
+    level: max
+
+    paths:
+        - src
+        # PHPStan analyses a trait only where it is used: one user class per shipped trait.
+        - tests/Analysis
+
+    phpVersion: 80400
+
+    ignoreErrors:
+        # Shipped for the test suites of other bundles: used from their tests only.
+        -
+            identifier: trait.unused
+            path: src/Testing/ElicitationTestTrait.php
+
+includes:
+    - phpstan-baseline.neon

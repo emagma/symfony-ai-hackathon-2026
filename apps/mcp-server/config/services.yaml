@@ -1,0 +1,5 @@
+when@test:
+    services:
+        # The functional suite forges its bearers: Keycloak's userinfo is faked.
+        Emagma\McpAuthKeycloakBundle\Testing\FakeKeycloakHttpClient: ~
+        emagma_mcp_auth_keycloak.http_client: '@Emagma\McpAuthKeycloakBundle\Testing\FakeKeycloakHttpClient'

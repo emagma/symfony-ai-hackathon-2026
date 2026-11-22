@@ -1,0 +1,9 @@
+# Alone: `vendor/bin/phpstan analyse`. Inside an application that installs the bundle:
+# its PHPStan, run from this directory with `-c phpstan.neon`.
+parameters:
+    level: max
+
+    paths:
+        - src
+
+    phpVersion: 80400

@@ -1,0 +1,333 @@
+{
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.4",
+        "ext-ctype": "*",
+        "ext-fileinfo": "*",
+        "ext-iconv": "*",
+        "doctrine/doctrine-bundle": "^3.3",
+        "doctrine/doctrine-migrations-bundle": "^4.0",
+        "doctrine/orm": "^3.7",
+        "emagma/mcp-agents-bundle": "^0.1",
+        "emagma/mcp-audit-bundle": "^0.1",
+        "emagma/mcp-auth-bundle": "^0.1",
+        "emagma/mcp-auth-keycloak-bundle": "^0.1",
+        "emagma/mcp-core-bundle": "^0.1",
+        "emagma/mcp-guidelines-bundle": "^0.1",
+        "emagma/mcp-knowledge-bundle": "^0.1",
+        "emagma/mcp-screens-bundle": "^0.1",
+        "emagma/mcp-skills-bundle": "^0.1",
+        "emagma/mcp-sylius-bundle": "^0.1",
+        "emagma/mcp-sylius-events-bundle": "^0.1",
+        "emagma/mcp-sylius-screens-bundle": "^0.1",
+        "emagma/mcp-sylius-v2-bundle": "^0.1",
+        "emagma/mcp-tasks-bundle": "^0.1",
+        "emagma/mcp-tasks-messenger-bundle": "^0.1",
+        "emagma/symfony-ai-hackathon-2026-bundle": "^0.1",
+        "nyholm/psr7": "^1.8",
+        "symfony/ai-agent": "^0.15",
+        "symfony/ai-anthropic-platform": "^0.15",
+        "symfony/ai-bundle": "^0.15",
+        "symfony/ai-platform": "^0.15",
+        "symfony/ai-sqlite-store": "^0.15",
+        "symfony/ai-store": "^0.15",
+        "symfony/console": "^7.4 || ^8.1",
+        "symfony/doctrine-messenger": "^7.4 || ^8.1",
+        "symfony/dotenv": "^7.4 || ^8.1",
+        "symfony/flex": "^2",
+        "symfony/framework-bundle": "^7.4 || ^8.1",
+        "symfony/http-client": "^7.4 || ^8.1",
+        "symfony/lock": "^7.4.23 || ^8.1",
+        "symfony/mailer": "^7.4 || ^8.1",
+        "symfony/mcp-bundle": "^0.15.0",
+        "symfony/messenger": "^7.4 || ^8.1",
+        "symfony/monolog-bundle": "^4.1",
+        "symfony/notifier": "^7.4 || ^8.1",
+        "symfony/remote-event": "^7.4 || ^8.1",
+        "symfony/runtime": "^7.4 || ^8.1",
+        "symfony/scheduler": "^7.4 || ^8.1",
+        "symfony/security-bundle": "^7.4 || ^8.1",
+        "symfony/webhook": "^7.4 || ^8.1",
+        "symfony/yaml": "^7.4 || ^8.1",
+        "webmozart/assert": "^2.5"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "symfony/flex": true,
+            "symfony/runtime": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": false
+        },
+        "bump-after-update": true,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Emagma\\SyliusMcpServer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emagma\\SyliusMcpServer\\Tests\\": "tests/"
+        }
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*",
+        "symfony/polyfill-php82": "*"
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": "true",
+            "require": "7.4.*"
+        }
+    },
+    "require-dev": {
+        "deptrac/deptrac": "^4.7",
+        "phpstan/phpstan": "^2.2",
+        "phpstan/phpstan-webmozart-assert": "^2.0",
+        "phpunit/phpunit": "^10.5",
+        "sylius-labs/coding-standard": "^4.5",
+        "symfony/browser-kit": "^7.4 || ^8.1",
+        "symfony/css-selector": "^7.4 || ^8.1",
+        "symfony/debug-bundle": "^7.4 || ^8.1",
+        "symfony/stopwatch": "^7.4 || ^8.1",
+        "symfony/web-profiler-bundle": "^7.4 || ^8.1"
+    },
+    "name": "emagma/sylius-mcp-server",
+    "description": "The MCP server that exposes a Sylius shop to LLMs: tools, Admin API client, Keycloak authorization, write confirmation, audit.",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../packages/mcp-agents-bundle",
+            "only": [
+                "emagma/mcp-agents-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/mcp-agents-bundle": "0.1.0"
+                }
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/mcp-audit-bundle",
+            "only": [
+                "emagma/mcp-audit-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/mcp-audit-bundle": "0.1.0"
+                }
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/mcp-auth-bundle",
+            "only": [
+                "emagma/mcp-auth-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/mcp-auth-bundle": "0.1.0"
+                }
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/mcp-auth-keycloak-bundle",
+            "only": [
+                "emagma/mcp-auth-keycloak-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/mcp-auth-keycloak-bundle": "0.1.0"
+                }
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/mcp-core-bundle",
+            "only": [
+                "emagma/mcp-core-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/mcp-core-bundle": "0.1.0"
+                }
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/mcp-guidelines-bundle",
+            "only": [
+                "emagma/mcp-guidelines-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/mcp-guidelines-bundle": "0.1.0"
+                }
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/mcp-tasks-bundle",
+            "only": [
+                "emagma/mcp-tasks-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/mcp-tasks-bundle": "0.1.0"
+                }
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/mcp-tasks-messenger-bundle",
+            "only": [
+                "emagma/mcp-tasks-messenger-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/mcp-tasks-messenger-bundle": "0.1.0"
+                }
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/mcp-knowledge-bundle",
+            "only": [
+                "emagma/mcp-knowledge-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/mcp-knowledge-bundle": "0.1.0"
+                }
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/mcp-screens-bundle",
+            "only": [
+                "emagma/mcp-screens-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/mcp-screens-bundle": "0.1.0"
+                }
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/mcp-skills-bundle",
+            "only": [
+                "emagma/mcp-skills-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/mcp-skills-bundle": "0.1.0"
+                }
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/mcp-sylius-bundle",
+            "only": [
+                "emagma/mcp-sylius-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/mcp-sylius-bundle": "0.1.0"
+                }
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/mcp-sylius-events-bundle",
+            "only": [
+                "emagma/mcp-sylius-events-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/mcp-sylius-events-bundle": "0.1.0"
+                }
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/mcp-sylius-screens-bundle",
+            "only": [
+                "emagma/mcp-sylius-screens-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/mcp-sylius-screens-bundle": "0.1.0"
+                }
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/mcp-sylius-v2-bundle",
+            "only": [
+                "emagma/mcp-sylius-v2-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/mcp-sylius-v2-bundle": "0.1.0"
+                }
+            }
+        },
+        {
+            "type": "path",
+            "url": "../../packages/symfony-ai-hackathon-2026-bundle",
+            "only": [
+                "emagma/symfony-ai-hackathon-2026-bundle"
+            ],
+            "options": {
+                "symlink": true,
+                "versions": {
+                    "emagma/symfony-ai-hackathon-2026-bundle": "0.1.0"
+                }
+            }
+        }
+    ]
+}

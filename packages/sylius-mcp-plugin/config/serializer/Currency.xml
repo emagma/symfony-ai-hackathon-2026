@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:currency:lean` group - exposed to list_currencies via Prefer: respond-for=lean.
+  Currency only has code + computed name ; both are listed.
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Currency\Model\Currency">
+        <attribute name="code">
+            <group>mcp:currency:lean</group>
+        </attribute>
+        <attribute name="name">
+            <group>mcp:currency:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

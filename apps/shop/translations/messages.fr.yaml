@@ -1,0 +1,25 @@
+app:
+    ui:
+        fixtures_reset:
+            menu: 'Réinitialiser la démo'
+            title: 'Réinitialiser les données de démo'
+            subheader: 'Remettre la boutique dans l''état de ses fixtures'
+            what:
+                title: 'Ce que fait la réinitialisation'
+                intro: 'La boutique est rechargée avec son jeu de données de démo, le même qu''après une installation neuve.'
+                data: 'Catalogue, stock, prix, clients, commandes, promotions, blocs et médias CMS, canaux et configuration : toujours les mêmes données, pour que les scénarios de démo trouvent ce qu''ils attendent.'
+                lost: 'Tout ce qui a été créé ou modifié depuis la dernière réinitialisation est supprimé : produits, commandes, clients, images téléversées, contenus CMS, comptes administrateur.'
+                schedule: 'La boutique est aussi réinitialisée automatiquement chaque jour à 00:00 et à 12:00 (heure de Paris).'
+            effects:
+                title: 'À savoir'
+                logout: 'Tous les administrateurs sont déconnectés, vous compris : les comptes admin sont recréés.'
+                ids: 'Les données sont identiques mais leurs identifiants numériques changent. Un assistant IA qui a gardé un identifiant d''avant la réinitialisation doit retrouver l''élément (par son code ou son nom).'
+                mcp: 'Les assistants IA connectés (ChatGPT, Claude) continuent de fonctionner : le serveur MCP se reconnecte tout seul à la boutique.'
+                duration: 'Comptez de 15 secondes à une minute environ. Gardez la page ouverte jusqu''à l''affichage de la page de connexion.'
+            action:
+                title: 'Réinitialiser maintenant'
+                running: 'Une réinitialisation est déjà en cours. Rechargez cette page dans une minute.'
+                login: 'Reconnectez-vous ensuite avec le compte admin de démo (identifiant sylius).'
+                confirm: 'Supprimer toutes les modifications faites depuis la dernière réinitialisation et recharger les données de démo ? Tous les administrateurs seront déconnectés.'
+                submit: 'Réinitialiser les données de démo'
+                pending: 'Réinitialisation en cours…'

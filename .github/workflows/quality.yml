@@ -1,0 +1,244 @@
+# The quality gates of the three applications and of their packages, run by
+# the scripts of bin/ci/*.sh, which also run by hand. `mcp-server` and `shop`
+# run twice, on the lock (Symfony 7.4) and on Symfony 8.1. No secret and
+# no write: the suites need none (SQLite and a fake Keycloak in test), so pull
+# requests from forks run safely.
+name: Quality
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+    workflow_dispatch:
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+permissions:
+    contents: read
+
+env:
+    COMPOSER_NO_INTERACTION: '1'
+
+jobs:
+    mcp-server:
+        name: mcp-server (symfony ${{ matrix.symfony }})
+        runs-on: ubuntu-latest
+        # The packages proven twice: on the app's lock (Symfony 7.4), and on
+        # Symfony 8.1 resolved with `composer update -W` (SYMFONY_REQUIRE, see
+        # bin/ci/lib.sh). The legs do not cancel each other.
+        strategy:
+            fail-fast: false
+            matrix:
+                symfony: [lock, '8.1']
+        steps:
+            - uses: actions/checkout@v7
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  extensions: intl, zip, gd, exif, pdo_sqlite
+                  ini-values: memory_limit=-1
+                  tools: composer:v2
+                  coverage: none
+            # The lock leg keys its cache on the lock; the 8.1 leg has no lock to
+            # key on (resolved at each run): one cache per ISO week.
+            - id: composer-cache
+              working-directory: apps/mcp-server
+              env:
+                  SYMFONY: ${{ matrix.symfony }}
+                  LOCK_HASH: ${{ hashFiles('apps/mcp-server/composer.lock') }}
+              run: |
+                  echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+                  if [ "$SYMFONY" = lock ]; then
+                      prefix="composer-mcp-server-lock-"
+                      key="$prefix$LOCK_HASH"
+                  else
+                      prefix="composer-mcp-server-symfony-$SYMFONY-"
+                      key="$prefix$(date -u +%G-W%V)"
+                  fi
+                  echo "prefix=$prefix" >> "$GITHUB_OUTPUT"
+                  echo "key=$key" >> "$GITHUB_OUTPUT"
+            - uses: actions/cache@v6
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ steps.composer-cache.outputs.key }}
+                  restore-keys: ${{ steps.composer-cache.outputs.prefix }}
+            # SYMFONY_REQUIRE only on the 8.1 leg.
+            - env:
+                  SYMFONY: ${{ matrix.symfony }}
+              run: |
+                  if [ "$SYMFONY" != lock ]; then
+                      export SYMFONY_REQUIRE="$SYMFONY.*"
+                  fi
+                  bin/ci/mcp-server.sh
+
+    # Each package that carries its own tools, on its own (bin/ci/packages.sh):
+    # its vendor/ resolved from its composer.json in a throwaway copy, on the
+    # lowest dependencies its constraints allow (Symfony 7.4) and on the
+    # highest (Symfony 8.x). No cache: resolved at each run.
+    packages:
+        name: packages (${{ matrix.deps }} dependencies)
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                deps: [lowest, highest]
+        steps:
+            - uses: actions/checkout@v7
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  extensions: intl, zip, pdo_sqlite
+                  ini-values: memory_limit=-1
+                  tools: composer:v2
+                  coverage: none
+            - env:
+                  DEPS: ${{ matrix.deps }}
+              run: bin/ci/packages.sh "$DEPS"
+
+    # The shop plugins (the ones that require sylius/sylius), each on every Sylius
+    # line they support, on the highest dependencies: sylius/sylius pinned in the
+    # throwaway copy (SYLIUS_REQUIRE, see bin/ci/package.sh).
+    plugins-sylius:
+        name: plugins (sylius ${{ matrix.sylius }})
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                sylius: ['2.2', '2.3']
+        steps:
+            - uses: actions/checkout@v7
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  extensions: intl, zip, gd, exif, pdo_sqlite
+                  ini-values: memory_limit=-1
+                  tools: composer:v2
+                  coverage: none
+            - env:
+                  SYLIUS_REQUIRE: ${{ matrix.sylius }}.*
+              run: bin/ci/packages.sh highest
+
+    chat:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v7
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  extensions: intl, zip, gd, exif, pdo_sqlite
+                  ini-values: memory_limit=-1
+                  tools: composer:v2
+                  coverage: none
+            - uses: actions/setup-node@v7
+              with:
+                  node-version: '22'
+            - id: composer-cache
+              working-directory: apps/chat
+              run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+            - uses: actions/cache@v6
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: composer-chat-${{ hashFiles('apps/chat/composer.lock') }}
+                  restore-keys: composer-chat-
+            - run: bin/ci/chat.sh
+
+    shop:
+        name: shop (symfony ${{ matrix.symfony }})
+        runs-on: ubuntu-latest
+        # The packages proven twice: on the app's lock (Symfony 7.4), and on
+        # Symfony 8.1 resolved with `composer update -W` (SYMFONY_REQUIRE, see
+        # bin/ci/lib.sh). The legs do not cancel each other.
+        strategy:
+            fail-fast: false
+            matrix:
+                symfony: [lock, '8.1']
+        steps:
+            - uses: actions/checkout@v7
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  extensions: intl, zip, gd, exif, pdo_sqlite
+                  ini-values: memory_limit=-1
+                  tools: composer:v2
+                  coverage: none
+            # The lock leg keys its cache on the lock; the 8.1 leg has no lock to
+            # key on (resolved at each run): one cache per ISO week.
+            - id: composer-cache
+              working-directory: apps/shop
+              env:
+                  SYMFONY: ${{ matrix.symfony }}
+                  LOCK_HASH: ${{ hashFiles('apps/shop/composer.lock') }}
+              run: |
+                  echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+                  if [ "$SYMFONY" = lock ]; then
+                      prefix="composer-shop-lock-"
+                      key="$prefix$LOCK_HASH"
+                  else
+                      prefix="composer-shop-symfony-$SYMFONY-"
+                      key="$prefix$(date -u +%G-W%V)"
+                  fi
+                  echo "prefix=$prefix" >> "$GITHUB_OUTPUT"
+                  echo "key=$key" >> "$GITHUB_OUTPUT"
+            - uses: actions/cache@v6
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: ${{ steps.composer-cache.outputs.key }}
+                  restore-keys: ${{ steps.composer-cache.outputs.prefix }}
+            # SYMFONY_REQUIRE only on the 8.1 leg.
+            - env:
+                  SYMFONY: ${{ matrix.symfony }}
+              run: |
+                  if [ "$SYMFONY" != lock ]; then
+                      export SYMFONY_REQUIRE="$SYMFONY.*"
+                  fi
+                  bin/ci/shop.sh
+
+    # The plugin of the Sylius 1.14 line (API Platform 2.7) needs a 1.14 vendor/,
+    # which the shop does not have: its script creates a sylius-standard 1.14
+    # project on the fly (PHP 8.3: 1.14 does not declare 8.4). Only when the
+    # package exists and changed.
+    plugin-1-14:
+        name: plugin-1.14
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
+            - id: changes
+              env:
+                  EVENT: ${{ github.event_name }}
+                  BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+              run: |
+                  plugin=packages/sylius-mcp-sylius1-plugin
+                  if [ ! -d "$plugin" ]; then
+                      run=false
+                  elif [ "$EVENT" = workflow_dispatch ] || [ -z "$BASE" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+                      run=true
+                  elif git diff --quiet "$BASE" HEAD -- "$plugin"; then
+                      run=false
+                  else
+                      run=true
+                  fi
+                  echo "run=$run" >> "$GITHUB_OUTPUT"
+                  echo "packages/sylius-mcp-sylius1-plugin to check: $run"
+            - if: steps.changes.outputs.run == 'true'
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.3'
+                  extensions: intl, zip, gd, exif, pdo_sqlite
+                  ini-values: memory_limit=-1
+                  tools: composer:v2
+                  coverage: none
+            - if: steps.changes.outputs.run == 'true'
+              id: composer-cache
+              run: echo "dir=$(composer config --global cache-files-dir)" >> "$GITHUB_OUTPUT"
+            - if: steps.changes.outputs.run == 'true'
+              uses: actions/cache@v6
+              with:
+                  path: ${{ steps.composer-cache.outputs.dir }}
+                  key: composer-plugin-1.14-${{ hashFiles('packages/sylius-mcp-sylius1-plugin/composer.json') }}
+                  restore-keys: composer-plugin-1.14-
+            - if: steps.changes.outputs.run == 'true'
+              run: packages/sylius-mcp-sylius1-plugin/ci/quality.sh "$RUNNER_TEMP/sylius-1.14"

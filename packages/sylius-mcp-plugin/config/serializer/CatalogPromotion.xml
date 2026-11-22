@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:catalog_promotion:lean` group - exposed to list_catalog_promotions via
+  Prefer: respond-for=lean.
+
+  The vendor index group inlines scopes, actions and every translation. Scopes
+  are the heavy part: a `for_variants` scope carries one code per variant, so a
+  promotion covering a category returns hundreds of strings in a listing that
+  only needs to say what exists and whether it is running. get_catalog_promotion
+  returns them.
+
+  `state` stays: it is the computed answer to "is this live", which `enabled`
+  alone does not give.
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Core\Model\CatalogPromotion">
+        <attribute name="code">
+            <group>mcp:catalog_promotion:lean</group>
+        </attribute>
+        <attribute name="name">
+            <group>mcp:catalog_promotion:lean</group>
+        </attribute>
+        <attribute name="enabled">
+            <group>mcp:catalog_promotion:lean</group>
+        </attribute>
+        <attribute name="exclusive">
+            <group>mcp:catalog_promotion:lean</group>
+        </attribute>
+        <attribute name="priority">
+            <group>mcp:catalog_promotion:lean</group>
+        </attribute>
+        <attribute name="state">
+            <group>mcp:catalog_promotion:lean</group>
+        </attribute>
+        <attribute name="startDate">
+            <group>mcp:catalog_promotion:lean</group>
+        </attribute>
+        <attribute name="endDate">
+            <group>mcp:catalog_promotion:lean</group>
+        </attribute>
+        <attribute name="channels">
+            <group>mcp:catalog_promotion:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

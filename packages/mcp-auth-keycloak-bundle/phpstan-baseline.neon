@@ -1,0 +1,14 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Cannot access offset ''roles'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/KeycloakRoles.php
+
+		-
+			message: '#^Method Emagma\\McpAuthKeycloakBundle\\KeycloakUser\:\:getUserIdentifier\(\) should return non\-empty\-string but returns string\.$#'
+			identifier: return.type
+			count: 1
+			path: src/KeycloakUser.php
+

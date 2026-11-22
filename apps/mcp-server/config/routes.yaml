@@ -1,0 +1,9 @@
+mcp:
+    resource: '.'
+    type: 'mcp'
+
+emagma_mcp_tasks:
+    resource: '@EmagmaMcpTasksBundle/config/routes.yaml'
+
+emagma_mcp_auth:
+    resource: '@EmagmaMcpAuthBundle/config/routes.yaml'

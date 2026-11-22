@@ -1,0 +1,30 @@
+ai:
+    platform:
+        openai:
+            api_key: '%env(TESTCHAT_OPENAI_API_KEY)%'
+            http_client: chat.llm.http_client
+        anthropic:
+            api_key: '%env(TESTCHAT_ANTHROPIC_API_KEY)%'
+            http_client: chat.llm.http_client
+        mistral:
+            api_key: '%env(TESTCHAT_MISTRAL_API_KEY)%'
+            http_client: chat.llm.http_client
+        generic:
+            # No Qwen bridge in Symfony AI: DashScope's OpenAI-compatible endpoint.
+            qwen:
+                # WITHOUT /v1: the generic bridge appends /v1/chat/completions.
+                base_url: '%env(TESTCHAT_QWEN_BASE_URL)%'
+                api_key: '%env(TESTCHAT_QWEN_API_KEY)%'
+                http_client: chat.llm.http_client
+                # Any model DashScope lists: the generic bridge has no catalog of its own.
+                model_catalog: Symfony\AI\Platform\Bridge\Generic\FallbackModelCatalog
+                supports_embeddings: false
+
+services:
+    # Calls are not streamed (token usage is only reported without streaming) and
+    # carry ~170 tool schemas for an admin: a full answer can take minutes.
+    chat.llm.http_client:
+        class: Symfony\Contracts\HttpClient\HttpClientInterface
+        factory: ['@http_client', 'withOptions']
+        arguments:
+            - { timeout: 120, max_duration: 300 }

@@ -1,0 +1,5 @@
+# Where the identity provider sends the user back after they consented to the offline access.
+mcp_tasks_authorize_callback:
+    path: /tasks/authorize/callback
+    methods: [GET]
+    controller: emagma_mcp_tasks.controller.authorize

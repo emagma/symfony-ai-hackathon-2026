@@ -1,0 +1,58 @@
+{
+    "name": "emagma/mcp-sylius-v2-bundle",
+    "type": "symfony-bundle",
+    "description": "Sylius 2.x for emagma/mcp-sylius-bundle: the line that serves the Admin API of Sylius 2.0 to 2.3.",
+    "keywords": [
+        "mcp",
+        "sylius",
+        "sylius-2",
+        "symfony-bundle"
+    ],
+    "homepage": "https://github.com/emagma/mcp-sylius-v2-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emagma",
+            "homepage": "https://www.emagma.fr"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/emagma/mcp-sylius-v2-bundle/issues",
+        "source": "https://github.com/emagma/mcp-sylius-v2-bundle"
+    },
+    "require": {
+        "php": ">=8.4",
+        "emagma/mcp-sylius-bundle": "^0.1",
+        "symfony/dependency-injection": "^7.4 || ^8.1",
+        "symfony/http-kernel": "^7.4 || ^8.1"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^10.5.45",
+        "sylius-labs/coding-standard": "^4.5",
+        "symfony/filesystem": "^7.4 || ^8.1",
+        "symfony/framework-bundle": "^7.4 || ^8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emagma\\McpSyliusV2Bundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emagma\\McpSyliusV2Bundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": false
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.2.x-dev"
+        }
+    }
+}

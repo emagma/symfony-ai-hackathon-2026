@@ -1,0 +1,38 @@
+{# One address: display, or its form. #}
+<h1>{{ data.subject }}</h1>
+<p class="sub">Changing it here does not change the customer's other addresses, nor the taxes and shipping of an order.</p>
+
+{% if mode == 'form' and not data.locked %}
+    <form data-screen-form novalidate>
+        {% for name, field in data.fields %}
+            <label class="field">
+                <span>{{ field.label }}{{ field.required ? ' *' }}</span>
+                <span>
+                    <input name="{{ name }}" value="{{ typed[name] ?? field.value }}"{{ field.required ? ' required' }}{{ errors[name] is defined ? ' aria-invalid="true"' }}>
+                    {% if errors[name] is defined %}<span class="error">{{ errors[name] }}</span>{% endif %}
+                </span>
+            </label>
+        {% endfor %}
+        <div class="actions">
+            <button class="primary" type="submit">Save</button>
+            <button type="button" data-screen-mode="display">Cancel</button>
+        </div>
+    </form>
+{% else %}
+    <table>
+        <tbody>
+        {% for field in data.fields %}
+            <tr><th scope="row">{{ field.label }}</th><td>{{ field.value ?: '-' }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="actions">
+        {% if data.locked %}
+            <span class="muted">{{ data.locked }}</span>
+        {% elseif can_edit and data.addressId %}
+            <button class="primary" type="button" data-screen-mode="form">Edit this address</button>
+        {% else %}
+            <span class="muted">Read only: you are not allowed to change addresses.</span>
+        {% endif %}
+    </div>
+{% endif %}

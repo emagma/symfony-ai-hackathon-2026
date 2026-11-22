@@ -1,0 +1,17 @@
+{# The stock banner's landmark and hidden title around the CMS block. #}
+{#
+ The CMS plugin renders the media with Bootstrap's img-fluid (max-width: 100%),
+ which never scales an image up: on a screen wider than the file (1920 px), the
+ banner stopped short of the right edge. Full width, whatever the file's size.
+#}
+<style>
+    .homepage-hero-banner img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+</style>
+<div class="homepage-hero-banner mb-6" role="banner" aria-label="{{ 'sylius.ui.home'|trans }}">
+    <h1 class="visually-hidden">{{ sylius.channel.name }}</h1>
+    {{ sylius_cms_render_block(hookable_metadata.configuration.block_code) }}
+</div>

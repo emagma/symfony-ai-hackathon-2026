@@ -1,0 +1,25 @@
+# The homepage shows the two CMS blocks of the fixtures (sylius_fixtures.yaml)
+# instead of the stock banner and product lists, so that what the MCP's CMS
+# tools change on them shows on the shop. A block disabled, or not in the
+# current channel, renders nothing.
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.homepage.index':
+            banner:
+                enabled: false
+            latest_deals:
+                enabled: false
+            new_collection:
+                enabled: false
+            latest_products:
+                enabled: false
+            cms_hero_banner:
+                template: 'homepage/hero_banner.html.twig'
+                configuration:
+                    block_code: 'homepage_hero_banner'
+                priority: 300
+            cms_featured_products:
+                template: 'homepage/cms_block.html.twig'
+                configuration:
+                    block_code: 'homepage_featured_products'
+                priority: 200

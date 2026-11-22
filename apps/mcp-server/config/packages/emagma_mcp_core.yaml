@@ -1,0 +1,22 @@
+emagma_mcp_core:
+    server: sylius
+    write_confirmation:
+        # Clients without elicitation whose own UI asks the human: claude.ai,
+        # ChatGPT, Claude Code in a cloud session (packages/mcp-core-bundle/docs/developer-guide.md).
+        trusted_clients: ['Anthropic/ClaudeAI', 'openai-mcp', 'claude-code']
+        auto_cancel_threshold: 2.0
+    redaction:
+        # What the audit already holds: changing it orphans older entries.
+        marker: '__REDACTED_BY_SYLIUS_ASSISTANT__'
+
+when@dev:
+    emagma_mcp_core:
+        privacy:
+            clients:
+                mcp-testchat: off
+
+when@test:
+    emagma_mcp_core:
+        write_confirmation:
+            # tests/Qa initialize as this client and apply with `confirm: true`.
+            trusted_clients: ['Anthropic/ClaudeAI', 'sylius-assistant-qa']

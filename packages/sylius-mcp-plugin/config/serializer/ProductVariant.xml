@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:product_variant:lean` group - minimal projection for
+  list_product_variants. The vendor `sylius:admin:product_variant:index` group
+  also carries optionValues, channelPricings, dimensions and timestamps, which
+  makes a page of variants an order of magnitude heavier than the LLM needs.
+
+  `product` and `onHand` are kept on purpose: the collection is flat, so the
+  owning product has to be readable from the item itself, and stock is the
+  single most asked-for number on a variant list. get_product_variant resolves
+  everything else on demand.
+
+  Mapping is additive - this coexists with the vendor groups and changes
+  nothing for the admin UI or third-party API consumers.
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Core\Model\ProductVariant">
+        <attribute name="code">
+            <group>mcp:product_variant:lean</group>
+        </attribute>
+        <attribute name="translations">
+            <group>mcp:product_variant:lean</group>
+        </attribute>
+        <attribute name="product">
+            <group>mcp:product_variant:lean</group>
+        </attribute>
+        <attribute name="enabled">
+            <group>mcp:product_variant:lean</group>
+        </attribute>
+        <attribute name="onHand">
+            <group>mcp:product_variant:lean</group>
+        </attribute>
+    </class>
+
+    <class name="Sylius\Component\Product\Model\ProductVariantTranslation">
+        <attribute name="name">
+            <group>mcp:product_variant:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

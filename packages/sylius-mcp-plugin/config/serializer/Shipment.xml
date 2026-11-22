@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:shipment:lean` group - projection for list_shipments and
+  list_order_shipments.
+
+  `units` is left out: it is one row per shipped unit, duplicating what
+  list_order_items already returns. get_shipment opts out of lean mode and
+  reports their count.
+
+  Mapping is additive - the admin UI and third-party API consumers still get
+  the full payload.
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Core\Model\Shipment">
+        <attribute name="id">
+            <group>mcp:shipment:lean</group>
+        </attribute>
+        <attribute name="state">
+            <group>mcp:shipment:lean</group>
+        </attribute>
+        <attribute name="method">
+            <group>mcp:shipment:lean</group>
+        </attribute>
+        <attribute name="tracking">
+            <group>mcp:shipment:lean</group>
+        </attribute>
+        <attribute name="shippedAt">
+            <group>mcp:shipment:lean</group>
+        </attribute>
+        <attribute name="order">
+            <group>mcp:shipment:lean</group>
+        </attribute>
+        <attribute name="createdAt">
+            <group>mcp:shipment:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

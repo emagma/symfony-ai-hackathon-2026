@@ -1,0 +1,1455 @@
+{
+  "realm": "sylius",
+  "enabled": true,
+  "sslRequired": "none",
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "registrationAllowed": false,
+  "rememberMe": false,
+  "bruteForceProtected": true,
+  "accessTokenLifespan": 300,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 36000,
+  "revokeRefreshToken": true,
+  "refreshTokenMaxReuse": 0,
+  "roles": {
+    "realm": [
+      {
+        "name": "sylius-admin",
+        "description": "Full Sylius admin: every MCP grant on catalogue, configuration, marketing, sales, customers, audit, assistant, knowledge, screens, skills, hackathon",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "catalogue-write",
+            "catalogue-delete",
+            "configuration-write",
+            "configuration-delete",
+            "marketing-write",
+            "marketing-delete",
+            "sales-write",
+            "customers-write",
+            "customers-delete",
+            "audit-write",
+            "assistant-write",
+            "audit-all-write",
+            "audit-all-delete",
+            "catalogue-read",
+            "configuration-read",
+            "marketing-read",
+            "sales-read",
+            "customers-read",
+            "audit-read",
+            "assistant-read",
+            "knowledge-read",
+            "screens-read",
+            "skills-read",
+            "hackathon-read",
+            "audit-all-read",
+            "mcp:core:pii:reveal"
+          ]
+        }
+      },
+      {
+        "name": "sylius-mcp-reader",
+        "description": "MCP read-only on catalogue, configuration, marketing, sales, customers, audit, assistant, knowledge, screens, skills, hackathon",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "catalogue-read",
+            "configuration-read",
+            "marketing-read",
+            "sales-read",
+            "customers-read",
+            "audit-read",
+            "assistant-read",
+            "knowledge-read",
+            "screens-read",
+            "skills-read",
+            "hackathon-read"
+          ]
+        }
+      },
+      {
+        "name": "mcp:sylius:address:read",
+        "description": "MCP grant: read on address (sylius)"
+      },
+      {
+        "name": "mcp:sylius:address:write",
+        "description": "MCP grant: write on address (sylius)"
+      },
+      {
+        "name": "mcp:sylius:administrator:delete",
+        "description": "MCP grant: delete on administrator (sylius)"
+      },
+      {
+        "name": "mcp:sylius:administrator:read",
+        "description": "MCP grant: read on administrator (sylius)"
+      },
+      {
+        "name": "mcp:sylius:administrator:write",
+        "description": "MCP grant: write on administrator (sylius)"
+      },
+      {
+        "name": "mcp:core:audit:read",
+        "description": "MCP grant: read on audit (core)"
+      },
+      {
+        "name": "mcp:core:audit:write",
+        "description": "MCP grant: write on audit (core)"
+      },
+      {
+        "name": "mcp:core:audit_all:delete",
+        "description": "MCP grant: delete on audit_all (core)"
+      },
+      {
+        "name": "mcp:core:audit_all:read",
+        "description": "MCP grant: read on audit_all (core)"
+      },
+      {
+        "name": "mcp:core:audit_all:write",
+        "description": "MCP grant: write on audit_all (core)"
+      },
+      {
+        "name": "mcp:core:demo:read",
+        "description": "MCP grant: read on demo (core)"
+      },
+      {
+        "name": "mcp:sylius:catalog_promotion:delete",
+        "description": "MCP grant: delete on catalog_promotion (sylius)"
+      },
+      {
+        "name": "mcp:sylius:catalog_promotion:read",
+        "description": "MCP grant: read on catalog_promotion (sylius)"
+      },
+      {
+        "name": "mcp:sylius:catalog_promotion:write",
+        "description": "MCP grant: write on catalog_promotion (sylius)"
+      },
+      {
+        "name": "mcp:sylius:channel:delete",
+        "description": "MCP grant: delete on channel (sylius)"
+      },
+      {
+        "name": "mcp:sylius:channel:read",
+        "description": "MCP grant: read on channel (sylius)"
+      },
+      {
+        "name": "mcp:sylius:channel:write",
+        "description": "MCP grant: write on channel (sylius)"
+      },
+      {
+        "name": "mcp:sylius:country:read",
+        "description": "MCP grant: read on country (sylius)"
+      },
+      {
+        "name": "mcp:sylius:country:write",
+        "description": "MCP grant: write on country (sylius)"
+      },
+      {
+        "name": "mcp:sylius:currency:read",
+        "description": "MCP grant: read on currency (sylius)"
+      },
+      {
+        "name": "mcp:sylius:currency:write",
+        "description": "MCP grant: write on currency (sylius)"
+      },
+      {
+        "name": "mcp:sylius:customer:delete",
+        "description": "MCP grant: delete on customer (sylius)"
+      },
+      {
+        "name": "mcp:sylius:customer:read",
+        "description": "MCP grant: read on customer (sylius)"
+      },
+      {
+        "name": "mcp:sylius:customer:write",
+        "description": "MCP grant: write on customer (sylius)"
+      },
+      {
+        "name": "mcp:sylius:customer_group:delete",
+        "description": "MCP grant: delete on customer_group (sylius)"
+      },
+      {
+        "name": "mcp:sylius:customer_group:read",
+        "description": "MCP grant: read on customer_group (sylius)"
+      },
+      {
+        "name": "mcp:sylius:customer_group:write",
+        "description": "MCP grant: write on customer_group (sylius)"
+      },
+      {
+        "name": "mcp:sylius:exchange_rate:delete",
+        "description": "MCP grant: delete on exchange_rate (sylius)"
+      },
+      {
+        "name": "mcp:sylius:exchange_rate:read",
+        "description": "MCP grant: read on exchange_rate (sylius)"
+      },
+      {
+        "name": "mcp:sylius:exchange_rate:write",
+        "description": "MCP grant: write on exchange_rate (sylius)"
+      },
+      {
+        "name": "mcp:sylius:locale:delete",
+        "description": "MCP grant: delete on locale (sylius)"
+      },
+      {
+        "name": "mcp:sylius:locale:read",
+        "description": "MCP grant: read on locale (sylius)"
+      },
+      {
+        "name": "mcp:sylius:locale:write",
+        "description": "MCP grant: write on locale (sylius)"
+      },
+      {
+        "name": "mcp:sylius:order:read",
+        "description": "MCP grant: read on order (sylius)"
+      },
+      {
+        "name": "mcp:sylius:order:write",
+        "description": "MCP grant: write on order (sylius)"
+      },
+      {
+        "name": "mcp:sylius:payment:read",
+        "description": "MCP grant: read on payment (sylius)"
+      },
+      {
+        "name": "mcp:sylius:payment:write",
+        "description": "MCP grant: write on payment (sylius)"
+      },
+      {
+        "name": "mcp:sylius:payment_method:delete",
+        "description": "MCP grant: delete on payment_method (sylius)"
+      },
+      {
+        "name": "mcp:sylius:payment_method:read",
+        "description": "MCP grant: read on payment_method (sylius)"
+      },
+      {
+        "name": "mcp:sylius:payment_method:write",
+        "description": "MCP grant: write on payment_method (sylius)"
+      },
+      {
+        "name": "mcp:core:agent_report:read",
+        "description": "MCP grant: read on agent_report (core)"
+      },
+      {
+        "name": "mcp:core:guideline:read",
+        "description": "MCP grant: read on guideline (core)"
+      },
+      {
+        "name": "mcp:core:llm:read",
+        "description": "MCP grant: read on llm (core)"
+      },
+      {
+        "name": "mcp:core:task:read",
+        "description": "MCP grant: read on task (core)"
+      },
+      {
+        "name": "mcp:core:task:write",
+        "description": "MCP grant: write on task (core)"
+      },
+      {
+        "name": "mcp:core:pii:reveal",
+        "description": "MCP grant: reveal on pii (core)"
+      },
+      {
+        "name": "mcp:core:screen:read",
+        "description": "MCP grant: read on screen (core)"
+      },
+      {
+        "name": "mcp:core:skill:read",
+        "description": "MCP grant: read on skill (core)"
+      },
+      {
+        "name": "mcp:knowledge:document:read",
+        "description": "MCP grant: read on document (knowledge)"
+      },
+      {
+        "name": "mcp:sylius:product:delete",
+        "description": "MCP grant: delete on product (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product:read",
+        "description": "MCP grant: read on product (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product:write",
+        "description": "MCP grant: write on product (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_association:delete",
+        "description": "MCP grant: delete on product_association (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_association:read",
+        "description": "MCP grant: read on product_association (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_association:write",
+        "description": "MCP grant: write on product_association (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_association_type:delete",
+        "description": "MCP grant: delete on product_association_type (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_association_type:read",
+        "description": "MCP grant: read on product_association_type (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_association_type:write",
+        "description": "MCP grant: write on product_association_type (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_attribute:delete",
+        "description": "MCP grant: delete on product_attribute (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_attribute:read",
+        "description": "MCP grant: read on product_attribute (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_attribute:write",
+        "description": "MCP grant: write on product_attribute (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_image:delete",
+        "description": "MCP grant: delete on product_image (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_image:read",
+        "description": "MCP grant: read on product_image (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_image:write",
+        "description": "MCP grant: write on product_image (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_option:delete",
+        "description": "MCP grant: delete on product_option (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_option:read",
+        "description": "MCP grant: read on product_option (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_option:write",
+        "description": "MCP grant: write on product_option (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_review:delete",
+        "description": "MCP grant: delete on product_review (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_review:read",
+        "description": "MCP grant: read on product_review (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_review:write",
+        "description": "MCP grant: write on product_review (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_variant:delete",
+        "description": "MCP grant: delete on product_variant (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_variant:read",
+        "description": "MCP grant: read on product_variant (sylius)"
+      },
+      {
+        "name": "mcp:sylius:product_variant:write",
+        "description": "MCP grant: write on product_variant (sylius)"
+      },
+      {
+        "name": "mcp:sylius:promotion:delete",
+        "description": "MCP grant: delete on promotion (sylius)"
+      },
+      {
+        "name": "mcp:sylius:promotion:read",
+        "description": "MCP grant: read on promotion (sylius)"
+      },
+      {
+        "name": "mcp:sylius:promotion:write",
+        "description": "MCP grant: write on promotion (sylius)"
+      },
+      {
+        "name": "mcp:sylius:province:read",
+        "description": "MCP grant: read on province (sylius)"
+      },
+      {
+        "name": "mcp:sylius:province:write",
+        "description": "MCP grant: write on province (sylius)"
+      },
+      {
+        "name": "mcp:sylius:shipment:read",
+        "description": "MCP grant: read on shipment (sylius)"
+      },
+      {
+        "name": "mcp:sylius:shipment:write",
+        "description": "MCP grant: write on shipment (sylius)"
+      },
+      {
+        "name": "mcp:sylius:shipping_category:delete",
+        "description": "MCP grant: delete on shipping_category (sylius)"
+      },
+      {
+        "name": "mcp:sylius:shipping_category:read",
+        "description": "MCP grant: read on shipping_category (sylius)"
+      },
+      {
+        "name": "mcp:sylius:shipping_category:write",
+        "description": "MCP grant: write on shipping_category (sylius)"
+      },
+      {
+        "name": "mcp:sylius:shipping_method:delete",
+        "description": "MCP grant: delete on shipping_method (sylius)"
+      },
+      {
+        "name": "mcp:sylius:shipping_method:read",
+        "description": "MCP grant: read on shipping_method (sylius)"
+      },
+      {
+        "name": "mcp:sylius:shipping_method:write",
+        "description": "MCP grant: write on shipping_method (sylius)"
+      },
+      {
+        "name": "mcp:sylius:tax_category:delete",
+        "description": "MCP grant: delete on tax_category (sylius)"
+      },
+      {
+        "name": "mcp:sylius:tax_category:read",
+        "description": "MCP grant: read on tax_category (sylius)"
+      },
+      {
+        "name": "mcp:sylius:tax_category:write",
+        "description": "MCP grant: write on tax_category (sylius)"
+      },
+      {
+        "name": "mcp:sylius:tax_rate:delete",
+        "description": "MCP grant: delete on tax_rate (sylius)"
+      },
+      {
+        "name": "mcp:sylius:tax_rate:read",
+        "description": "MCP grant: read on tax_rate (sylius)"
+      },
+      {
+        "name": "mcp:sylius:tax_rate:write",
+        "description": "MCP grant: write on tax_rate (sylius)"
+      },
+      {
+        "name": "mcp:sylius:taxon:delete",
+        "description": "MCP grant: delete on taxon (sylius)"
+      },
+      {
+        "name": "mcp:sylius:taxon:read",
+        "description": "MCP grant: read on taxon (sylius)"
+      },
+      {
+        "name": "mcp:sylius:taxon:write",
+        "description": "MCP grant: write on taxon (sylius)"
+      },
+      {
+        "name": "mcp:sylius:taxon_image:delete",
+        "description": "MCP grant: delete on taxon_image (sylius)"
+      },
+      {
+        "name": "mcp:sylius:taxon_image:read",
+        "description": "MCP grant: read on taxon_image (sylius)"
+      },
+      {
+        "name": "mcp:sylius:taxon_image:write",
+        "description": "MCP grant: write on taxon_image (sylius)"
+      },
+      {
+        "name": "mcp:sylius:zone:delete",
+        "description": "MCP grant: delete on zone (sylius)"
+      },
+      {
+        "name": "mcp:sylius:zone:read",
+        "description": "MCP grant: read on zone (sylius)"
+      },
+      {
+        "name": "mcp:sylius:zone:write",
+        "description": "MCP grant: write on zone (sylius)"
+      },
+      {
+        "name": "catalogue-read",
+        "description": "Theme: catalogue read tools",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:product:read",
+            "mcp:sylius:product_association:read",
+            "mcp:sylius:product_association_type:read",
+            "mcp:sylius:product_attribute:read",
+            "mcp:sylius:product_image:read",
+            "mcp:sylius:product_option:read",
+            "mcp:sylius:product_review:read",
+            "mcp:sylius:product_variant:read",
+            "mcp:sylius:taxon:read",
+            "mcp:sylius:taxon_image:read"
+          ]
+        }
+      },
+      {
+        "name": "catalogue-write",
+        "description": "Theme: catalogue write tools (write implies read, NOT delete)",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:product:write",
+            "mcp:sylius:product_association:write",
+            "mcp:sylius:product_association_type:write",
+            "mcp:sylius:product_attribute:write",
+            "mcp:sylius:product_image:write",
+            "mcp:sylius:product_option:write",
+            "mcp:sylius:product_review:write",
+            "mcp:sylius:product_variant:write",
+            "mcp:sylius:taxon:write",
+            "mcp:sylius:taxon_image:write"
+          ]
+        }
+      },
+      {
+        "name": "catalogue-delete",
+        "description": "Theme: catalogue delete tools (delete implies read, NOT write)",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:product:delete",
+            "mcp:sylius:product_association:delete",
+            "mcp:sylius:product_association_type:delete",
+            "mcp:sylius:product_attribute:delete",
+            "mcp:sylius:product_image:delete",
+            "mcp:sylius:product_option:delete",
+            "mcp:sylius:product_review:delete",
+            "mcp:sylius:product_variant:delete",
+            "mcp:sylius:taxon:delete",
+            "mcp:sylius:taxon_image:delete"
+          ]
+        }
+      },
+      {
+        "name": "configuration-read",
+        "description": "Theme: configuration read tools",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:channel:read",
+            "mcp:sylius:country:read",
+            "mcp:sylius:currency:read",
+            "mcp:sylius:exchange_rate:read",
+            "mcp:sylius:locale:read",
+            "mcp:sylius:payment_method:read",
+            "mcp:sylius:province:read",
+            "mcp:sylius:shipping_category:read",
+            "mcp:sylius:shipping_method:read",
+            "mcp:sylius:tax_category:read",
+            "mcp:sylius:tax_rate:read",
+            "mcp:sylius:zone:read"
+          ]
+        }
+      },
+      {
+        "name": "configuration-write",
+        "description": "Theme: configuration write tools (write implies read, NOT delete)",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:channel:write",
+            "mcp:sylius:country:write",
+            "mcp:sylius:currency:write",
+            "mcp:sylius:exchange_rate:write",
+            "mcp:sylius:locale:write",
+            "mcp:sylius:payment_method:write",
+            "mcp:sylius:province:write",
+            "mcp:sylius:shipping_category:write",
+            "mcp:sylius:shipping_method:write",
+            "mcp:sylius:tax_category:write",
+            "mcp:sylius:tax_rate:write",
+            "mcp:sylius:zone:write"
+          ]
+        }
+      },
+      {
+        "name": "configuration-delete",
+        "description": "Theme: configuration delete tools (delete implies read, NOT write)",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:channel:delete",
+            "mcp:sylius:exchange_rate:delete",
+            "mcp:sylius:locale:delete",
+            "mcp:sylius:payment_method:delete",
+            "mcp:sylius:shipping_category:delete",
+            "mcp:sylius:shipping_method:delete",
+            "mcp:sylius:tax_category:delete",
+            "mcp:sylius:tax_rate:delete",
+            "mcp:sylius:zone:delete"
+          ]
+        }
+      },
+      {
+        "name": "marketing-read",
+        "description": "Theme: marketing read tools",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:catalog_promotion:read",
+            "mcp:sylius:promotion:read"
+          ]
+        }
+      },
+      {
+        "name": "marketing-write",
+        "description": "Theme: marketing write tools (write implies read, NOT delete)",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:catalog_promotion:write",
+            "mcp:sylius:promotion:write"
+          ]
+        }
+      },
+      {
+        "name": "marketing-delete",
+        "description": "Theme: marketing delete tools (delete implies read, NOT write)",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:catalog_promotion:delete",
+            "mcp:sylius:promotion:delete"
+          ]
+        }
+      },
+      {
+        "name": "audit-read",
+        "description": "Theme: audit read tools",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:core:audit:read"
+          ]
+        }
+      },
+      {
+        "name": "audit-write",
+        "description": "Theme: audit write tools (write implies read, NOT delete)",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:core:audit:write"
+          ]
+        }
+      },
+      {
+        "name": "audit-all-read",
+        "description": "Theme: audit-all read tools",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:core:audit_all:read"
+          ]
+        }
+      },
+      {
+        "name": "audit-all-write",
+        "description": "Theme: audit-all write tools (write implies read, NOT delete)",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:core:audit_all:write"
+          ]
+        }
+      },
+      {
+        "name": "audit-all-delete",
+        "description": "Theme: audit-all delete tools (delete implies read, NOT write)",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:core:audit_all:delete"
+          ]
+        }
+      },
+      {
+        "name": "sales-read",
+        "description": "Theme: sales read tools",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:order:read",
+            "mcp:sylius:payment:read",
+            "mcp:sylius:shipment:read"
+          ]
+        }
+      },
+      {
+        "name": "sales-write",
+        "description": "Theme: sales write tools (write implies read, NOT delete)",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:order:write",
+            "mcp:sylius:payment:write",
+            "mcp:sylius:shipment:write"
+          ]
+        }
+      },
+      {
+        "name": "customers-read",
+        "description": "Theme: customers read tools",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:address:read",
+            "mcp:sylius:customer:read",
+            "mcp:sylius:customer_group:read"
+          ]
+        }
+      },
+      {
+        "name": "customers-write",
+        "description": "Theme: customers write tools (write implies read, NOT delete)",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:address:write",
+            "mcp:sylius:customer:write",
+            "mcp:sylius:customer_group:write"
+          ]
+        }
+      },
+      {
+        "name": "customers-delete",
+        "description": "Theme: customers delete tools (delete implies read, NOT write)",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:customer:delete",
+            "mcp:sylius:customer_group:delete"
+          ]
+        }
+      },
+      {
+        "name": "administration-read",
+        "description": "Theme: administration read tools",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:administrator:read"
+          ]
+        }
+      },
+      {
+        "name": "administration-write",
+        "description": "Theme: administration write tools (write implies read, NOT delete)",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:administrator:write"
+          ]
+        }
+      },
+      {
+        "name": "administration-delete",
+        "description": "Theme: administration delete tools (delete implies read, NOT write)",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:sylius:administrator:delete"
+          ]
+        }
+      },
+      {
+        "name": "assistant-read",
+        "description": "Theme: assistant read tools",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:core:agent_report:read",
+            "mcp:core:guideline:read",
+            "mcp:core:llm:read",
+            "mcp:core:task:read"
+          ]
+        }
+      },
+      {
+        "name": "assistant-write",
+        "description": "Theme: assistant write tools (write implies read, NOT delete)",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:core:task:write"
+          ]
+        }
+      },
+      {
+        "name": "knowledge-read",
+        "description": "Theme: knowledge read tools",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:knowledge:document:read"
+          ]
+        }
+      },
+      {
+        "name": "screens-read",
+        "description": "Theme: screens read tools",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:core:screen:read"
+          ]
+        }
+      },
+      {
+        "name": "skills-read",
+        "description": "Theme: skills read tools",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:core:skill:read"
+          ]
+        }
+      },
+      {
+        "name": "hackathon-read",
+        "description": "Theme: hackathon read tools",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "mcp:core:demo:read"
+          ]
+        }
+      }
+    ]
+  },
+  "groups": [
+    {
+      "name": "Administrators",
+      "realmRoles": [
+        "sylius-admin"
+      ]
+    },
+    {
+      "name": "MCP",
+      "subGroups": [
+        {
+          "name": "Catalog",
+          "subGroups": [
+            {
+              "name": "Readers",
+              "realmRoles": [
+                "catalogue-read"
+              ]
+            },
+            {
+              "name": "Managers",
+              "realmRoles": [
+                "catalogue-write",
+                "audit-write"
+              ],
+              "subGroups": [
+                {
+                  "name": "With Delete",
+                  "realmRoles": [
+                    "catalogue-delete"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Configuration",
+          "subGroups": [
+            {
+              "name": "Readers",
+              "realmRoles": [
+                "configuration-read"
+              ]
+            },
+            {
+              "name": "Managers",
+              "realmRoles": [
+                "configuration-write",
+                "audit-write"
+              ],
+              "subGroups": [
+                {
+                  "name": "With Delete",
+                  "realmRoles": [
+                    "configuration-delete"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Marketing",
+          "subGroups": [
+            {
+              "name": "Readers",
+              "realmRoles": [
+                "marketing-read"
+              ]
+            },
+            {
+              "name": "Managers",
+              "realmRoles": [
+                "marketing-write",
+                "audit-write"
+              ],
+              "subGroups": [
+                {
+                  "name": "With Delete",
+                  "realmRoles": [
+                    "marketing-delete"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Audit",
+          "subGroups": [
+            {
+              "name": "Readers",
+              "realmRoles": [
+                "audit-read"
+              ]
+            },
+            {
+              "name": "Managers",
+              "realmRoles": [
+                "audit-read",
+                "audit-all-read",
+                "audit-all-delete"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Sales",
+          "subGroups": [
+            {
+              "name": "Readers",
+              "realmRoles": [
+                "sales-read"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Customers",
+          "subGroups": [
+            {
+              "name": "Readers",
+              "realmRoles": [
+                "customers-read"
+              ]
+            },
+            {
+              "name": "Managers",
+              "realmRoles": [
+                "customers-write",
+                "audit-write"
+              ],
+              "subGroups": [
+                {
+                  "name": "With Delete",
+                  "realmRoles": [
+                    "customers-delete"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Administration",
+          "subGroups": [
+            {
+              "name": "Readers",
+              "realmRoles": [
+                "administration-read"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "mcp-llm",
+      "name": "MCP LLM connectors (Claude / ChatGPT)",
+      "enabled": true,
+      "fullScopeAllowed": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "consentRequired": true,
+      "redirectUris": [
+        "https://claude.ai/api/mcp/auth_callback",
+        "https://claude.com/api/mcp/auth_callback",
+        "https://chatgpt.com/connector_platform_oauth_redirect"
+      ],
+      "webOrigins": [],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "protocolMappers": [
+        {
+          "name": "mcp-server-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.custom.audience": "sylius-mcp",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ],
+      "optionalClientScopes": [
+        "offline_access"
+      ]
+    },
+    {
+      "clientId": "mcp-cli",
+      "name": "MCP local CLI (Claude Code) -- dev only",
+      "enabled": true,
+      "fullScopeAllowed": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "consentRequired": false,
+      "redirectUris": [
+        "http://localhost/callback",
+        "http://127.0.0.1/callback"
+      ],
+      "webOrigins": [],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "offline_access"
+      ],
+      "protocolMappers": [
+        {
+          "name": "mcp-server-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.custom.audience": "sylius-mcp",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ]
+    },
+    {
+      "clientId": "mcp-testchat",
+      "name": "MCP local test chat (apps/chat) -- dev only",
+      "enabled": true,
+      "fullScopeAllowed": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "consentRequired": false,
+      "redirectUris": [
+        "http://localhost:8090/oauth/callback",
+        "${CHAT_PUBLIC_URL:http://localhost:8090}/oauth/callback"
+      ],
+      "webOrigins": [],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:8090/##${CHAT_PUBLIC_URL:http://localhost:8090}/"
+      },
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "protocolMappers": [
+        {
+          "name": "mcp-server-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.custom.audience": "sylius-mcp",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ]
+    },
+    {
+      "clientId": "mcp-tasks",
+      "name": "MCP background tasks (the server acting for a user)",
+      "enabled": true,
+      "fullScopeAllowed": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "${MCP_TASKS_CLIENT_SECRET:mcp-tasks-dev-secret}",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "consentRequired": true,
+      "redirectUris": [
+        "http://localhost:8081/tasks/authorize/callback",
+        "${MCP_PUBLIC_URL:http://localhost:8081}/tasks/authorize/callback"
+      ],
+      "webOrigins": [],
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "offline_access"
+      ],
+      "protocolMappers": [
+        {
+          "name": "mcp-server-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.custom.audience": "sylius-mcp",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ]
+    },
+    {
+      "clientId": "dev-cli",
+      "name": "Dev CLI (password grant for test scripts ONLY)",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [],
+      "webOrigins": [],
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "protocolMappers": [
+        {
+          "name": "mcp-server-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.custom.audience": "sylius-mcp",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "admin@keycloak.test",
+      "firstName": "Sylius",
+      "lastName": "Administrator",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${DEMO_USERS_PASSWORD:admin}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-sylius"
+      ],
+      "groups": [
+        "/Administrators"
+      ]
+    },
+    {
+      "username": "catalog-reader",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "catalog-reader@keycloak.test",
+      "firstName": "Catalog",
+      "lastName": "Reader",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${DEMO_USERS_PASSWORD:catalog-reader}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-sylius"
+      ],
+      "groups": [
+        "/MCP/Catalog/Readers"
+      ]
+    },
+    {
+      "username": "catalog-manager",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "catalog-manager@keycloak.test",
+      "firstName": "Catalog",
+      "lastName": "Manager",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${DEMO_USERS_PASSWORD:catalog-manager}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-sylius"
+      ],
+      "groups": [
+        "/MCP/Catalog/Managers"
+      ]
+    },
+    {
+      "username": "catalog-admin",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "catalog-admin@keycloak.test",
+      "firstName": "Catalog",
+      "lastName": "Admin",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${DEMO_USERS_PASSWORD:catalog-admin}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-sylius"
+      ],
+      "groups": [
+        "/MCP/Catalog/Managers/With Delete"
+      ]
+    },
+    {
+      "username": "config-reader",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "config-reader@keycloak.test",
+      "firstName": "Config",
+      "lastName": "Reader",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${DEMO_USERS_PASSWORD:config-reader}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-sylius"
+      ],
+      "groups": [
+        "/MCP/Configuration/Readers"
+      ]
+    },
+    {
+      "username": "config-manager",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "config-manager@keycloak.test",
+      "firstName": "Config",
+      "lastName": "Manager",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${DEMO_USERS_PASSWORD:config-manager}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-sylius"
+      ],
+      "groups": [
+        "/MCP/Configuration/Managers"
+      ]
+    },
+    {
+      "username": "marketing-manager",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "marketing-manager@keycloak.test",
+      "firstName": "Marketing",
+      "lastName": "Manager",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${DEMO_USERS_PASSWORD:marketing-manager}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-sylius"
+      ],
+      "groups": [
+        "/MCP/Marketing/Managers"
+      ]
+    },
+    {
+      "username": "auditor",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "auditor@keycloak.test",
+      "firstName": "Audit",
+      "lastName": "Manager",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${DEMO_USERS_PASSWORD:auditor}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-sylius"
+      ],
+      "groups": [
+        "/MCP/Audit/Managers"
+      ]
+    },
+    {
+      "username": "sales-reader",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "sales-reader@keycloak.test",
+      "firstName": "Sales",
+      "lastName": "Reader",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${DEMO_USERS_PASSWORD:sales-reader}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-sylius"
+      ],
+      "groups": [
+        "/MCP/Sales/Readers"
+      ]
+    },
+    {
+      "username": "customer-reader",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "customer-reader@keycloak.test",
+      "firstName": "Customer",
+      "lastName": "Reader",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${DEMO_USERS_PASSWORD:customer-reader}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-sylius"
+      ],
+      "groups": [
+        "/MCP/Customers/Readers"
+      ]
+    },
+    {
+      "username": "shop-reader",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "shop-reader@keycloak.test",
+      "firstName": "Shop",
+      "lastName": "Reader",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${DEMO_USERS_PASSWORD:shop-reader}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "sylius-mcp-reader",
+        "default-roles-sylius"
+      ]
+    },
+    {
+      "username": "product-reader",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "product-reader@keycloak.test",
+      "firstName": "Product",
+      "lastName": "Reader",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${DEMO_USERS_PASSWORD:product-reader}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "mcp:sylius:product:read",
+        "default-roles-sylius"
+      ]
+    },
+    {
+      "username": "noaccess",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "noaccess@keycloak.test",
+      "firstName": "No",
+      "lastName": "Access",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${DEMO_USERS_PASSWORD:noaccess}",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-sylius"
+      ]
+    }
+  ]
+}

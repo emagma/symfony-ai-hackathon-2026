@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:channel:lean` group - exposed to list_channels via Prefer: respond-for=lean.
+  Strips out shopBillingData, menuTaxon, channelPriceHistoryConfig, theme details,
+  and the heavy IRI collections (currencies / locales / countries / taxZones).
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Core\Model\Channel">
+        <attribute name="code">
+            <group>mcp:channel:lean</group>
+        </attribute>
+        <attribute name="name">
+            <group>mcp:channel:lean</group>
+        </attribute>
+        <attribute name="enabled">
+            <group>mcp:channel:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

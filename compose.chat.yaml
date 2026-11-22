@@ -1,0 +1,35 @@
+# Chat overlay - the local multi-LLM test chat of apps/chat (see apps/chat/README.md).
+#
+# A separate Symfony app with its own vendor/: an MCP *client* (symfony/mcp-bundle
+# ^0.15) of the MCP server, kept out of the server's composer root on purpose.
+# It reaches the MCP server and Keycloak over the compose network, exactly as a
+# remote MCP client would. UI: http://localhost:8090
+
+services:
+    chat:
+        image: ${DOCKER_REGISTRY}/php:${PROJECT_ENV:-dev}
+        hostname: chat
+        user: "${PROJECT_USER_ID:-1000}:${PROJECT_GROUP_ID:-1000}"
+        command: ["--config", "/srv/app/apps/chat/docker/Caddyfile", "--adapter", "caddyfile"]
+        working_dir: /srv/app/apps/chat
+        depends_on:
+            mcp-server:
+                condition: service_healthy
+            keycloak:
+                condition: service_started
+        environment:
+            APP_ENV: dev
+            APP_DEBUG: 1
+            TESTCHAT_PUBLIC_URL: http://localhost:${CHAT_PORT:-8090}
+            TESTCHAT_MCP_URL: http://mcp-server/_mcp
+            TESTCHAT_OPENAI_API_KEY: ${TESTCHAT_OPENAI_API_KEY:-}
+            TESTCHAT_ANTHROPIC_API_KEY: ${TESTCHAT_ANTHROPIC_API_KEY:-}
+            TESTCHAT_MISTRAL_API_KEY: ${TESTCHAT_MISTRAL_API_KEY:-}
+            TESTCHAT_QWEN_API_KEY: ${TESTCHAT_QWEN_API_KEY:-}
+            TESTCHAT_QWEN_BASE_URL: ${TESTCHAT_QWEN_BASE_URL:-https://dashscope-intl.aliyuncs.com/compatible-mode}
+        volumes:
+            - .:/srv/app:rw,cached
+            - ./apps/chat/docker/php.ini:/usr/local/etc/php/app.conf.d/zz-chat.ini:ro
+            - ${COMPOSER_AUTH_JSON:-/dev/null}:/home/${PROJECT_USER:-app}/.composer/auth.json:ro
+        ports:
+            - "${CHAT_PORT:-8090}:8090"

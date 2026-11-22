@@ -1,0 +1,18 @@
+security:
+    firewalls:
+        dev:
+            pattern: ^/(_profiler|_wdt)/
+            security: false
+
+        mcp:
+            pattern: ^/_mcp
+            stateless: true
+            entry_point: Emagma\McpAuthBundle\McpAuthenticationEntryPoint
+            access_token:
+                token_handler: Emagma\McpAuthKeycloakBundle\KeycloakAccessTokenHandler
+
+        main:
+            security: false
+
+    access_control:
+        - { path: ^/_mcp, roles: IS_AUTHENTICATED_FULLY }

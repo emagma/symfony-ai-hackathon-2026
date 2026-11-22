@@ -1,0 +1,5 @@
+when@test:
+    emagma_mcp_auth_keycloak:
+        # The container's MCP_AUTH_AUDIENCE is a real variable (compose.dev.yaml): the suite's
+        # fake tokens are checked on their roles, the audience has its own unit tests.
+        audience: ''

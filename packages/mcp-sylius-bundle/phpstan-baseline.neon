@@ -1,0 +1,230 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Cannot call method getBodyAsString\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/AdminApi/AdminApiClient.php
+
+		-
+			message: '#^Cannot call method getName\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/AdminApi/AdminApiClient.php
+
+		-
+			message: '#^Cannot call method getStatusCode\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/AdminApi/AdminApiClient.php
+
+		-
+			message: '#^Method Emagma\\McpSyliusBundle\\AdminApi\\AdminApiClient\:\:dispatchBodyMany\(\) should return array\<array\{ok\: false, status\: int\|null, error\: string, body\: array\<string, mixed\>\|null\}\|array\{ok\: true, body\: array\<string, mixed\>\}\> but returns array\<array\{ok\: false, status\: mixed, error\: string, body\: array\<string, mixed\>\|null\}\|array\{ok\: true, body\: array\<string, mixed\>\}\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/AdminApi/AdminApiClient.php
+
+		-
+			message: '#^Method Emagma\\McpSyliusBundle\\AdminApi\\AdminApiClient\:\:dispatchDeleteMany\(\) should return array\<array\{ok\: false, status\: int\|null, error\: string, body\: array\<string, mixed\>\|null\}\|array\{ok\: true\}\> but returns array\<array\{ok\: false, status\: mixed, error\: string, body\: array\<string, mixed\>\|null\}\|array\{ok\: true\}\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/AdminApi/AdminApiClient.php
+
+		-
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 1
+			path: src/AdminApi/AdminApiClient.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/AdminApi/AdminApiRevertTarget.php
+
+		-
+			message: '#^Parameter \#1 \$a of static method Emagma\\McpSyliusBundle\\AdminApi\\AdminApiRevertTarget\:\:comparableKeys\(\) expects array\<string, mixed\>, array\<mixed\> given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/AdminApi/AdminApiRevertTarget.php
+
+		-
+			message: '#^Parameter \#2 \$b of static method Emagma\\McpSyliusBundle\\AdminApi\\AdminApiRevertTarget\:\:comparableKeys\(\) expects array\<string, mixed\>, array\<mixed\> given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/AdminApi/AdminApiRevertTarget.php
+
+		-
+			message: '#^Method Emagma\\McpSyliusBundle\\AdminApi\\AdminPayload\:\:members\(\) should return list\<array\<string, mixed\>\> but returns list\<array\<mixed, mixed\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/AdminApi/AdminPayload.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 2
+			path: src/AdminApi/ViolationExtractor.php
+
+		-
+			message: '#^Parameter \#1 \$payload of static method Emagma\\McpSyliusBundle\\AdminApi\\ViolationExtractor\:\:fromPayload\(\) expects array\<string, mixed\>\|null, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/AdminApi/ViolationExtractor.php
+
+		-
+			message: '#^Cannot cast mixed to float\.$#'
+			identifier: cast.double
+			count: 1
+			path: src/Command/AgentScenarioCommand.php
+
+		-
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
+			count: 3
+			path: src/Command/AgentScenarioCommand.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 2
+			path: src/Command/AgentScenarioCommand.php
+
+		-
+			message: '#^Parameter \#1 \$headers of method Emagma\\McpSyliusBundle\\Command\\AgentScenarioCommand\:\:extractInterestingHeaders\(\) expects array\<int\|string, list\<string\>\|string\>, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Command/AgentScenarioCommand.php
+
+		-
+			message: '#^Parameter \#1 \$traces of method Emagma\\McpSyliusBundle\\Command\\AgentScenarioCommand\:\:countJwtCalls\(\) expects iterable\<int, array\{method\: string, url\: string, options\: array\<string, mixed\>, info\: callable\(\)\: mixed, content\: callable\(\)\: mixed\}\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Command/AgentScenarioCommand.php
+
+		-
+			message: '#^Parameter \#1 \$traces of method Emagma\\McpSyliusBundle\\Command\\AgentScenarioCommand\:\:countJwtCalls\(\) expects iterable\<int, array\{method\: string, url\: string, options\: array\<string, mixed\>, info\: callable\(\)\: mixed, content\: callable\(\)\: mixed\}\>, list\<array\{method\: string, url\: string, options\: array\<string, mixed\>, info\: array\<string, mixed\>, content\: mixed\}\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Command/AgentScenarioCommand.php
+
+		-
+			message: '#^Parameter \#4 \$traces of method Emagma\\McpSyliusBundle\\Command\\AgentScenarioCommand\:\:dumpJson\(\) expects iterable\<int, array\{method\: string, url\: string, options\: array\<string, mixed\>, info\: array\<string, mixed\>, content\: mixed\}\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Command/AgentScenarioCommand.php
+
+		-
+			message: '#^Parameter \#4 \$traces of method Emagma\\McpSyliusBundle\\Command\\AgentScenarioCommand\:\:dumpMarkdown\(\) expects iterable\<int, array\{method\: string, url\: string, options\: array\<string, mixed\>, info\: array\<string, mixed\>, content\: mixed\}\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Command/AgentScenarioCommand.php
+
+		-
+			message: '#^Parameter \$choices of class Emagma\\McpSyliusBundle\\Output\\ProductAttribute\\ProductAttributeOutput constructor expects array\<string, mixed\>\|null, array\<mixed, mixed\>\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Output/ProductAttribute/ProductAttributeOutput.php
+
+		-
+			message: '#^Method Emagma\\McpSyliusBundle\\Output\\Promotion\\ConfiguredElements\:\:fromPayload\(\) should return list\<array\{type\: string\|null, configuration\: array\<string, mixed\>\}\> but returns list\<array\{type\: string\|null, configuration\: array\<mixed\>\}\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Output/Promotion/ConfiguredElements.php
+
+		-
+			message: '#^Parameter \$chargesPerChannel of class Emagma\\McpSyliusBundle\\Output\\ShippingMethod\\ShippingMethodOutput constructor expects array\<string, array\<string, mixed\>\>, array\<string, array\<mixed\>\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Output/ShippingMethod/ShippingMethodOutput.php
+
+		-
+			message: '#^Call to function is_array\(\) with array\<string, mixed\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Tool/Customer/SearchCustomers.php
+
+		-
+			message: '#^Call to function is_array\(\) with array\<string, mixed\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Tool/Payment/SearchPayments.php
+
+		-
+			message: '#^Parameter \#1 \$array \(list\<array\{code\: string, locale\: string, value\: mixed\}\>\) of array_values is already a list, call has no effect\.$#'
+			identifier: arrayValues.list
+			count: 1
+			path: src/Tool/Product/ProductUpdatePayloadBuilder.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Tool/Product/SearchProducts.php
+
+		-
+			message: '#^Parameter \#1 \$array \(non\-empty\-list\<string\>\) of array_values is already a list, call has no effect\.$#'
+			identifier: arrayValues.list
+			count: 1
+			path: src/Tool/Product/SearchProducts.php
+
+		-
+			message: '#^Parameter \#1 \$translations of method Emagma\\McpSyliusBundle\\Tool\\Product\\SearchProducts\:\:resolveName\(\) expects array\<string, array\<string, mixed\>\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Tool/Product/SearchProducts.php
+
+		-
+			message: '#^Call to function is_array\(\) with array\{productCode\?\: mixed, taxonCode\?\: mixed, operation\?\: mixed, position\?\: mixed\} will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Tool/Product/UpdateProductTaxons.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 2
+			path: src/Tool/Product/UpdateProductTaxons.php
+
+		-
+			message: '#^Method Emagma\\McpSyliusBundle\\Tool\\Product\\UpdateProductTaxons\:\:sequentialPost\(\) should return array\<int, array\{ok\: false, status\: int\|null, error\: string, body\: array\<string, mixed\>\|null\}\|array\{ok\: true, body\: array\<string, mixed\>\}\> but returns array\<int, array\{ok\: false, status\: int, error\: string, body\: array\}\|array\{ok\: false, status\: null, error\: string, body\: null\}\|array\{ok\: true, body\: array\<string, mixed\>\}\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Tool/Product/UpdateProductTaxons.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between false and false will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
+			count: 1
+			path: src/Tool/Product/UpdateProductTaxons.php
+
+		-
+			message: '#^Method Emagma\\McpSyliusBundle\\Tool\\ProductAttribute\\RemoveProductAttributeValue\:\:attributeEntries\(\) should return array\<int, array\<string, mixed\>\> but returns array\<int\<0, max\>, array\<mixed, mixed\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Tool/ProductAttribute/RemoveProductAttributeValue.php
+
+		-
+			message: '#^Method Emagma\\McpSyliusBundle\\Tool\\ProductAttribute\\SetProductAttributeValue\:\:attributeEntries\(\) should return array\<int, array\<string, mixed\>\> but returns array\<int\<0, max\>, array\<mixed, mixed\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Tool/ProductAttribute/SetProductAttributeValue.php
+
+		-
+			message: '#^Call to function is_array\(\) with array\<string, mixed\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Tool/ProductTaxon/SearchProductTaxons.php
+
+		-
+			message: '#^Call to function is_array\(\) with array\<string, mixed\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Tool/Shipment/SearchShipments.php
+
+		-
+			message: '#^Property Emagma\\McpSyliusBundle\\Output\\Shipment\\ShipmentOutput\:\:\$unitsCount \(int\) on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.property
+			count: 1
+			path: src/Tool/Shipment/ShipShipment.php
+

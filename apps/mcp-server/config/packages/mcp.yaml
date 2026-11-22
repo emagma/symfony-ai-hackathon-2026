@@ -1,0 +1,13 @@
+mcp:
+    servers:
+        sylius:
+            name: 'sylius-mcp-server'
+            version: '0.2.0'
+            description: 'Sylius admin MCP server (emagma/sylius-mcp-server)'
+            transports:
+                stdio: true
+                http: true
+            http:
+                path: /_mcp
+                # Public behind a proxy and bearer-only: see packages/mcp-auth-bundle/docs/developer-guide.md.
+                allowed_hosts: false

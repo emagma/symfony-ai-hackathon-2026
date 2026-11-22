@@ -1,0 +1,5 @@
+- A customer account is risky when its email address cannot be a person's durable address: a disposable address service, a domain that accepts no mail, a part before the @ that is obviously generated.
+- An address at a company or school domain is normal, whatever its shape.
+- A short or unusual address is not a risk by itself: many people have one.
+- Judge the address, never the person: a name, a country or a language is never a signal.
+- When the signals are weak or contradict each other, answer "low": a false alert costs the shop a customer's trust.

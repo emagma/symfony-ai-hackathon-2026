@@ -1,0 +1,10 @@
+# Two routes, one document: the root form the 401 advertises, the path-inserted form some clients derive from the resource URL.
+mcp_auth_protected_resource_metadata:
+    path: /.well-known/oauth-protected-resource
+    methods: [GET]
+    controller: Emagma\McpAuthBundle\Controller\OAuthMetadataController::protectedResource
+
+mcp_auth_protected_resource_metadata_for_resource:
+    path: '/.well-known/oauth-protected-resource%emagma_mcp_auth.resource_path%'
+    methods: [GET]
+    controller: Emagma\McpAuthBundle\Controller\OAuthMetadataController::protectedResource

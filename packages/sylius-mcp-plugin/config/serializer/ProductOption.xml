@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:product_option:lean` group - minimal projection for
+  list_product_options. The `values` IRI list and timestamps are kept out
+  of the lean payload; get_product_option resolves them on demand.
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Product\Model\ProductOption">
+        <attribute name="code">
+            <group>mcp:product_option:lean</group>
+        </attribute>
+        <attribute name="translations">
+            <group>mcp:product_option:lean</group>
+        </attribute>
+        <attribute name="position">
+            <group>mcp:product_option:lean</group>
+        </attribute>
+    </class>
+
+    <class name="Sylius\Component\Product\Model\ProductOptionTranslation">
+        <attribute name="name">
+            <group>mcp:product_option:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

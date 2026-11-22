@@ -1,0 +1,4 @@
+# One store every process shares, on the server's database (table lock_keys): the deduplication of the agents'
+# RunAgent and the lock of a pass of an agent (packages/mcp-agents-bundle) hold across the web server and the workers.
+framework:
+    lock: 'doctrine.dbal.default_connection'

@@ -1,0 +1,43 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Cannot access offset ''orderAggregate'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/ApiPlatform/Filter/CustomerOrderAggregateFilter.php
+
+		-
+			message: '#^Parameter \#3 \$value of method Emagma\\SyliusMcpPlugin\\ApiPlatform\\Filter\\CustomerOrderAggregateFilter\:\:applyBounds\(\) expects array\<string, mixed\>, array\<mixed, mixed\> given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/ApiPlatform/Filter/CustomerOrderAggregateFilter.php
+
+		-
+			message: '#^Method Emagma\\SyliusMcpPlugin\\ApiPlatform\\Filter\\ProductAttributeValueFilter\:\:__construct\(\) has parameter \$attributeRepository with generic interface Sylius\\Component\\Product\\Repository\\ProductAttributeRepositoryInterface but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: src/ApiPlatform/Filter/ProductAttributeValueFilter.php
+
+		-
+			message: '#^Parameter \#1 \$entries of method Emagma\\SyliusMcpPlugin\\ApiPlatform\\Filter\\ProductAttributeValueFilter\:\:applyEqualityFilters\(\) expects array\<string, mixed\>, array\<mixed, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/ApiPlatform/Filter/ProductAttributeValueFilter.php
+
+		-
+			message: '#^Parameter \#1 \$entries of method Emagma\\SyliusMcpPlugin\\ApiPlatform\\Filter\\ProductAttributeValueFilter\:\:applyRangeFilters\(\) expects array\<string, mixed\>, array\<mixed, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/ApiPlatform/Filter/ProductAttributeValueFilter.php
+
+		-
+			message: '#^Parameter \#1 \$string1 of function strcasecmp expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/EventListener/LeanVaryListener.php
+
+		-
+			message: '#^Parameter \#1 \$translations of static method Emagma\\SyliusMcpPlugin\\ApiPlatform\\Serializer\\LeanTranslationTrimNormalizer\:\:trim\(\) expects array\<string, mixed\>, array\<mixed, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/ApiPlatform/Serializer/LeanTranslationTrimNormalizer.php

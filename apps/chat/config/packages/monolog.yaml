@@ -1,0 +1,8 @@
+monolog:
+    handlers:
+        main:
+            type: stream
+            path: 'php://stderr'
+            level: info
+            # The vendor deprecations of a mixed 7.4/8.x component set are noise here.
+            channels: ['!php']

@@ -1,0 +1,64 @@
+{# The variants of a product: display, or the form of their prices and stocks in one channel. #}
+<h1>Variants of {{ data.productCode }}</h1>
+<p class="sub">
+    Prices in {{ data.currency ?? 'the channel currency' }},
+    {% if data.channelCodes|length > 1 and mode == 'display' %}
+        <select data-screen-param="channelCode" aria-label="Channel">
+            {% for code in data.channelCodes %}
+                <option value="{{ code }}"{{ code == data.channelCode ? ' selected' }}>{{ code }}</option>
+            {% endfor %}
+        </select>
+    {% else %}
+        channel {{ data.channelCode }}
+    {% endif %}
+</p>
+
+{% if mode == 'form' %}<form data-screen-form novalidate>{% endif %}
+<table>
+    <thead>
+        <tr><th>Variant</th><th class="num">Price</th><th class="num">In stock</th><th class="num">On hold</th></tr>
+    </thead>
+    <tbody>
+    {% for variant in data.variants %}
+        {% set price_field = 'price_' ~ loop.index0 %}
+        {% set stock_field = 'stock_' ~ loop.index0 %}
+        <tr>
+            <td>{{ variant.name ?: variant.code }}<br><span class="muted">{{ variant.code }}</span></td>
+            <td class="num">
+                {% if mode == 'form' %}
+                    <input class="num" name="{{ price_field }}" inputmode="decimal" aria-label="Price of {{ variant.code }}"
+                           value="{{ typed[price_field] ?? variant.price }}"{{ errors[price_field] is defined ? ' aria-invalid="true"' }}>
+                    {% if errors[price_field] is defined %}<div class="error">{{ errors[price_field] }}</div>{% endif %}
+                {% else %}
+                    {{ variant.price ?? '-' }}
+                {% endif %}
+            </td>
+            <td class="num">
+                {% if not variant.tracked %}
+                    <span class="muted">not tracked</span>
+                {% elseif mode == 'form' %}
+                    <input class="num" name="{{ stock_field }}" inputmode="numeric" aria-label="Stock of {{ variant.code }}"
+                           value="{{ typed[stock_field] ?? variant.onHand }}"{{ errors[stock_field] is defined ? ' aria-invalid="true"' }}>
+                    {% if errors[stock_field] is defined %}<div class="error">{{ errors[stock_field] }}</div>{% endif %}
+                {% else %}
+                    {{ variant.onHand ?? '-' }}
+                {% endif %}
+            </td>
+            <td class="num">{{ variant.tracked ? (variant.onHold ?? 0) : '' }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% if data.more %}<p class="muted">Only the first {{ data.variants|length }} variants are shown.</p>{% endif %}
+
+<div class="actions">
+    {% if mode == 'form' %}
+        <button class="primary" type="submit">Save</button>
+        <button type="button" data-screen-mode="display">Cancel</button>
+    {% elseif can_edit %}
+        <button class="primary" type="button" data-screen-mode="form">Edit prices and stocks</button>
+    {% else %}
+        <span class="muted">Read only: you are not allowed to change variants.</span>
+    {% endif %}
+</div>
+{% if mode == 'form' %}</form>{% endif %}

@@ -1,0 +1,47 @@
+# The providers of the chat. Their models are listed live from their own API
+# (Catalog\ProviderModels); their prices come from Langfuse's model table
+# (Catalog\PriceBook) when the chat is given one.
+#
+# `default_model` is preselected until the user picks another (remembered by
+# the browser), as long as the provider still lists it.
+#
+# `cache_reporting` is how the provider reports cached prompt tokens:
+#   - inclusive: the cached tokens are PART of the prompt tokens (OpenAI, Mistral, Qwen);
+#   - separate:  the prompt tokens EXCLUDE cache reads and writes, reported apart (Anthropic).
+parameters:
+    # From the container environment (compose.chat.yaml ← docker/.env ←
+    # .project.local.ini); empty outside it.
+    env(TESTCHAT_OPENAI_API_KEY): ''
+    env(TESTCHAT_ANTHROPIC_API_KEY): ''
+    env(TESTCHAT_MISTRAL_API_KEY): ''
+    env(TESTCHAT_QWEN_API_KEY): ''
+    env(TESTCHAT_LANGFUSE_URL): ''
+    env(LANGFUSE_PROJECT_PUBLIC_KEY): ''
+    env(LANGFUSE_PROJECT_SECRET_KEY): ''
+
+    chat.providers:
+        openai:
+            label: OpenAI
+            platform: ai.platform.openai
+            api_key: '%env(TESTCHAT_OPENAI_API_KEY)%'
+            default_model: gpt-5.4-mini
+            cache_reporting: inclusive
+        anthropic:
+            label: Anthropic
+            platform: ai.platform.anthropic
+            api_key: '%env(TESTCHAT_ANTHROPIC_API_KEY)%'
+            default_model: claude-sonnet-4-6
+            cache_reporting: separate
+        mistral:
+            label: Mistral
+            platform: ai.platform.mistral
+            api_key: '%env(TESTCHAT_MISTRAL_API_KEY)%'
+            default_model: mistral-medium-latest
+            cache_reporting: inclusive
+        qwen:
+            label: Qwen (DashScope)
+            platform: ai.platform.generic.qwen
+            api_key: '%env(TESTCHAT_QWEN_API_KEY)%'
+            base_url: '%env(TESTCHAT_QWEN_BASE_URL)%'
+            default_model: qwen-plus
+            cache_reporting: inclusive

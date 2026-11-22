@@ -1,0 +1,59 @@
+{
+    "name": "emagma/sylius-mcp-chat",
+    "description": "Local multi-LLM test chat, do not use in production: an MCP client of the MCP server's /_mcp, driven by OpenAI, Anthropic, Mistral or Qwen.",
+    "type": "project",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.4",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "league/oauth2-client": "^2.8",
+        "nyholm/psr7": "^1.8",
+        "open-telemetry/exporter-otlp": "^1.4",
+        "open-telemetry/sdk": "^1.15",
+        "symfony/ai-agent": "^0.15",
+        "symfony/ai-anthropic-platform": "^0.15",
+        "symfony/ai-bundle": "^0.15",
+        "symfony/ai-generic-platform": "^0.15",
+        "symfony/ai-mcp-tool": "^0.15",
+        "symfony/ai-mistral-platform": "^0.15",
+        "symfony/ai-open-ai-platform": "^0.15",
+        "symfony/ai-platform": "^0.15",
+        "symfony/cache": "^7.4",
+        "symfony/console": "^7.4",
+        "symfony/dotenv": "^7.4",
+        "symfony/framework-bundle": "^7.4",
+        "symfony/http-client": "^7.4",
+        "symfony/lock": "^7.4",
+        "symfony/mcp-bundle": "^0.15",
+        "symfony/monolog-bundle": "^3.10",
+        "symfony/runtime": "^7.4",
+        "symfony/twig-bundle": "^7.4",
+        "symfony/uid": "^7.4",
+        "symfony/yaml": "^7.4"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true,
+            "symfony/runtime": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Emagma\\SyliusAssistantTestChat\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emagma\\SyliusAssistantTestChat\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.5",
+        "symfony/browser-kit": "^7.4"
+    }
+}

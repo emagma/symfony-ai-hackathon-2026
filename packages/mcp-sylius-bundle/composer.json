@@ -1,0 +1,73 @@
+{
+    "name": "emagma/mcp-sylius-bundle",
+    "type": "symfony-bundle",
+    "description": "A Sylius shop as the backend of an MCP server built on emagma/mcp-core-bundle: the Admin API client, the tools over the catalog, orders, customers, promotions and configuration, and the gates for what a shop cannot serve. The Sylius line it talks to is a bundle of its own (emagma/mcp-sylius-v2-bundle for 2.x).",
+    "keywords": [
+        "mcp",
+        "sylius",
+        "symfony-bundle"
+    ],
+    "homepage": "https://github.com/emagma/mcp-sylius-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emagma",
+            "homepage": "https://www.emagma.fr"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/emagma/mcp-sylius-bundle/issues",
+        "source": "https://github.com/emagma/mcp-sylius-bundle"
+    },
+    "require": {
+        "php": ">=8.4",
+        "emagma/mcp-core-bundle": "^0.1",
+        "ext-fileinfo": "*",
+        "mcp/sdk": "^0.9",
+        "psr/cache": "^3.0",
+        "psr/log": "^2.0 || ^3.0",
+        "symfony/config": "^7.4 || ^8.1",
+        "symfony/console": "^7.4 || ^8.1",
+        "symfony/dependency-injection": "^7.4 || ^8.1",
+        "symfony/finder": "^7.4 || ^8.1",
+        "symfony/http-client": "^7.4 || ^8.1",
+        "symfony/http-client-contracts": "^3.5",
+        "symfony/http-kernel": "^7.4 || ^8.1",
+        "symfony/mcp-bundle": "^0.15",
+        "symfony/mime": "^7.4 || ^8.1",
+        "symfony/uid": "^7.4 || ^8.1"
+    },
+    "suggest": {
+        "emagma/mcp-sylius-v2-bundle": "To talk to a Sylius 2.x shop",
+        "phpunit/phpunit": "To extend the test cases of src/Testing (McpToolTestCase and the conformance test cases) in the suite of a bundle that brings tools"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emagma\\McpSyliusBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emagma\\McpSyliusBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": false
+        },
+        "sort-packages": true
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^10.5.45",
+        "sylius-labs/coding-standard": "^4.5",
+        "symfony/filesystem": "^7.4 || ^8.1",
+        "symfony/framework-bundle": "^7.4 || ^8.1"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.2.x-dev"
+        }
+    }
+}

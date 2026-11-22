@@ -1,0 +1,29 @@
+# Build context = the repository root (docker/php/Dockerfile, every stage).
+# Keep the context small and, above all, keep every secret out of the image
+# layers: the resolved INI and docker/.env hold real API keys.
+.git
+.idea
+.castor/.env
+.project.local.ini
+docker/.env
+
+# Dependencies and runtime state: the dev stage bind-mounts the tree.
+apps/*/vendor
+apps/*/node_modules
+apps/*/var
+apps/*/public/build
+apps/*/public/bundles
+apps/*/public/media
+apps/*/public/assets
+apps/*/.env.local
+apps/*/.env.*.local
+apps/*/.phpunit.cache
+apps/*/.phpunit.result.cache
+packages/*/vendor
+packages/*/.phpunit.cache
+
+# Runtime-generated keys live on volumes, never in the image.
+apps/shop/config/jwt/*.pem
+!apps/shop/config/jwt/*-test.pem
+
+docs

@@ -1,0 +1,26 @@
+framework:
+    secret: '%env(APP_SECRET)%'
+    session: false
+
+    # The 401 challenge and the RFC 9728 `resource` are built from X-Forwarded-*.
+    trusted_proxies: '%env(TRUSTED_PROXIES)%'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-proto', 'x-forwarded-host', 'x-forwarded-port']
+
+    http_client:
+        # Under the number of PHP threads the shop serves at once.
+        max_host_connections: 16
+
+    property_info:
+        with_constructor_extractor: true
+
+    router:
+        default_uri: '%env(DEFAULT_URI)%'
+
+when@test:
+    framework:
+        test: true
+
+when@prod:
+    framework:
+        router:
+            strict_requirements: null

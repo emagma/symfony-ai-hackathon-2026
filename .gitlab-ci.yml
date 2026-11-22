@@ -1,0 +1,121 @@
+# The quality gates of the three applications and of their packages, the same
+# scripts as GitHub Actions (bin/ci/*.sh), so the two CIs never diverge. The
+# MCP server and the shop also run on Symfony 8.1: the platform is proven on
+# both versions, the apps stay on 7.4. Each package that carries its own tools
+# is also checked alone, on its lowest and highest dependencies.
+#
+# Pipelines: merge requests, every branch push, tags.
+
+stages:
+    - quality
+
+workflow:
+    rules:
+        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+        - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+          when: never
+        - if: $CI_COMMIT_BRANCH
+        - if: $CI_COMMIT_TAG
+
+variables:
+    COMPOSER_ALLOW_SUPERUSER: '1'
+    COMPOSER_NO_INTERACTION: '1'
+    COMPOSER_CACHE_DIR: "$CI_PROJECT_DIR/.composer-cache"
+
+.php:
+    image: php:8.4-cli
+    stage: quality
+    interruptible: true
+    # Each job sets its own `cache.key.files`; the paths are shared.
+    cache:
+        paths:
+            - .composer-cache/
+    before_script:
+        # Only the extensions the dependency trees need and the official image
+        # lacks (intl, gd, exif for Sylius; zip for the dev tools).
+        - apt-get update && apt-get install -y --no-install-recommends
+          git unzip libicu-dev libzip-dev libpng-dev libjpeg62-turbo-dev libfreetype-dev
+        - docker-php-ext-configure gd --with-jpeg --with-freetype
+        - docker-php-ext-install -j"$(nproc)" intl zip gd exif
+        # The CLI image caps memory at 128M; the MCP server's functional suite
+        # compiles a container of more than 170 tools.
+        - echo 'memory_limit=-1' > "$PHP_INI_DIR/conf.d/ci.ini"
+        - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+mcp-server:
+    extends: .php
+    cache:
+        key:
+            files:
+                - apps/mcp-server/composer.lock
+    script:
+        - bin/ci/mcp-server.sh
+
+chat:
+    extends: .php
+    cache:
+        key:
+            files:
+                - apps/chat/composer.lock
+    before_script:
+        - !reference [.php, before_script]
+        # The chat's JavaScript tests: Node 22, from the official archives.
+        - NODE_TARBALL="$(curl -fsSL https://nodejs.org/dist/latest-v22.x/SHASUMS256.txt | awk '/linux-x64\.tar\.gz$/ { print $2 }')"
+        - curl -fsSL "https://nodejs.org/dist/latest-v22.x/$NODE_TARBALL" | tar -xz -C /usr/local --strip-components=1
+    script:
+        - bin/ci/chat.sh
+
+# The shop also carries the gates of its plugins (path repositories, no vendor/ of their own).
+shop:
+    extends: .php
+    cache:
+        key:
+            files:
+                - apps/shop/composer.lock
+    script:
+        - bin/ci/shop.sh
+
+# The platform on Symfony 8.1: the same scripts, resolved with `composer update -W`
+# instead of the lock (SYMFONY_REQUIRE, see bin/ci/lib.sh). Without a lock, a
+# fixed cache key per job.
+mcp-server-symfony-8.1:
+    extends: mcp-server
+    variables:
+        SYMFONY_REQUIRE: 8.1.*
+    cache:
+        key: composer-mcp-server-symfony-8.1
+
+shop-symfony-8.1:
+    extends: shop
+    variables:
+        SYMFONY_REQUIRE: 8.1.*
+    cache:
+        key: composer-shop-symfony-8.1
+
+# Each package that carries its own tools, alone (bin/ci/packages.sh): its
+# vendor/ resolved from its composer.json in a throwaway copy, on the lowest
+# dependencies its constraints allow (Symfony 7.4) and on the highest
+# (Symfony 8.x). Without a lock, a fixed cache key per variant.
+packages:
+    extends: .php
+    parallel:
+        matrix:
+            - DEPS: [lowest, highest]
+    cache:
+        key: composer-packages-$DEPS
+    script:
+        - bin/ci/packages.sh "$DEPS"
+
+# The shop plugins on each Sylius line they support (2.2 and 2.3), on the
+# highest dependencies: SYLIUS_REQUIRE pins sylius/sylius in the throwaway copy.
+plugins-sylius:
+    extends: .php
+    parallel:
+        matrix:
+            - SYLIUS: ['2.2', '2.3']
+    variables:
+        SYLIUS_REQUIRE: "$SYLIUS.*"
+    cache:
+        key: composer-plugins-sylius-$SYLIUS
+    script:
+        - bin/ci/packages.sh highest

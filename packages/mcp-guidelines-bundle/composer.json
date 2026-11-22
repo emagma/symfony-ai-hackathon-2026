@@ -1,0 +1,65 @@
+{
+    "name": "emagma/mcp-guidelines-bundle",
+    "type": "symfony-bundle",
+    "description": "The guidelines of a business, who it is and how it writes, declared in configuration and given to the model before it writes for an MCP tool.",
+    "keywords": [
+        "mcp",
+        "guidelines",
+        "symfony-bundle"
+    ],
+    "homepage": "https://github.com/emagma/mcp-guidelines-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emagma",
+            "homepage": "https://www.emagma.fr"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/emagma/mcp-guidelines-bundle/issues",
+        "source": "https://github.com/emagma/mcp-guidelines-bundle"
+    },
+    "require": {
+        "emagma/mcp-core-bundle": "^0.1",
+        "mcp/sdk": "^0.9",
+        "php": ">=8.4",
+        "psr/container": "^1.1 || ^2.0",
+        "psr/log": "^2.0 || ^3.0",
+        "symfony/config": "^7.4 || ^8.1",
+        "symfony/console": "^7.4 || ^8.1",
+        "symfony/dependency-injection": "^7.4 || ^8.1",
+        "symfony/http-kernel": "^7.4 || ^8.1",
+        "symfony/mcp-bundle": "^0.15",
+        "symfony/service-contracts": "^3.5"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^10.5.45",
+        "sylius-labs/coding-standard": "^4.5",
+        "symfony/filesystem": "^7.4 || ^8.1",
+        "symfony/framework-bundle": "^7.4 || ^8.1",
+        "symfony/uid": "^7.4 || ^8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emagma\\McpGuidelinesBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emagma\\McpGuidelinesBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": false
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.2.x-dev"
+        }
+    }
+}

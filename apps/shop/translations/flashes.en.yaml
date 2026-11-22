@@ -1,0 +1,6 @@
+app:
+    fixtures_reset:
+        done: 'The demo data was reset. Log in again with the demo admin account (username sylius).'
+        already_running: 'A reset is already in progress: wait for it to finish.'
+        failed: 'The reset failed, the shop may be half-loaded. Try again, or wait for the next automatic reset (00:00 or 12:00).'
+        invalid_csrf_token: 'The form expired. Reload the page and try again.'

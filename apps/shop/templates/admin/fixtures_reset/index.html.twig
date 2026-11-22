@@ -1,0 +1,9 @@
+{% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
+
+{% block title %}
+    {{ 'app.ui.fixtures_reset.title'|trans }} {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% hook ['app_admin.fixtures_reset.index', 'sylius_admin.common.index'] with { running: running } %}
+{% endblock %}

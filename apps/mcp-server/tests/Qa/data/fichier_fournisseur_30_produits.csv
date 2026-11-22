@@ -1,0 +1,31 @@
+Code,Nom,Slug,Activé,Taxon principal,Taxons,Canaux,Options,Variantes,Prix (EUR),Couleur,Tailles
+Stellar_Drift_T_Shirt_Emagma,Stellar Drift T-Shirt Emagma,stellar-drift-t-shirt-emagma,oui,mens_t_shirts,"t_shirts, mens_t_shirts","FASHION_WEB, WEB_EUR",t_shirt_size,5,29.90,Noir,S|M|L|XL|XXL
+Ethereal_Drift_T_Shirt_Emagma,Ethereal Drift T-Shirt Emagma,ethereal-drift-t-shirt-emagma,oui,womens_t_shirts,"t_shirts, womens_t_shirts","FASHION_WEB, WEB_EUR",t_shirt_size,5,34.90,Blanc,S|M|L|XL|XXL
+Radiant_Rays_Cap_Emagma,Radiant Rays Cap Emagma,radiant-rays-cap-emagma,oui,caps_with_pompons,"caps, caps_with_pompons","FASHION_WEB, WEB_EUR",aucune,1,19.90,Beige,Unique
+Blissful_Breeze_Cap_Emagma,Blissful Breeze Cap Emagma,blissful-breeze-cap-emagma,oui,simple_caps,"caps, simple_caps","FASHION_WEB, WEB_EUR",aucune,1,17.90,Bleu marine,Unique
+Sunshine_Strappy_Delight_Emagma,Sunshine Strappy Delight Emagma,sunshine-strappy-delight-emagma,oui,dresses,dresses,"FASHION_WEB, WEB_EUR","dress_size, dress_height",5,79.90,Rose,S|M|L|XL|XXL
+Whispering_Wind_Jeans_Emagma,Whispering Wind Jeans Emagma,whispering-wind-jeans-emagma,oui,mens_jeans,"jeans, mens_jeans","FASHION_WEB, WEB_EUR",jeans_size,5,69.90,Bleu,S|M|L|XL|XXL
+Sunlit_Reverie_Jeans_Emagma,Sunlit Reverie Jeans Emagma,sunlit-reverie-jeans-emagma,oui,womens_jeans,"jeans, womens_jeans","FASHION_WEB, WEB_EUR",jeans_size,5,74.90,Gris,S|M|L|XL|XXL
+Azure_Dream_Jeans_Emagma,Azure Dream Jeans Emagma,azure-dream-jeans-emagma,oui,mens_jeans,"jeans, mens_jeans","FASHION_WEB, WEB_EUR",jeans_size,5,69.90,Bleu clair,S|M|L|XL|XXL
+Boho_Beach_Breeze_Emagma,Boho Beach Breeze Emagma,boho-beach-breeze-emagma,oui,dresses,dresses,"FASHION_WEB, WEB_EUR","dress_size, dress_height",5,89.90,Vert olive,S|M|L|XL|XXL
+Quantum_Pulse_T_Shirt_Emagma,Quantum Pulse T-Shirt Emagma,quantum-pulse-t-shirt-emagma,oui,womens_t_shirts,"t_shirts, womens_t_shirts","FASHION_WEB, WEB_EUR",t_shirt_size,5,24.90,Blanc,S|M|L|XL|XXL
+Comet_Pulse_T_Shirt_Emagma,Comet Pulse T-Shirt Emagma,comet-pulse-t-shirt-emagma,oui,mens_t_shirts,"t_shirts, mens_t_shirts","FASHION_WEB, WEB_EUR",t_shirt_size,5,29.90,Noir,S|M|L|XL|XXL
+Serene_Sunshine_Cap_Emagma,Serene Sunshine Cap Emagma,serene-sunshine-cap-emagma,oui,caps_with_pompons,"caps, caps_with_pompons","FASHION_WEB, WEB_EUR",aucune,1,19.90,Beige,Unique
+Vibrant_Voyage_Cap_Emagma,Vibrant Voyage Cap Emagma,vibrant-voyage-cap-emagma,oui,simple_caps,"caps, simple_caps","FASHION_WEB, WEB_EUR",aucune,1,17.90,Bleu marine,Unique
+Festival_Ruffle_Wrap_Emagma,Festival Ruffle Wrap Emagma,festival-ruffle-wrap-emagma,oui,dresses,dresses,"FASHION_WEB, WEB_EUR","dress_size, dress_height",5,84.90,Rose,S|M|L|XL|XXL
+Golden_Horizon_Jeans_Emagma,Golden Horizon Jeans Emagma,golden-horizon-jeans-emagma,oui,mens_jeans,"jeans, mens_jeans","FASHION_WEB, WEB_EUR",jeans_size,5,79.90,Jaune moutarde,S|M|L|XL|XXL
+Stellar_Drift_T_Shirt_Winter_collection,Stellar Drift T-Shirt Winter collection,stellar-drift-t-shirt-winter-collection,oui,mens_t_shirts,"t_shirts, mens_t_shirts","FASHION_WEB, WEB_EUR",t_shirt_size,5,29.90,Noir,S|M|L|XL|XXL
+Ethereal_Drift_T_Shirt_Winter_collection,Ethereal Drift T-Shirt Winter collection,ethereal-drift-t-shirt-winter-collection,oui,womens_t_shirts,"t_shirts, womens_t_shirts","FASHION_WEB, WEB_EUR",t_shirt_size,5,34.90,Blanc,S|M|L|XL|XXL
+Radiant_Rays_Cap_Winter_collection,Radiant Rays Cap Winter collection,radiant-rays-cap-winter-collection,oui,caps_with_pompons,"caps, caps_with_pompons","FASHION_WEB, WEB_EUR",aucune,1,19.90,Beige,Unique
+Blissful_Breeze_Cap_Winter_collection,Blissful Breeze Cap Winter collection,blissful-breeze-cap-winter-collection,oui,simple_caps,"caps, simple_caps","FASHION_WEB, WEB_EUR",aucune,1,17.90,Bleu marine,Unique
+Sunshine_Strappy_Delight_Winter_collection,Sunshine Strappy Delight Winter collection,sunshine-strappy-delight-winter-collection,oui,dresses,dresses,"FASHION_WEB, WEB_EUR","dress_size, dress_height",5,79.90,Rose,S|M|L|XL|XXL
+Whispering_Wind_Jeans_Winter_collection,Whispering Wind Jeans Winter collection,whispering-wind-jeans-winter-collection,oui,mens_jeans,"jeans, mens_jeans","FASHION_WEB, WEB_EUR",jeans_size,5,69.90,Bleu,S|M|L|XL|XXL
+Sunlit_Reverie_Jeans_Winter_collection,Sunlit Reverie Jeans Winter collection,sunlit-reverie-jeans-winter-collection,oui,womens_jeans,"jeans, womens_jeans","FASHION_WEB, WEB_EUR",jeans_size,5,74.90,Gris,S|M|L|XL|XXL
+Azure_Dream_Jeans_Winter_collection,Azure Dream Jeans Winter collection,azure-dream-jeans-winter-collection,oui,mens_jeans,"jeans, mens_jeans","FASHION_WEB, WEB_EUR",jeans_size,5,69.90,Bleu clair,S|M|L|XL|XXL
+Boho_Beach_Breeze_Winter_collection,Boho Beach Breeze Winter collection,boho-beach-breeze-winter-collection,oui,dresses,dresses,"FASHION_WEB, WEB_EUR","dress_size, dress_height",5,89.90,Vert olive,S|M|L|XL|XXL
+Quantum_Pulse_T_Shirt_Winter_collection,Quantum Pulse T-Shirt Winter collection,quantum-pulse-t-shirt-winter-collection,oui,womens_t_shirts,"t_shirts, womens_t_shirts","FASHION_WEB, WEB_EUR",t_shirt_size,5,24.90,Blanc,S|M|L|XL|XXL
+Comet_Pulse_T_Shirt_Winter_collection,Comet Pulse T-Shirt Winter collection,comet-pulse-t-shirt-winter-collection,oui,mens_t_shirts,"t_shirts, mens_t_shirts","FASHION_WEB, WEB_EUR",t_shirt_size,5,29.90,Noir,S|M|L|XL|XXL
+Serene_Sunshine_Cap_Winter_collection,Serene Sunshine Cap Winter collection,serene-sunshine-cap-winter-collection,oui,caps_with_pompons,"caps, caps_with_pompons","FASHION_WEB, WEB_EUR",aucune,1,19.90,Beige,Unique
+Vibrant_Voyage_Cap_Winter_collection,Vibrant Voyage Cap Winter collection,vibrant-voyage-cap-winter-collection,oui,simple_caps,"caps, simple_caps","FASHION_WEB, WEB_EUR",aucune,1,17.90,Bleu marine,Unique
+Festival_Ruffle_Wrap_Winter_collection,Festival Ruffle Wrap Winter collection,festival-ruffle-wrap-winter-collection,oui,dresses,dresses,"FASHION_WEB, WEB_EUR","dress_size, dress_height",5,84.90,Rose,S|M|L|XL|XXL
+Golden_Horizon_Jeans_Winter_collection,Golden Horizon Jeans Winter collection,golden-horizon-jeans-winter-collection,oui,mens_jeans,"jeans, mens_jeans","FASHION_WEB, WEB_EUR",jeans_size,5,79.90,Jaune moutarde,S|M|L|XL|XXL

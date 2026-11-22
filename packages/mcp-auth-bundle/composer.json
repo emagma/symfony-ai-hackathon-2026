@@ -1,0 +1,66 @@
+{
+    "name": "emagma/mcp-auth-bundle",
+    "type": "symfony-bundle",
+    "description": "Makes the MCP endpoint of a server built on emagma/mcp-core-bundle an OAuth 2.0 protected resource: RFC 9728 metadata, the 401 challenge that points to it, and the grants of the validated token.",
+    "keywords": [
+        "mcp",
+        "oauth2",
+        "rfc9728",
+        "symfony-bundle"
+    ],
+    "homepage": "https://github.com/emagma/mcp-auth-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emagma",
+            "homepage": "https://www.emagma.fr"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/emagma/mcp-auth-bundle/issues",
+        "source": "https://github.com/emagma/mcp-auth-bundle"
+    },
+    "require": {
+        "php": ">=8.4",
+        "emagma/mcp-core-bundle": "^0.1",
+        "symfony/config": "^7.4 || ^8.1",
+        "symfony/dependency-injection": "^7.4 || ^8.1",
+        "symfony/http-foundation": "^7.4 || ^8.1",
+        "symfony/http-kernel": "^7.4 || ^8.1",
+        "symfony/security-core": "^7.4 || ^8.1",
+        "symfony/security-http": "^7.4 || ^8.1",
+        "symfony/service-contracts": "^3.5",
+        "symfony/yaml": "^7.4 || ^8.1"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^10.5.45",
+        "sylius-labs/coding-standard": "^4.5",
+        "symfony/browser-kit": "^7.4 || ^8.1",
+        "symfony/filesystem": "^7.4 || ^8.1",
+        "symfony/framework-bundle": "^7.4 || ^8.1",
+        "symfony/security-bundle": "^7.4 || ^8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emagma\\McpAuthBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emagma\\McpAuthBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": false
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.2.x-dev"
+        }
+    }
+}

@@ -1,0 +1,88 @@
+{
+    "name": "emagma/mcp-tasks-bundle",
+    "type": "symfony-bundle",
+    "description": "Background tasks of an MCP server, written on demand: PHP scripts that only call the MCP Tools their author may call, validated by a human, played step by step in a hardened process, sequenced by the orchestrator the host chose, followed and stopped from any conversation.",
+    "keywords": [
+        "mcp",
+        "tasks",
+        "background-tasks",
+        "symfony-bundle"
+    ],
+    "homepage": "https://github.com/emagma/mcp-tasks-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emagma",
+            "homepage": "https://www.emagma.fr"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/emagma/mcp-tasks-bundle/issues",
+        "source": "https://github.com/emagma/mcp-tasks-bundle"
+    },
+    "require": {
+        "ext-openssl": "*",
+        "ext-tokenizer": "*",
+        "php": ">=8.4",
+        "doctrine/dbal": "^4.0",
+        "doctrine/doctrine-bundle": "^3.3",
+        "doctrine/orm": "^3.7",
+        "egulias/email-validator": "^3.2 || ^4.0",
+        "emagma/mcp-core-bundle": "^0.1",
+        "mcp/sdk": "^0.9",
+        "psr/clock": "^1.0",
+        "psr/log": "^3.0",
+        "symfony/ai-platform": "^0.15",
+        "symfony/config": "^7.4 || ^8.1",
+        "symfony/console": "^7.4 || ^8.1",
+        "symfony/dependency-injection": "^7.4 || ^8.1",
+        "symfony/filesystem": "^7.4 || ^8.1",
+        "symfony/http-client": "^7.4 || ^8.1",
+        "symfony/http-client-contracts": "^3.5",
+        "symfony/http-foundation": "^7.4 || ^8.1",
+        "symfony/http-kernel": "^7.4 || ^8.1",
+        "symfony/mime": "^7.4 || ^8.1",
+        "symfony/notifier": "^7.4 || ^8.1",
+        "symfony/process": "^7.4 || ^8.1",
+        "symfony/routing": "^7.4 || ^8.1",
+        "symfony/security-core": "^7.4 || ^8.1",
+        "symfony/security-http": "^7.4 || ^8.1",
+        "symfony/uid": "^7.4 || ^8.1"
+    },
+    "require-dev": {
+        "doctrine/doctrine-migrations-bundle": "^4.0",
+        "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^10.5.45",
+        "sylius-labs/coding-standard": "^4.5",
+        "symfony/framework-bundle": "^7.4 || ^8.1",
+        "symfony/yaml": "^7.4 || ^8.1",
+        "symplify/easy-coding-standard": "^13.0"
+    },
+    "suggest": {
+        "doctrine/doctrine-migrations-bundle": "To create the tables of the tasks with the bundle's migration",
+        "symfony/yaml": "To import the bundle's config/routes.yaml"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emagma\\McpTasksBundle\\": "src/",
+            "Emagma\\McpTasksBundle\\Migrations\\": "migrations/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emagma\\McpTasksBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": false
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.2.x-dev"
+        }
+    }
+}

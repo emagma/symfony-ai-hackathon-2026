@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  `mcp:shipping_method:lean` group - exposed to list_shipping_methods via
+  Prefer: respond-for=lean. Includes zone + channels IRI collections for
+  the client-side filters ; calculator configuration stays out.
+  `archivedAt` is needed so list_shipping_methods can report which entries are
+  archived once archive_shipping_method exposes that state.
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Core\Model\ShippingMethod">
+        <attribute name="code">
+            <group>mcp:shipping_method:lean</group>
+        </attribute>
+        <attribute name="translations">
+            <group>mcp:shipping_method:lean</group>
+        </attribute>
+        <attribute name="enabled">
+            <group>mcp:shipping_method:lean</group>
+        </attribute>
+        <attribute name="zone">
+            <group>mcp:shipping_method:lean</group>
+        </attribute>
+        <attribute name="channels">
+            <group>mcp:shipping_method:lean</group>
+        </attribute>
+        <attribute name="archivedAt">
+            <group>mcp:shipping_method:lean</group>
+        </attribute>
+    </class>
+
+    <class name="Sylius\Component\Shipping\Model\ShippingMethodTranslation">
+        <attribute name="name">
+            <group>mcp:shipping_method:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

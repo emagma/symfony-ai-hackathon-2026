@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TestChat - Sylius Assistant</title>
+    <link rel="icon" href="data:,">
+    {# Basecoat: shadcn/ui's components and tokens as plain HTML + CSS, pinned and
+       served locally - no React, no build, no CDN at runtime. #}
+    <link rel="stylesheet" href="/vendor/basecoat-1.0.2/basecoat.cdn.min.css">
+    <link rel="stylesheet" href="/app.css?v={{ css_version }}">
+    <script>
+        // Before the first paint: no flash of the wrong theme.
+        try {
+            const saved = localStorage.getItem('testchat.theme');
+            const dark = saved ? 'dark' === saved : matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.classList.toggle('dark', dark);
+        } catch { /* private mode */ }
+    </script>
+</head>
+<body data-pricing="{{ pricing ? 1 : 0 }}">
+<div class="app">
+    <header class="topbar">
+        <button type="button" id="history-toggle" class="btn history-toggle" data-variant="ghost" data-size="icon" aria-label="Conversations" title="Conversations">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="brand">
+            <span class="brand-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </span>
+            <div>
+                <strong>TestChat</strong>
+                <span class="brand-sub">Sylius Assistant · MCP</span>
+            </div>
+        </div>
+
+        {# A local test tool: dev-only secret and Keycloak client, personal data
+           unmasked for it in dev, the developer's own provider keys. #}
+        <span class="badge test-warning" data-variant="destructive" role="note">Test chat - do not use in production</span>
+
+        <div class="model-picker">
+            <label class="picker">
+                <span class="picker-label">Provider</span>
+                <select id="provider" class="select"></select>
+            </label>
+            <label class="picker">
+                <span class="picker-label">Model</span>
+                <select id="model" class="select"></select>
+            </label>
+            <label class="picker auto-accept" title="Accept every write the model asks for at once, without the confirmation dialog">
+                <span class="picker-label">Writes</span>
+                <span class="switch-row">
+                    <input type="checkbox" role="switch" id="auto-accept" class="input">
+                    <span id="auto-accept-label">Confirm</span>
+                </span>
+            </label>
+        </div>
+
+        <div class="topbar-end">
+            <div class="usage-total" title="Tokens of every model call of the conversation, in millions (MT)">
+                <span class="picker-label">Conversation</span>
+                <span id="conversation-tokens">in 0.0000 MT · out 0.0000 MT · cache read 0.0000 MT · cache write 0.0000 MT</span>
+            </div>
+            <button type="button" id="theme" class="btn" data-variant="ghost" data-size="icon" aria-label="Toggle the theme" title="Toggle the theme">
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            </button>
+            <div class="user-chip" title="Logged in with Keycloak">
+                <span class="avatar" aria-hidden="true">{{ username|first|upper }}</span>
+                <span class="user-name">{{ username }}</span>
+            </div>
+            <a href="/logout" class="btn" data-variant="outline" data-size="sm">Switch user</a>
+        </div>
+    </header>
+
+    <div class="workspace">
+        <nav class="history" id="history" aria-label="Conversations">
+            <button type="button" id="new-conversation" class="btn" data-variant="outline">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                New conversation
+            </button>
+            <div id="history-list" class="history-list"></div>
+        </nav>
+
+        <main class="conversation">
+            <div id="messages" class="messages" aria-live="polite"></div>
+            <template id="empty-template">
+                <div id="empty" class="empty">
+                    <div class="empty-mark" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    </div>
+                    <h1>What do you want to do in the shop?</h1>
+                    <p>The model acts through <code>/_mcp</code>, with your Keycloak rights. You confirm every write.</p>
+                    <div class="suggestions">
+                        <button type="button" class="btn" data-variant="outline" data-suggestion>Guide me through the demos of the hackathon</button>
+                        <button type="button" class="btn" data-variant="outline" data-suggestion>List the 5 latest products</button>
+                        <button type="button" class="btn" data-variant="outline" data-suggestion>Which orders are awaiting payment?</button>
+                        <button type="button" class="btn" data-variant="outline" data-suggestion>Create a customer group “VIP”</button>
+                    </div>
+                </div>
+            </template>
+
+            <form id="composer" class="composer">
+                <div class="composer-box">
+                    <textarea id="input" class="textarea" rows="1" placeholder="Ask the shop something…" required></textarea>
+                    <div class="composer-bar">
+                        <span class="hint"><kbd class="kbd">Enter</kbd> send · <kbd class="kbd">Shift</kbd>+<kbd class="kbd">Enter</kbd> new line</span>
+                        <button type="submit" id="send" class="btn" data-size="sm">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                            Send
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </main>
+
+        <aside class="sidebar">
+            {# The cost only with a price source (Langfuse); without one, no price
+               is mentioned anywhere: the tokens are in the top bar and under each call. #}
+            <section class="card">
+                <header>
+                    {% if pricing %}
+                        <h2>Cost</h2>
+                        <p>Prices of the Langfuse table</p>
+                    {% else %}
+                        <h2>Usage</h2>
+                        <p>Model calls of the conversation</p>
+                    {% endif %}
+                </header>
+                <section class="stats">
+                    {% if pricing %}
+                        <div class="stat">
+                            <span class="stat-label">Conversation</span>
+                            <span class="stat-value" id="conversation-cost">$0.0000</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Last turn</span>
+                            <span class="stat-value small" id="turn-cost">$0.0000</span>
+                        </div>
+                    {% endif %}
+                    <div class="stat">
+                        <span class="stat-label">LLM calls</span>
+                        <span class="stat-value small" id="call-count">0</span>
+                    </div>
+                </section>
+                {% if pricing %}
+                    <footer>
+                        <p class="incomplete-note" id="incomplete-note" hidden>* a call has no known price</p>
+                    </footer>
+                {% endif %}
+            </section>
+
+            <section class="card" id="skills-card" hidden>
+                <header>
+                    <h2>Skills</h2>
+                    <p>Methods served by the MCP server</p>
+                </header>
+                <section>
+                    <ul class="skill-list" id="skills"></ul>
+                </section>
+            </section>
+
+            {% if pricing %}
+                <section class="card">
+                    <header>
+                        <h2>Model price</h2>
+                        <p>USD per million tokens, from Langfuse</p>
+                    </header>
+                    <section>
+                        <dl class="price-list" id="prices"></dl>
+                    </section>
+                </section>
+            {% endif %}
+        </aside>
+    </div>
+</div>
+
+<dialog id="delete-dialog" class="dialog" aria-labelledby="delete-title" aria-describedby="delete-message">
+    <div class="confirmation">
+        <header>
+            <h2 id="delete-title">Delete the conversation?</h2>
+            <p id="delete-message"></p>
+        </header>
+        <footer>
+            <button type="button" class="btn" data-variant="outline" data-delete="cancel" autofocus>Cancel</button>
+            <button type="button" class="btn" data-variant="destructive" data-delete="confirm">Delete</button>
+        </footer>
+    </div>
+</dialog>
+
+<dialog id="confirmation" class="dialog" aria-labelledby="confirmation-title" aria-describedby="confirmation-message">
+    <div class="confirmation">
+        <header>
+            <h2 id="confirmation-title">Confirm the write?</h2>
+            <p id="confirmation-message"></p>
+        </header>
+        <section>
+            <ul id="confirmation-fields" class="confirmation-fields"></ul>
+            <div class="countdown">
+                <div class="countdown-track"><div class="countdown-bar" id="confirmation-bar"></div></div>
+                <span>Accepted automatically in <strong id="confirmation-countdown">30</strong> s</span>
+            </div>
+        </section>
+        <footer>
+            <button type="button" class="btn" data-variant="ghost" data-action="cancel">Cancel</button>
+            <button type="button" class="btn" data-variant="outline" data-action="decline">Decline</button>
+            <button type="button" class="btn" data-action="accept" autofocus>Accept</button>
+        </footer>
+    </div>
+</dialog>
+
+<script src="/format.js?v={{ format_version }}"></script>
+<script src="/app.js?v={{ js_version }}"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+# The server's own transports. The bundles bring theirs (prepended): mcp_tasks and failed_mcp_tasks (tasks Messenger
+# bundle, consumed by mcp-tasks-worker), mcp_agents and failed_mcp_agents (agents bundle, consumed by
+# mcp-agents-worker), scheduler_mcp_agents (the schedule of the agents, consumed by mcp-scheduler).
+parameters:
+    # What MCP_ASYNC_TRANSPORT_DSN falls back to when it is not set, or empty: a queue of the server's database.
+    mcp.async_transport_dsn: 'doctrine://default?queue_name=async'
+
+framework:
+    messenger:
+        # A transport without a failure transport of its own (async, the schedule) keeps its failed messages here.
+        failure_transport: failed
+
+        transports:
+            # What leaves the server: emails, notifications. Sent by mcp-agents-worker, never while an agent or a
+            # request waits for it.
+            async:
+                dsn: '%env(default:mcp.async_transport_dsn:MCP_ASYNC_TRANSPORT_DSN)%'
+                retry_strategy:
+                    max_retries: 3
+            failed: 'doctrine://default?queue_name=failed'
+
+        routing:
+            # The recipient is resolved before the message is queued: nothing of the caller is needed to send it.
+            Symfony\Component\Mailer\Messenger\SendEmailMessage: async
+            Symfony\Component\Notifier\Message\ChatMessage: async
+            Symfony\Component\Notifier\Message\SmsMessage: async
+
+# The suites read what was queued: no database queue, nothing consumed.
+when@test:
+    framework:
+        messenger:
+            transports:
+                async: 'in-memory://?serialize=true'
+                failed: 'in-memory://'
+                mcp_agents: 'in-memory://?serialize=true'
+                failed_mcp_agents: 'in-memory://'
+                mcp_tasks: 'in-memory://'
+                failed_mcp_tasks: 'in-memory://'

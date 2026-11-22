@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Adds the `mcp:product:lean` serialization group to a minimal set of
+  attributes on Sylius's Product + ProductTranslation. The group is dormant
+  unless something explicitly asks for it (see LeanContextBuilder).
+
+  Symfony's serializer merges multiple mapping files for the same class
+  additively, so this declaration sits ALONGSIDE the existing Sylius
+  `sylius:admin:product:index` groups - no override of vendor behaviour.
+
+  Wired in by the plugin's DI extension via prependExtensionConfig on
+  framework.serializer.mapping.paths.
+-->
+<serializer xmlns="http://symfony.com/schema/dic/serializer-mapping"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://symfony.com/schema/dic/serializer-mapping
+                                https://symfony.com/schema/dic/serializer-mapping/serializer-mapping-1.0.xsd">
+
+    <class name="Sylius\Component\Core\Model\Product">
+        <attribute name="code">
+            <group>mcp:product:lean</group>
+        </attribute>
+        <attribute name="translations">
+            <group>mcp:product:lean</group>
+        </attribute>
+    </class>
+
+    <class name="Sylius\Component\Core\Model\ProductTranslation">
+        <attribute name="name">
+            <group>mcp:product:lean</group>
+        </attribute>
+    </class>
+
+</serializer>

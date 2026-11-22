@@ -1,0 +1,25 @@
+# The "Reset the demo data" admin page (src/FixturesReset/, Configuration
+# menu): the admin's common page frame, its own title and body.
+sylius_twig_hooks:
+    hooks:
+        'app_admin.fixtures_reset.index.content':
+            grid:
+                enabled: false
+            body:
+                template: 'admin/fixtures_reset/body.html.twig'
+                priority: 100
+
+        'app_admin.fixtures_reset.index.content.header':
+            breadcrumbs:
+                enabled: false
+
+        'app_admin.fixtures_reset.index.content.header.title_block':
+            title:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
+                configuration:
+                    title: app.ui.fixtures_reset.title
+                    subheader: app.ui.fixtures_reset.subheader
+                    icon: tabler:restore
+                priority: 100
+            actions:
+                enabled: false

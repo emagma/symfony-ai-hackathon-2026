@@ -1,0 +1,97 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Emagma\McpSyliusBundle\Tool\PaymentMethod;
+
+use Emagma\McpCoreBundle\Authorization\Action;
+use Emagma\McpCoreBundle\Authorization\Permission;
+use Emagma\McpCoreBundle\Paging\PageRequest;
+use Emagma\McpSyliusBundle\AdminApi\Adapter\Resource;
+use Emagma\McpSyliusBundle\AdminApi\Adapter\Route;
+use Emagma\McpSyliusBundle\AdminApi\AdminApiClientInterface;
+use Emagma\McpSyliusBundle\AdminApi\AdminPayload;
+use Emagma\McpSyliusBundle\Tool\Shared\LeanLocaleHeaderTrait;
+use Mcp\Capability\Attribute\McpTool;
+
+/**
+ * Lists the payment methods, filtered and paged.
+ *
+ * @internal
+ */
+#[McpTool(
+    name: 'search_payment_methods',
+    description: 'Search payment methods (code + translated name + enabled). Filters (all optional,'
+        . ' client-side): code (partial, case-insensitive), name (partial, translated, case-insensitive),'
+        . ' enabled (true/false), channel (exact channel code - payment method must include this channel'
+        . ' in its scope). Detail: get_payment_methods.',
+)]
+#[Permission(resource: 'payment_method', action: Action::Read)]
+final readonly class SearchPaymentMethods
+{
+    use LeanLocaleHeaderTrait;
+
+    private const int FETCH_HARD_CAP = 1000;
+
+    public function __construct(
+        private AdminApiClientInterface $client,
+        private string $defaultLocale,
+    ) {
+    }
+
+    /**
+     * @return array{
+     *     items: list<array{code: string, name: string|null, enabled: bool}>,
+     *     total: int,
+     *     page: int,
+     *     hasMore: bool,
+     * }
+     */
+    public function __invoke(
+        ?string $code = null,
+        ?string $name = null,
+        ?bool $enabled = null,
+        ?string $channel = null,
+        int $page = 1,
+        int $itemsPerPage = 30,
+        ?string $locale = null,
+    ): array {
+        $pager = PageRequest::of($page, $itemsPerPage);
+        $locale ??= $this->defaultLocale;
+
+        $payload = $this->client->getDecoded(Route::collection(Resource::PaymentMethod), [
+            'page' => 1,
+            'itemsPerPage' => self::FETCH_HARD_CAP,
+        ], self::leanLocaleHeaders($locale));
+        $members = AdminPayload::members($payload);
+
+        $matched = [];
+        $codeNeedle = null !== $code && '' !== $code ? mb_strtolower($code) : null;
+        $nameNeedle = null !== $name && '' !== $name ? mb_strtolower($name) : null;
+        foreach ($members as $member) {
+            $itemCode = \is_string($member['code'] ?? null) ? $member['code'] : '';
+            $itemEnabled = (bool) ($member['enabled'] ?? false);
+            if (null !== $enabled && $itemEnabled !== $enabled) {
+                continue;
+            }
+            if (null !== $codeNeedle && !str_contains(mb_strtolower($itemCode), $codeNeedle)) {
+                continue;
+            }
+            if (null !== $channel) {
+                $channelCodes = AdminPayload::codes($member['channels'] ?? []);
+                if (!\in_array($channel, $channelCodes, true)) {
+                    continue;
+                }
+            }
+            $itemName = AdminPayload::translation($member['translations'] ?? [], $locale, 'name');
+            if (null !== $nameNeedle && (null === $itemName || !str_contains(mb_strtolower($itemName), $nameNeedle))) {
+                continue;
+            }
+            $matched[] = ['code' => $itemCode, 'name' => $itemName, 'enabled' => $itemEnabled];
+        }
+
+        $total = \count($matched);
+
+        return $pager->envelope($pager->slice($matched), $total);
+    }
+}

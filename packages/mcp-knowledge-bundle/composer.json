@@ -1,0 +1,66 @@
+{
+    "name": "emagma/mcp-knowledge-bundle",
+    "type": "symfony-bundle",
+    "description": "The internal procedures of a business, kept as Markdown files, indexed with Symfony AI Store and searched from an MCP server: the passages that answer a question, with their source.",
+    "keywords": [
+        "mcp",
+        "knowledge",
+        "symfony-bundle"
+    ],
+    "homepage": "https://github.com/emagma/mcp-knowledge-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emagma",
+            "homepage": "https://www.emagma.fr"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/emagma/mcp-knowledge-bundle/issues",
+        "source": "https://github.com/emagma/mcp-knowledge-bundle"
+    },
+    "require": {
+        "php": ">=8.4",
+        "emagma/mcp-core-bundle": "^0.1",
+        "ext-pdo_sqlite": "*",
+        "mcp/sdk": "^0.9",
+        "symfony/ai-platform": "^0.15",
+        "symfony/ai-sqlite-store": "^0.15",
+        "symfony/ai-store": "^0.15",
+        "symfony/config": "^7.4 || ^8.1",
+        "symfony/console": "^7.4 || ^8.1",
+        "symfony/dependency-injection": "^7.4 || ^8.1",
+        "symfony/filesystem": "^7.4 || ^8.1",
+        "symfony/finder": "^7.4 || ^8.1",
+        "symfony/http-kernel": "^7.4 || ^8.1"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.2",
+        "phpunit/phpunit": "^10.5.45",
+        "sylius-labs/coding-standard": "^4.5",
+        "symfony/framework-bundle": "^7.4 || ^8.1",
+        "symfony/uid": "^7.4 || ^8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Emagma\\McpKnowledgeBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Emagma\\McpKnowledgeBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "php-http/discovery": false
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-main": "0.2.x-dev"
+        }
+    }
+}

@@ -1,0 +1,7 @@
+{# What every screen shares: the holder that carries its name and params, the message, then its own fragment. #}
+<div class="screen" data-screen="{{ screen }}" data-params="{{ params|json_encode|e('html_attr') }}">
+    {% if message %}
+        <div class="message {{ errors is empty and mode == 'display' ? 'ok' : 'ko' }}" role="status">{{ message }}</div>
+    {% endif %}
+    {% include template %}
+</div>
